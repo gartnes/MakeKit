@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/primary"
     tools:ignore="MissingDefaultResource">
 
@@ -64,5 +65,33 @@
         android:layout_margin="10dp"
         >
     </ImageView>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/segmentedGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:checkedButton="@id/segment_airbit"
+        app:singleSelection="true"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="2dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/segment_airbit"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/air_bit"
+            app:icon="@drawable/ic_settings" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/segment_hoverbit"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hover_bit"
+            app:icon="@drawable/ic_settings" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
 </RelativeLayout>

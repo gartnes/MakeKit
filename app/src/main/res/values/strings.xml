@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MakeKit</string>
+    <string name="air_bit">Air:Bit</string>
+    <string name="hover_bit">Hover:Bit</string>
 </resources>
