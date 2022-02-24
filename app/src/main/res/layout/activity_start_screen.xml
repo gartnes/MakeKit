@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
+    android:gravity="center_horizontal|center_vertical"
     android:background="@color/primary"
     tools:context=".MainScreen">
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,18 +28,35 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/onBtn"
+        android:id="@+id/btn_bluetooth_on"
         android:minWidth="200dp"
-        android:text="Turn on"
+        android:text="@string/turn_on_bluetooth"
         style="@style/Widget.AppCompat.Button.Colored"/>
 
     <!-- Off Button-->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/offBtn"
+        android:id="@+id/btn_bluetooth_off"
         android:minWidth="200dp"
-        android:text="Turn off"
+        android:text="@string/turn_off_bluetooth"
+        style="@style/Widget.AppCompat.Button.Colored"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200dp"
+        android:id="@+id/btn_discover_bluetooth"
+        android:text="@string/find_bluetooth_device"
+        style="@style/Widget.AppCompat.Button.Colored"/>
+
+    <!-- Get list of paired device button-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200dp"
+        android:id="@+id/btn_paired_bluetooth_device"
+        android:text="@string/get_paired_devices"
         style="@style/Widget.AppCompat.Button.Colored"/>
 
     <Button
@@ -51,22 +67,20 @@
         android:text="@string/air_bit"
         style="@style/Widget.AppCompat.Button.Colored"/>
 
-    <!-- Get list of paired device button-->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="200dp"
-        android:id="@+id/pairedBtn"
-        android:text="Get paired devices"
+        android:id="@+id/btn_hoverbit"
+        android:text="@string/hover_bit"
         style="@style/Widget.AppCompat.Button.Colored"/>
-
     <!-- Show paired device here-->
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:id="@+id/pairTv"
+        android:id="@+id/tv_pair"
         android:minWidth="200dp"
         android:text=""
-        android:textColor="#000" />
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

@@ -2,4 +2,10 @@
     <string name="app_name">MakeKit</string>
     <string name="air_bit">Air:Bit</string>
     <string name="hover_bit">Hover:Bit</string>
+    <string name="paired_devices">Tilkoblede enheter</string>
+    <string name="bluetooth_on">Skru på Bluetooth</string>
+    <string name="turn_on_bluetooth">Slå på Bluetooth</string>
+    <string name="turn_off_bluetooth">Slå av Bluetooth</string>
+    <string name="find_bluetooth_device">Finn enhet</string>
+    <string name="get_paired_devices">Vis tilkoblede enheter</string>
 </resources>
