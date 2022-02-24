@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/primary"
-    tools:context=".StartScreen">
+    tools:context=".MainScreen">
 
     <TextView
         android:layout_width="match_parent"
@@ -47,8 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="200dp"
-        android:id="@+id/discoverableBtn"
-        android:text="Discoverable"
+        android:id="@+id/btn_airbit"
+        android:text="@string/air_bit"
         style="@style/Widget.AppCompat.Button.Colored"/>
 
     <!-- Get list of paired device button-->
