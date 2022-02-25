@@ -73,6 +73,62 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/rellay_pitch_roll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp">
+
+        <Button
+            android:id="@+id/btn_pitch_forward"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/accent" />
+
+        <LinearLayout
+            android:id="@+id/linlay_roll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_pitch_forward"
+            android:layout_margin="2dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_roll_left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/accent" />
+
+            <Button
+                android:id="@+id/btn_roll_right"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="54dp"
+                android:background="@color/accent" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_pitch_backwards"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/linlay_roll"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/accent" />
+
+    </RelativeLayout>
+
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
