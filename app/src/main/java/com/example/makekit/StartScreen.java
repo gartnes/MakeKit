@@ -24,9 +24,8 @@ public class StartScreen extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 0;
     private static final int REQUEST_DISCOVER_BT = 0;
 
-    private TextView mStatusBleTV, tv_pair;
+    private TextView tv_pair;
 
-    ImageView mBlueIV;
     Button btn_bluetooth_on, btn_bluetooth_off, btn_discover_bluetooth, btn_paired_bluetooth_device;
     BluetoothAdapter bluetoothAdapter;
 
@@ -36,27 +35,12 @@ public class StartScreen extends AppCompatActivity {
         setContentView(R.layout.activity_start_screen);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        mStatusBleTV = findViewById(R.id.statusBluetoothTv);
-        tv_pair = findViewById(R.id.tv_pair);
-        mBlueIV = findViewById(R.id.bluetoothIv);
-        btn_bluetooth_off = findViewById(R.id.btn_bluetooth_off);
-        btn_bluetooth_on= findViewById(R.id.btn_bluetooth_on);
-        btn_discover_bluetooth = findViewById(R.id.btn_discover_bluetooth);
-        btn_paired_bluetooth_device = findViewById(R.id.btn_paired_bluetooth_device);
 
+        tv_pair = findViewById(R.id.tv_pair);
+        btn_bluetooth_on= findViewById(R.id.btn_bluetooth_on);
+        btn_paired_bluetooth_device = findViewById(R.id.btn_paired_bluetooth_device);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        if (bluetoothAdapter == null) {
-            mStatusBleTV.setText("Bluetooth is not avaiable");
-        } else {
-            mStatusBleTV.setText("Bluetooth is avaiable");
-        }
-
-        if (bluetoothAdapter.isEnabled()) {
-            mBlueIV.setImageResource(R.drawable.ic_action_bt_on);
-        } else {
-            mBlueIV.setImageResource(R.drawable.ic_action_bt_off);
-        }
 
         Button btn_airbit = findViewById(R.id.btn_airbit);
 
@@ -83,37 +67,6 @@ public class StartScreen extends AppCompatActivity {
             }
         });
 
-        btn_discover_bluetooth.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                    if (!bluetoothAdapter.isDiscovering()) {
-                        showToast("Making your device discoverable");
-                        Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-                        startActivityForResult(intent, REQUEST_ENABLE_BT);
-                    }
-                }
-
-            }
-        });
-
-        btn_bluetooth_off.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                if (bluetoothAdapter.isEnabled()) {
-                    if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                        bluetoothAdapter.disable();
-                        showToast("Turning off bluetooth..");
-                        mBlueIV.setImageResource(R.drawable.ic_action_bt_off);
-                    } else {
-                        showToast("Bluetooth is already off");
-                    }
-
-                }
-            }
-        });
 
         btn_paired_bluetooth_device.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +95,6 @@ public class StartScreen extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_ENABLE_BT:
                 if (resultCode == RESULT_OK) {
-                    mBlueIV.setImageResource(R.drawable.ic_action_bt_on);
                     showToast("Bluetooth is on");
                 } else {
                     showToast("Bluetooth is off");
