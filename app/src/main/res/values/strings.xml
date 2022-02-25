@@ -8,4 +8,5 @@
     <string name="turn_off_bluetooth">Slå av Bluetooth</string>
     <string name="find_bluetooth_device">Finn enhet</string>
     <string name="get_paired_devices">Vis tilkoblede enheter</string>
+    <string name="start">Start</string>
 </resources>

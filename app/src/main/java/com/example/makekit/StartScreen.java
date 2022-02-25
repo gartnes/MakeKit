@@ -28,7 +28,7 @@ public class StartScreen extends AppCompatActivity {
 
     Button btn_bluetooth_on, btn_bluetooth_off, btn_discover_bluetooth, btn_paired_bluetooth_device;
     BluetoothAdapter bluetoothAdapter;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
