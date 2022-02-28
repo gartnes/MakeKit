@@ -14,8 +14,8 @@ import com.google.android.material.button.MaterialButton;
 
 public class MainScreen extends AppCompatActivity {
 
-    ImageButton btn_yaw_left, btn_yaw_right,
-            btn_pitch_forward, btn_pitch_backwards;
+    ImageButton btn_pitch_forward, btn_pitch_backwards, btn_roll_right, btn_roll_left
+            ,btn_yaw_right, btn_jaw_left;
     Button btn_throttle_up, btn_throttle_down, btn_start, segment_hoverbit, segment_airbit;
 
     int throttle;

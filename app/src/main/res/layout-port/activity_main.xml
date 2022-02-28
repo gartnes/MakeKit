@@ -34,8 +34,13 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="2dp"
-                android:background="@color/accent" />
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/accent"
+                android:hint="+"
+                android:textSize="30sp" />
 
             <LinearLayout
                 android:id="@+id/linlay_yaw"
@@ -45,18 +50,22 @@
                 android:layout_margin="2dp"
                 android:orientation="horizontal">
 
-                <Button
+                <ImageButton
                     android:id="@+id/btn_yaw_left"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@color/accent" />
+                    android:background="@color/accent"
+                    android:src="@drawable/ic_rotate_left"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/btn_yaw_right"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="54dp"
-                    android:background="@color/accent" />
+                    android:background="@color/accent"
+                    android:src="@drawable/ic_rotate_right"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
             </LinearLayout>
 
@@ -67,11 +76,77 @@
                 android:layout_below="@+id/linlay_yaw"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="2dp"
-                android:background="@color/accent" />
+                android:background="@color/accent"
+                android:text="-"
+                android:textSize="30sp"/>
 
         </RelativeLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rellay_pitch_roll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp">
+
+        <ImageButton
+            android:id="@+id/btn_pitch_forward"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/accent"
+            android:src="@drawable/ic_arrow_up"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <LinearLayout
+            android:id="@+id/linlay_roll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_pitch_forward"
+            android:layout_margin="2dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_roll_left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/accent"
+                android:src="@drawable/ic_arrow_left"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <ImageButton
+                android:id="@+id/btn_roll_right"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="54dp"
+                android:background="@color/accent"
+                android:src="@drawable/ic_arrow_right"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_pitch_backwards"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/linlay_roll"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/accent"
+            android:src="@drawable/ic_arrow_down"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+    </RelativeLayout>
 
     <ImageView
         android:layout_width="40dp"
