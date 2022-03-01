@@ -42,6 +42,9 @@ public class MainScreen extends AppCompatActivity {
         //TextViews
         TextView tv_counter = findViewById(R.id.tv_counter);
 
+        btn_throttle_up.setEnabled(false);
+        btn_throttle_down.setEnabled(false);
+
         segment_hoverbit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
