@@ -3,20 +3,20 @@ package com.example.makekit;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Set;
 
 public class StartScreen extends AppCompatActivity {
@@ -24,11 +24,11 @@ public class StartScreen extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 0;
     private static final int REQUEST_DISCOVER_BT = 0;
 
-    private TextView tv_pair;
+    private TextView tv_pair, tv_connected;
 
     Button btn_bluetooth_on, btn_bluetooth_off, btn_discover_bluetooth, btn_paired_bluetooth_device;
     BluetoothAdapter bluetoothAdapter;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +36,9 @@ public class StartScreen extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
+        tv_connected = findViewById(R.id.tv_connected);
         tv_pair = findViewById(R.id.tv_pair);
-        btn_bluetooth_on= findViewById(R.id.btn_bluetooth_on);
+        btn_bluetooth_on = findViewById(R.id.btn_bluetooth_on);
         btn_paired_bluetooth_device = findViewById(R.id.btn_paired_bluetooth_device);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -91,7 +92,6 @@ public class StartScreen extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-
         switch (requestCode) {
             case REQUEST_ENABLE_BT:
                 if (resultCode == RESULT_OK) {
@@ -107,4 +107,6 @@ public class StartScreen extends AppCompatActivity {
     private void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
+
+
 }
