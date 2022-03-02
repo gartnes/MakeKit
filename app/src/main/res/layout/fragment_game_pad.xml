@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/fullscreen_content_controls"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|center_vertical|center_horizontal|center"
+        android:background="@color/primary"
+        android:orientation="horizontal"
+        android:screenOrientation="landscape">
+
+        <ImageButton
+            android:id="@+id/UpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/CircleButton1"
+            android:layout_toRightOf="@+id/LeftButton"
+            android:adjustViewBounds="false"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_up" />
+
+        <ImageButton
+            android:id="@+id/DownButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/LeftButton"
+            android:layout_alignLeft="@+id/UpButton"
+            android:background="@null"
+            android:rotation="180"
+            android:src="@drawable/ic_arrow_up" />
+
+        <ImageButton
+            android:id="@+id/LeftButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/UpButton"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="70dp"
+            android:adjustViewBounds="false"
+            android:background="@null"
+            android:rotation="270"
+            android:src="@drawable/ic_arrow_left" />
+
+        <ImageButton
+            android:id="@+id/RightButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/UpButton"
+            android:layout_toRightOf="@+id/UpButton"
+            android:background="@null"
+            android:rotation="90"
+            android:src="@drawable/ic_arrow_right" />
+
+        <ImageButton
+            android:id="@+id/CircleButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/CircleButton1"
+            android:layout_toRightOf="@+id/CircleButton1"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_right" />
+
+        <ImageButton
+            android:id="@+id/CircleButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/CircleButton1"
+            android:layout_marginLeft="59dp"
+            android:layout_toRightOf="@+id/RightButton"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_left" />
+
+        <ImageButton
+            android:id="@+id/CircleButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="76dp"
+            android:layout_toRightOf="@+id/CircleButton3"
+            android:background="@null"
+            android:rotation="90"
+            android:src="@drawable/ic_arrow_up" />
+
+        <ImageButton
+            android:id="@+id/CircleButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/CircleButton4"
+            android:layout_toRightOf="@+id/CircleButton3"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_down" />
+    </RelativeLayout>
+</FrameLayout>
