@@ -60,21 +60,21 @@ public class FragmentGamePad extends Fragment {
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.view = inflater.inflate(C0596R.layout.fragment_game_pad, container, false);
-        this.upDpadButton = (ImageButton) this.view.findViewById(C0596R.C0598id.UpButton);
+        this.view = inflater.inflate(R.layout.fragment_game_pad, container, false);
+        this.upDpadButton = (ImageButton) this.view.findViewById(R.id.UpButton);
         this.upDpadButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = FragmentGamePad.this.DPAD_UP_PRESSED;
                         short id = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.upDpadButton.setImageResource(C0596R.C0597drawable.dpad_button_pressed);
+                        FragmentGamePad.this.upDpadButton.setImageResource(R.drawable.ic_throttle_up);
                         FragmentGamePad.this.activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = FragmentGamePad.this.DPAD_UP_RELEASED;
                         short id2 = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.upDpadButton.setImageResource(C0596R.C0597drawable.dpad_button);
+                        FragmentGamePad.this.upDpadButton.setImageResource(R.drawable.ic_throttle_up);
                         FragmentGamePad.this.activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -82,20 +82,20 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.downDpadButton = (ImageButton) this.view.findViewById(C0596R.C0598id.DownButton);
+        this.downDpadButton = (ImageButton) this.view.findViewById(R.id.DownButton);
         this.downDpadButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = FragmentGamePad.this.DPAD_DOWN_PRESSED;
                         short id = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.downDpadButton.setImageResource(C0596R.C0597drawable.dpad_button_pressed);
+                        FragmentGamePad.this.downDpadButton.setImageResource(R.drawable.ic_throttle_down);
                         FragmentGamePad.this.activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = FragmentGamePad.this.DPAD_DOWN_RELEASED;
                         short id2 = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.downDpadButton.setImageResource(C0596R.C0597drawable.dpad_button);
+                        FragmentGamePad.this.downDpadButton.setImageResource(R.drawable.ic_throttle_down);
                         FragmentGamePad.this.activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -103,20 +103,20 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.leftDpadButton = (ImageButton) this.view.findViewById(C0596R.C0598id.LeftButton);
+        this.leftDpadButton = (ImageButton) this.view.findViewById(R.id.LeftButton);
         this.leftDpadButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = FragmentGamePad.this.DPAD_LEFT_PRESSED;
                         short id = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.leftDpadButton.setImageResource(C0596R.C0597drawable.dpad_button_pressed);
+                        FragmentGamePad.this.leftDpadButton.setImageResource(R.drawable.ic_rotate_left);
                         FragmentGamePad.this.activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = FragmentGamePad.this.DPAD_LEFT_RELEASED;
                         short id2 = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.leftDpadButton.setImageResource(C0596R.C0597drawable.dpad_button);
+                        FragmentGamePad.this.leftDpadButton.setImageResource(R.drawable.ic_rotate_left);
                         FragmentGamePad.this.activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -124,20 +124,20 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.rightDpadButton = (ImageButton) this.view.findViewById(C0596R.C0598id.RightButton);
+        this.rightDpadButton = (ImageButton) this.view.findViewById(R.id.RightButton);
         this.rightDpadButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = FragmentGamePad.this.DPAD_RIGHT_PRESSED;
                         short id = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.rightDpadButton.setImageResource(C0596R.C0597drawable.dpad_button_pressed);
+                        FragmentGamePad.this.rightDpadButton.setImageResource(R.drawable.ic_rotate_right);
                         FragmentGamePad.this.activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = FragmentGamePad.this.DPAD_RIGHT_RELEASED;
                         short id2 = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.rightDpadButton.setImageResource(C0596R.C0597drawable.dpad_button);
+                        FragmentGamePad.this.rightDpadButton.setImageResource(R.drawable.ic_rotate_right);
                         FragmentGamePad.this.activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -145,20 +145,20 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.upCircleButton = (ImageButton) this.view.findViewById(C0596R.C0598id.CircleButton1);
+        this.upCircleButton = (ImageButton) this.view.findViewById(R.id.CircleButton1);
         this.upCircleButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = FragmentGamePad.this.CIRCLEPAD_UP_PRESSED;
                         short id = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.upCircleButton.setImageResource(C0596R.C0597drawable.circle_button_pressed);
+                        FragmentGamePad.this.upCircleButton.setImageResource(R.drawable.ic_arrow_up);
                         FragmentGamePad.this.activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = FragmentGamePad.this.CIRCLEPAD_UP_RELEASED;
                         short id2 = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.upCircleButton.setImageResource(C0596R.C0597drawable.circle_button);
+                        FragmentGamePad.this.upCircleButton.setImageResource(R.drawable.ic_arrow_up);
                         FragmentGamePad.this.activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -166,20 +166,20 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.downCircleButton = (ImageButton) this.view.findViewById(C0596R.C0598id.CircleButton2);
+        this.downCircleButton = (ImageButton) this.view.findViewById(R.id.CircleButton2);
         this.downCircleButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = FragmentGamePad.this.CIRCLEPAD_DOWN_PRESSED;
                         short id = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.downCircleButton.setImageResource(C0596R.C0597drawable.circle_button_pressed);
+                        FragmentGamePad.this.downCircleButton.setImageResource(R.drawable.ic_arrow_down);
                         FragmentGamePad.this.activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = FragmentGamePad.this.CIRCLEPAD_DOWN_RELEASED;
                         short id2 = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.downCircleButton.setImageResource(C0596R.C0597drawable.circle_button);
+                        FragmentGamePad.this.downCircleButton.setImageResource(R.drawable.ic_arrow_down);
                         FragmentGamePad.this.activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -187,20 +187,20 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.leftCircleButton = (ImageButton) this.view.findViewById(C0596R.C0598id.CircleButton3);
+        this.leftCircleButton = (ImageButton) this.view.findViewById(R.id.CircleButton3);
         this.leftCircleButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = FragmentGamePad.this.CIRCLEPAD_LEFT_PRESSED;
                         short id = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.leftCircleButton.setImageResource(C0596R.C0597drawable.circle_button_pressed);
+                        FragmentGamePad.this.leftCircleButton.setImageResource(R.drawable.ic_arrow_left);
                         FragmentGamePad.this.activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = FragmentGamePad.this.CIRCLEPAD_LEFT_RELEASED;
                         short id2 = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.leftCircleButton.setImageResource(C0596R.C0597drawable.circle_button);
+                        FragmentGamePad.this.leftCircleButton.setImageResource(R.drawable.ic_arrow_left);
                         FragmentGamePad.this.activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -208,20 +208,20 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.rightCircleButton = (ImageButton) this.view.findViewById(C0596R.C0598id.CircleButton4);
+        this.rightCircleButton = (ImageButton) this.view.findViewById(R.id.CircleButton4);
         this.rightCircleButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = FragmentGamePad.this.CIRCLEPAD_RIGHT_PRESSED;
                         short id = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.rightCircleButton.setImageResource(C0596R.C0597drawable.circle_button_pressed);
+                        FragmentGamePad.this.rightCircleButton.setImageResource(R.drawable.ic_arrow_right);
                         FragmentGamePad.this.activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = FragmentGamePad.this.CIRCLEPAD_RIGHT_RELEASED;
                         short id2 = FragmentGamePad.this.MES_DPAD_CONTROLLER;
-                        FragmentGamePad.this.rightCircleButton.setImageResource(C0596R.C0597drawable.circle_button);
+                        FragmentGamePad.this.rightCircleButton.setImageResource(R.drawable.ic_arrow_right);
                         FragmentGamePad.this.activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:

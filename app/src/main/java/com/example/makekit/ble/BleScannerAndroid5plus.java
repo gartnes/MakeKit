@@ -22,12 +22,15 @@ public class BleScannerAndroid5plus extends BleScanner {
     public ScanCallback scan_callback = new ScanCallback() {
         public void onScanResult(int callbackType, ScanResult result) {
             if (BleScannerAndroid5plus.this.scanning) {
-                if (BleScannerAndroid5plus.this.device_name_start != null && result.getDevice().getName() != null && !result.getDevice().getName().startsWith(BleScannerAndroid5plus.this.device_name_start)) {
-                    return;
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    if (BleScannerAndroid5plus.this.device_name_start != null && result.getDevice().getName() != null && !result.getDevice().getName().startsWith(BleScannerAndroid5plus.this.device_name_start)) {
+                        return;
+                    }
+                    if (!BleScannerAndroid5plus.this.select_bonded_devices_only || !Settings.getInstance().isFilter_unpaired_devices() || result.getDevice().getBondState() == 12) {
+                        BleScannerAndroid5plus.this.scan_results_consumer.candidateBleDevice(result.getDevice(), result.getScanRecord().getBytes(), result.getRssi());
+                    }
                 }
-                if (!BleScannerAndroid5plus.this.select_bonded_devices_only || !Settings.getInstance().isFilter_unpaired_devices() || result.getDevice().getBondState() == 12) {
-                    BleScannerAndroid5plus.this.scan_results_consumer.candidateBleDevice(result.getDevice(), result.getScanRecord().getBytes(), result.getRssi());
-                }
+
             }
         }
     };
