@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -171,6 +172,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         this.gamepadVib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         this.navigationView = (NavigationView) findViewById(R.id.nav_view);
         this.navigationView.setNavigationItemSelectedListener(this);

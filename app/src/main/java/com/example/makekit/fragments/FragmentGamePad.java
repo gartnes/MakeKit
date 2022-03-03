@@ -1,18 +1,21 @@
 package com.example.makekit.fragments;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.makekit.R;
+import com.google.android.material.button.MaterialButton;
 
 public class FragmentGamePad extends Fragment {
     public short THROTTLE_UP_PRESSED = 1;
@@ -31,7 +34,7 @@ public class FragmentGamePad extends Fragment {
     public short ROLL_LEFT_RELEASED = 14;
     public short ROLL_RIGHT_PRESSED = 15;
     public short ROLL_RIGHT_RELEASED = 16;
-    public short MES_DPAD_CONTROLLER = 1104;
+    public short CONTROLLER = 1104;
 
     GamePadListener activityCommander;
     ImageButton btn_pitchBackwards;
@@ -42,6 +45,9 @@ public class FragmentGamePad extends Fragment {
     ImageButton btn_throttleDown;
     ImageButton btn_yawLeft;
     ImageButton btn_yawRight;
+    MaterialButton btn_segment_hoverbit;
+    MaterialButton btn_segment_airbit;
+    Button btn_start;
 
     View view;
 
@@ -65,41 +71,70 @@ public class FragmentGamePad extends Fragment {
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_game_pad, container, false);
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        //Initializing all buttons
         btn_throttleUp = view.findViewById(R.id.btn_throttle_up);
-        btn_throttleUp.setOnTouchListener(new View.OnTouchListener() {
+        btn_throttleDown = view.findViewById(R.id.btn_throttle_down);
+        btn_yawLeft = view.findViewById(R.id.btn_yaw_left);
+        btn_yawRight = view.findViewById(R.id.btn_yaw_right);
+        btn_pitchForward = view.findViewById(R.id.btn_pitch_forward);
+        btn_pitchBackwards = view.findViewById(R.id.btn_pitch_backwards);
+        btn_rollLeft = view.findViewById(R.id.btn_roll_left);
+        btn_rollRight = view.findViewById(R.id.btn_roll_right);
+        btn_start = view.findViewById(R.id.btn_start);
+        btn_segment_hoverbit = view.findViewById(R.id.segment_hoverbit);
+        btn_segment_airbit = view.findViewById(R.id.segment_airbit);
+
+        //Default layout with Hover:Bit selected
+        btn_yawLeft.setVisibility(View.INVISIBLE);
+        btn_yawRight.setVisibility(View.INVISIBLE);
+        btn_pitchForward.setVisibility(View.INVISIBLE);
+        btn_pitchBackwards.setVisibility(View.INVISIBLE);
+
+        btn_start.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case 0:
-                        short value = THROTTLE_UP_PRESSED;
-                        short id = MES_DPAD_CONTROLLER;
-                        btn_throttleUp.setImageResource(R.drawable.ic_throttle_up);
-                        activityCommander.passDpadPress(id, value);
-                        return true;
-                    case 1:
-                        short value2 = THROTTLE_UP_RELEASED;
-                        short id2 = MES_DPAD_CONTROLLER;
-                        btn_throttleUp.setImageResource(R.drawable.ic_throttle_up);
-                        activityCommander.passDpadPress(id2, value2);
-                        return true;
-                    default:
-                        return false;
-                }
+                short value = THROTTLE_UP_PRESSED;
+                short id = CONTROLLER;
+                activityCommander.passDpadPress(id, value);
+                btn_start.setVisibility(View.GONE);
+                return true;
+
             }
         });
-        btn_throttleDown = view.findViewById(R.id.btn_throttle_down);
+
+        btn_segment_hoverbit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btn_yawLeft.setVisibility(View.INVISIBLE);
+                btn_yawRight.setVisibility(View.INVISIBLE);
+                btn_pitchForward.setVisibility(View.INVISIBLE);
+                btn_pitchBackwards.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        btn_segment_airbit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btn_yawLeft.setVisibility(View.VISIBLE);
+                btn_yawRight.setVisibility(View.VISIBLE);
+                btn_pitchForward.setVisibility(View.VISIBLE);
+                btn_pitchBackwards.setVisibility(View.VISIBLE);
+            }
+        });
+
         btn_throttleDown.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = THROTTLE_DOWN_PRESSED;
-                        short id = MES_DPAD_CONTROLLER;
-                        btn_throttleDown.setImageResource(R.drawable.ic_throttle_down);
+                        short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
+                        btn_start.setVisibility(View.VISIBLE);
                         return true;
                     case 1:
                         short value2 = THROTTLE_DOWN_RELEASED;
-                        short id2 = MES_DPAD_CONTROLLER;
-                        btn_throttleDown.setImageResource(R.drawable.ic_throttle_down);
+                        short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -107,20 +142,18 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        btn_yawLeft = view.findViewById(R.id.btn_yaw_left);
-        btn_yawLeft.setOnTouchListener(new View.OnTouchListener() {
+
+        btn_rollLeft.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = YAW_LEFT_PRESSED;
-                        short id = MES_DPAD_CONTROLLER;
-                        btn_yawLeft.setImageResource(R.drawable.ic_rotate_left);
+                        short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = YAW_LEFT_RELEASED;
-                        short id2 = MES_DPAD_CONTROLLER;
-                        btn_yawLeft.setImageResource(R.drawable.ic_rotate_left);
+                        short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -128,20 +161,18 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        btn_yawRight = view.findViewById(R.id.btn_yaw_right);
-        btn_yawRight.setOnTouchListener(new View.OnTouchListener() {
+
+        btn_rollRight.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = YAW_RIGHT_PRESSED;
-                        short id = MES_DPAD_CONTROLLER;
-                        btn_yawRight.setImageResource(R.drawable.ic_rotate_right);
+                        short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = YAW_RIGHT_RELEASED;
-                        short id2 = MES_DPAD_CONTROLLER;
-                        btn_yawRight.setImageResource(R.drawable.ic_rotate_right);
+                        short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -149,20 +180,18 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        btn_pitchForward = view.findViewById(R.id.btn_pitch_forward);
-        btn_pitchForward.setOnTouchListener(new View.OnTouchListener() {
+
+        btn_throttleUp.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = PITCH_FORWARD_PRESSED;
-                        short id = MES_DPAD_CONTROLLER;
-                        btn_pitchForward.setImageResource(R.drawable.ic_arrow_up);
+                        short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = PITCH_FORWARD_RELEASED;
-                        short id2 = MES_DPAD_CONTROLLER;
-                        btn_pitchForward.setImageResource(R.drawable.ic_arrow_up);
+                        short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -170,20 +199,18 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        btn_pitchBackwards = view.findViewById(R.id.btn_pitch_backwards);
+
         btn_pitchBackwards.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = PITCH_BACKWARDS_PRESSED;
-                        short id = MES_DPAD_CONTROLLER;
-                        btn_pitchBackwards.setImageResource(R.drawable.ic_arrow_down);
+                        short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
                         short value2 = PITCH_BACKWARDS_RELEASED;
-                        short id2 = MES_DPAD_CONTROLLER;
-                        btn_pitchBackwards.setImageResource(R.drawable.ic_arrow_down);
+                        short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
                         return true;
                     default:
@@ -191,48 +218,7 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        btn_rollLeft = view.findViewById(R.id.btn_roll_left);
-        btn_rollLeft.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case 0:
-                        short value = ROLL_LEFT_PRESSED;
-                        short id = MES_DPAD_CONTROLLER;
-                        btn_rollLeft.setImageResource(R.drawable.ic_arrow_left);
-                        activityCommander.passDpadPress(id, value);
-                        return true;
-                    case 1:
-                        short value2 = ROLL_LEFT_RELEASED;
-                        short id2 = MES_DPAD_CONTROLLER;
-                        btn_rollLeft.setImageResource(R.drawable.ic_arrow_left);
-                        activityCommander.passDpadPress(id2, value2);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-        btn_rollRight = view.findViewById(R.id.btn_roll_right);
-        btn_rollRight.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case 0:
-                        short value = ROLL_RIGHT_PRESSED;
-                        short id = MES_DPAD_CONTROLLER;
-                        btn_rollRight.setImageResource(R.drawable.ic_arrow_right);
-                        activityCommander.passDpadPress(id, value);
-                        return true;
-                    case 1:
-                        short value2 = ROLL_RIGHT_RELEASED;
-                        short id2 = MES_DPAD_CONTROLLER;
-                        btn_rollRight.setImageResource(R.drawable.ic_arrow_right);
-                        activityCommander.passDpadPress(id2, value2);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
+
         return view;
     }
 }
