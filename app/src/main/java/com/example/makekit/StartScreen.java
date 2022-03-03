@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,7 +34,6 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -47,7 +45,9 @@ import com.example.makekit.ble.BleHardwareScanner;
 import com.example.makekit.ble.BleScanner;
 import com.example.makekit.ble.ConnectionStatusListener;
 import com.example.makekit.ble.ScanResultsConsumer;
-import com.example.makekit.MicrobitEvent;
+import com.example.makekit.fragments.FragmentGamePad;
+import com.example.makekit.fragments.FragmentSettings;
+import com.example.makekit.fragments.FragmentWelcome;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -79,12 +79,12 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         public void onReceive(Context context, Intent intent) {
             if ("android.bluetooth.device.action.BOND_STATE_CHANGED".equals(intent.getAction())) {
                 BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra("android.bluetooth.device.extra.DEVICE");
-                if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {
                     if (device.getBondState() == 10) {
                         StartScreen.this.showMsg(Utility.htmlColorRed("Device was not paired successfully"));
                     }
 
-                } else if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                } else if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {
                     if (device.getBondState() == 11) {
                         StartScreen.this.showMsg(Utility.htmlColorGreen("Pairing is in progress"));
                     }
@@ -103,7 +103,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     FragmentGamePad gamepadfragment;
     Intent gattServiceIntent;
     private Handler handler = new Handler();
-    FragmentHelp helpfragment;
+    FragmentSettings settingsFragment;
     /* access modifiers changed from: private */
     public Handler mMessageHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -170,7 +170,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.activity_start_screen);
+        setContentView(R.layout.activity_start_screen);
         this.gamepadVib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         this.navigationView = (NavigationView) findViewById(R.id.nav_view);
         this.navigationView.setNavigationItemSelectedListener(this);
@@ -187,6 +187,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         this.ble_scanner = BleHardwareScanner.getBleScanner(getApplicationContext());
         this.ble_scanner.setDevice_name_start(DEVICE_NAME_START);
         this.ble_scanner.setSelect_bonded_devices_only(true);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 if (StartScreen.this.ble_scanning) {
@@ -195,24 +196,23 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
                     StartScreen.this.ble_scanner.stopScanning();
                 }
                 BluetoothDevice device = StartScreen.this.ble_device_list_adapter.getDevice(position);
-                if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    if (device.getBondState() != 10 || !Settings.getInstance().isFilter_unpaired_devices()) {
-                        try {
-                            StartScreen.this.unregisterReceiver(StartScreen.this.broadcastReceiver);
-                        } catch (Exception e) {
-                        }
-                        if (StartScreen.this.toast != null) {
-                            StartScreen.this.toast.cancel();
-                        }
-                        Microbit.getInstance().setBluetooth_device(device);
-                        Microbit.getInstance().setMicrobit_name(device.getName());
-                        Microbit.getInstance().setMicrobit_address(device.getAddress());
-                        Microbit.getInstance().setConnection_status_listener(StartScreen.this);
-                        StartScreen.this.gattServiceIntent = new Intent(StartScreen.this, BleAdapterService.class);
-                        StartScreen.this.bindService(StartScreen.this.gattServiceIntent, StartScreen.this.mServiceConnection, (int) 1);
-                        return;
+                if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {}
+                if (device.getBondState() != 10 || !Settings.getInstance().isFilter_unpaired_devices()) {
+                    try {
+                        StartScreen.this.unregisterReceiver(StartScreen.this.broadcastReceiver);
+                    } catch (Exception e) {
                     }
-
+                    if (StartScreen.this.toast != null) {
+                        StartScreen.this.toast.cancel();
+                    }
+                    Microbit.getInstance().setBluetooth_device(device);
+                    System.out.print(Microbit.getInstance().isMicrobit_connected());
+                    Microbit.getInstance().setMicrobit_name(device.getName());
+                    Microbit.getInstance().setMicrobit_address(device.getAddress());
+                    Microbit.getInstance().setConnection_status_listener(StartScreen.this);
+                    StartScreen.this.gattServiceIntent = new Intent(StartScreen.this, BleAdapterService.class);
+                    StartScreen.this.bindService(StartScreen.this.gattServiceIntent, StartScreen.this.mServiceConnection, (int) 1);
+                    return;
                 }
                 device.createBond();
                 StartScreen.this.showMsg(Utility.htmlColorRed("Selected micro:bit must be paired - pairing now"));
@@ -257,7 +257,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             this.gamepadVib.vibrate(50);
             return;
         }
-        this.toast = Toast.makeText(this, "NOT CONNECTED: Please connect to Microbit from menu options", (int) 0);
+        this.toast = Toast.makeText(this, "NOT CONNECTED: Please connect to Microbit from menu options", Toast.LENGTH_LONG);
         this.toast.show();
     }
 
@@ -302,7 +302,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
                     getSupportFragmentManager().beginTransaction().hide(this.settingsfragment).commit();
                     break;
                 case 1:
-                    getSupportFragmentManager().beginTransaction().hide(this.helpfragment).commit();
+                    getSupportFragmentManager().beginTransaction().hide(this.settingsFragment).commit();
                     break;
                 case 2:
                     getSupportFragmentManager().beginTransaction().hide(this.gamepadfragment).commit();
@@ -311,34 +311,25 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
                     getSupportFragmentManager().beginTransaction().hide(this.welcomefragment).commit();
                     break;
                 default:
-                    this.connectLayout.setVisibility((int) 0);
+                    this.connectLayout.setVisibility(View.VISIBLE);
                     break;
             }
-            this.connectLayout.setVisibility((int) 0);
+            this.connectLayout.setVisibility(View.VISIBLE);
             if (Microbit.getInstance().isMicrobit_connected()) {
                 setScanButton(2);
             } else {
                 setScanButton(0);
             }
         } else if (id == R.id.nav_help) {
-            if (this.helpfragment == null) {
-                this.helpfragment = new FragmentHelp();
+            if (this.settingsFragment == null) {
+                this.settingsFragment = new FragmentSettings();
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, this.helpfragment, this.HELP_FRAG_TAG).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, this.settingsFragment, this.HELP_FRAG_TAG).commit();
             this.displayedFragment = this.HELP_FRAG_TAG;
             this.connectLayout.setVisibility((int) 8);
         }
         ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public static Intent getOpenFacebookIntent(Context context) {
-        try {
-            context.getPackageManager().getPackageInfo("com.facebook.katana", 0);
-            return new Intent("android.intent.action.VIEW", Uri.parse("fb://page/145744082219006"));
-        } catch (Exception e) {
-            return new Intent("android.intent.action.VIEW", Uri.parse("https://www.facebook.com/Kitronik"));
-        }
     }
 
     /* access modifiers changed from: protected */
@@ -362,7 +353,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             this.device_count = 0;
             if (Build.VERSION.SDK_INT < 23) {
                 this.permissions_granted = true;
-            } else if (checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION") != (int) 0) {
+            } else if (checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION") != PackageManager.PERMISSION_GRANTED) {
                 this.permissions_granted = false;
                 requestLocationPermission();
             } else {
@@ -545,19 +536,19 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
                 viewHolder = (ViewHolder) view.getTag();
             }
             BluetoothDevice device = this.ble_devices.get(i);
-            if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                String deviceName = device.getName();
-                if (device.getBondState() == 12) {
-                    deviceName = deviceName + " (BONDED)";
-                }
-                if (deviceName == null || deviceName.length() <= 0) {
-                    viewHolder.text.setText("unknown device");
-                } else {
-                    viewHolder.text.setText(deviceName);
-                }
-                viewHolder.bdaddr.setText(device.getAddress());
-                return view;
+            if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {
+
             }
+            String deviceName = device.getName();
+            if (device.getBondState() == 12) {
+                deviceName = deviceName + " (BONDED)";
+            }
+            if (deviceName == null || deviceName.length() <= 0) {
+                viewHolder.text.setText("unknown device");
+            } else {
+                viewHolder.text.setText(deviceName);
+            }
+            viewHolder.bdaddr.setText(device.getAddress());
             return view;
         }
     }

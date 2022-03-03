@@ -29,6 +29,7 @@ public class Microbit {
         synchronized (Microbit.class) {
             if (instance == null) {
                 instance = new Microbit();
+                System.out.print("MicroBit instance created");
             }
             microbit = instance;
         }

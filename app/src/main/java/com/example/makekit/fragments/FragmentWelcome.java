@@ -1,4 +1,4 @@
-package com.example.makekit;
+package com.example.makekit.fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.makekit.R;
 
 public class FragmentWelcome extends Fragment {
     private static final String ARG_PARAM1 = "param1";

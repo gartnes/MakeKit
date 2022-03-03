@@ -3,16 +3,16 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_gamepad"
-            android:icon="@drawable/ic_settings"
-            android:title="Game Pad" />
+            android:icon="@drawable/ic_gamepad"
+            android:title="@string/game_pad" />
         <item
             android:id="@+id/nav_connect"
-            android:icon="@drawable/ic_settings"
-            android:title="Connect to microbit" />
+            android:icon="@drawable/ic_settings_bluetooth"
+            android:title="@string/connect_to_microbit" />
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_settings"
-            android:title="Help" />
+            android:title="@string/settings" />
 
     </group>
 

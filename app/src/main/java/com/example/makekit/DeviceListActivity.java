@@ -24,14 +24,14 @@ public class DeviceListActivity extends Activity {
         public void onItemClick(AdapterView<?> adapterView, View v, int arg2, long arg3) {
             if (ActivityCompat.checkSelfPermission(DeviceListActivity.this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
                 DeviceListActivity.this.mBtAdapter.cancelDiscovery();
+                String info = ((TextView) v).getText().toString();
+                String address = info.substring(info.length() - 17);
+                Intent intent = new Intent();
+                intent.putExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS, address);
+                DeviceListActivity.this.setResult(-1, intent);
+                DeviceListActivity.this.finish();
             }
-            DeviceListActivity.this.mBtAdapter.cancelDiscovery();
-            String info = ((TextView) v).getText().toString();
-            String address = info.substring(info.length() - 17);
-            Intent intent = new Intent();
-            intent.putExtra(DeviceListActivity.EXTRA_DEVICE_ADDRESS, address);
-            DeviceListActivity.this.setResult(-1, intent);
-            DeviceListActivity.this.finish();
+
         }
     };
     private ArrayAdapter<String> mNewDevicesArrayAdapter;
@@ -40,20 +40,20 @@ public class DeviceListActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(5);
-        setContentView(C0596R.layout.activity_ble_device_list);
+        setContentView(R.layout.activity_ble_device_list);
         setResult(0);
-        ((Button) findViewById(C0596R.C0598id.ScanButton)).setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.ScanButton)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                v.setVisibility((int)8);
+                v.setVisibility(View.GONE);
                 DeviceListActivity.this.doDiscovery();
             }
         });
-        ArrayAdapter<String> pairedDevicesArrayAdapter = new ArrayAdapter<>(this, C0596R.layout.activity_ble_device_list);
-        this.mNewDevicesArrayAdapter = new ArrayAdapter<>(this, C0596R.layout.activity_ble_device_list);
-        ListView pairedListView = (ListView) findViewById(C0596R.C0598id.paired_devices);
+        ArrayAdapter<String> pairedDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.activity_ble_device_list);
+        this.mNewDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.activity_ble_device_list);
+        ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
         pairedListView.setAdapter(pairedDevicesArrayAdapter);
         pairedListView.setOnItemClickListener(this.mDeviceClickListener);
-        ListView newDevicesListView = (ListView) findViewById(C0596R.C0598id.new_devices);
+        ListView newDevicesListView = (ListView) findViewById(R.id.new_devices);
         newDevicesListView.setAdapter(this.mNewDevicesArrayAdapter);
         newDevicesListView.setOnItemClickListener(this.mDeviceClickListener);
     }
@@ -61,7 +61,7 @@ public class DeviceListActivity extends Activity {
     /* access modifiers changed from: private */
     public void doDiscovery() {
         setProgressBarIndeterminateVisibility(true);
-        setTitle(C0596R.string.scanning);
-        findViewById(C0596R.C0598id.title_new_devices).setVisibility((int)0);
+        setTitle(R.string.scanning);
+        findViewById(R.id.title_new_devices).setVisibility(View.VISIBLE);
     }
 }

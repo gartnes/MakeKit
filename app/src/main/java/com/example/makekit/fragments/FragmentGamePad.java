@@ -1,4 +1,4 @@
-package com.example.makekit;
+package com.example.makekit.fragments;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -11,6 +11,8 @@ import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.makekit.R;
 
 public class FragmentGamePad extends Fragment {
     public short CIRCLEPAD_DOWN_PRESSED = 11;
@@ -61,7 +63,7 @@ public class FragmentGamePad extends Fragment {
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.view = inflater.inflate(R.layout.fragment_game_pad, container, false);
-        this.upDpadButton = (ImageButton) this.view.findViewById(R.id.UpButton);
+        this.upDpadButton = (ImageButton) this.view.findViewById(R.id.btn_throttle_up);
         this.upDpadButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -82,7 +84,7 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.downDpadButton = (ImageButton) this.view.findViewById(R.id.DownButton);
+        this.downDpadButton = (ImageButton) this.view.findViewById(R.id.btn_throttle_down);
         this.downDpadButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -103,7 +105,7 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.leftDpadButton = (ImageButton) this.view.findViewById(R.id.LeftButton);
+        this.leftDpadButton = (ImageButton) this.view.findViewById(R.id.btn_yaw_left);
         this.leftDpadButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -124,7 +126,7 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.rightDpadButton = (ImageButton) this.view.findViewById(R.id.RightButton);
+        this.rightDpadButton = (ImageButton) this.view.findViewById(R.id.btn_yaw_right);
         this.rightDpadButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -145,7 +147,7 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.upCircleButton = (ImageButton) this.view.findViewById(R.id.CircleButton1);
+        this.upCircleButton = (ImageButton) this.view.findViewById(R.id.btn_pitch_forward);
         this.upCircleButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -166,7 +168,7 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.downCircleButton = (ImageButton) this.view.findViewById(R.id.CircleButton2);
+        this.downCircleButton = (ImageButton) this.view.findViewById(R.id.btn_pitch_backwards);
         this.downCircleButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -187,7 +189,7 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.leftCircleButton = (ImageButton) this.view.findViewById(R.id.CircleButton3);
+        this.leftCircleButton = (ImageButton) this.view.findViewById(R.id.btn_roll_left);
         this.leftCircleButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -208,7 +210,7 @@ public class FragmentGamePad extends Fragment {
                 }
             }
         });
-        this.rightCircleButton = (ImageButton) this.view.findViewById(R.id.CircleButton4);
+        this.rightCircleButton = (ImageButton) this.view.findViewById(R.id.btn_roll_right);
         this.rightCircleButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {

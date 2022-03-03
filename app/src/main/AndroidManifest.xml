@@ -23,9 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.NoActionBar">
         <activity
-            android:name=".MainScreen"
-            android:exported="false" />
-        <activity
             android:name=".StartScreen"
             android:exported="true">
             <intent-filter>
@@ -34,6 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name="com.example.makekit.ble.BleAdapterService" android:enabled="true"/>
     </application>
 
 </manifest>

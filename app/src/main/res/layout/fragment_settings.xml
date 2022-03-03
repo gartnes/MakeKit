@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/fullscreen_settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|center_vertical|center_horizontal|center"
+        android:orientation="horizontal"
+        android:screenOrientation="landscape">
+
+        <TextView
+            android:id="@+id/settings_textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="\10\10\10\10App Title:         Kitronik :Move \10Version:            0.0.5 \10Release Date:  21/09/2017 \10 \10SET VIBRATION \10 \10SET THIS \10 \10SET OTHER \10 \10TROUBLESHOOTING" />
+    </RelativeLayout>
+</FrameLayout>
