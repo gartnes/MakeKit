@@ -292,6 +292,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
                     break;
                 case 1950044056:
                     if (str.equals("WEL TAG")) {
+                        ((Button) findViewById(R.id.scanButton)).setVisibility(View.VISIBLE);
                         c = 3;
                         break;
                     }
