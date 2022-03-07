@@ -21,9 +21,9 @@ import android.os.Message;
 
 import androidx.core.app.ActivityCompat;
 
-import com.example.makekit.Constants;
-import com.example.makekit.Microbit;
-import com.example.makekit.Utility;
+import com.example.makekit.microbit.Constants;
+import com.example.makekit.microbit.Microbit;
+import com.example.makekit.microbit.Utility;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

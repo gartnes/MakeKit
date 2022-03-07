@@ -1,4 +1,4 @@
-package com.example.makekit;
+package com.example.makekit.microbit;
 
 public class Utility {
     static final float ALPHA = 0.15f;

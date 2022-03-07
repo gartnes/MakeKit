@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/side_nav_bar"
+    android:layout_height="400dp"
+    android:background="@drawable/makekit_gradient"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -18,4 +18,5 @@
         android:scaleType="fitCenter"
         android:layout_gravity="center"
         ns1:srcCompat="@drawable/ic_makekit_logo" />
+
 </LinearLayout>

@@ -49,33 +49,46 @@ import com.example.makekit.ble.ScanResultsConsumer;
 import com.example.makekit.fragments.FragmentGamePad;
 import com.example.makekit.fragments.FragmentSettings;
 import com.example.makekit.fragments.FragmentWelcome;
+import com.example.makekit.microbit.Constants;
+import com.example.makekit.microbit.Microbit;
+import com.example.makekit.microbit.MicrobitEvent;
+import com.example.makekit.microbit.Settings;
+import com.example.makekit.microbit.Utility;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
 public class StartScreen extends AppCompatActivity implements ConnectionStatusListener, ScanResultsConsumer, NavigationView.OnNavigationItemSelectedListener, FragmentGamePad.GamePadListener {
-    public static final int BLE_CONNECTED = 2;
-    public static final int BLE_DISCONNECTED_READY = 0;
-    public static final int BLE_SCANNING = 1;
     private static final String DEVICE_NAME_START = "BBC micro";
-    public static final String EXTRA_ID = "id";
-    public static final String EXTRA_NAME = "name";
     private static String[] PERMISSIONS_LOCATION = {"android.permission.ACCESS_COARSE_LOCATION"};
-    private static final int REQUEST_LOCATION = 0;
     private static final long SCAN_TIMEOUT = 8000;
-    String BLE_FRAG_TAG = "BLE TAG";
     String HELP_FRAG_TAG = "HELP TAG";
     String PAD_FRAG_TAG = "PAD TAG";
-    String SET_FRAG_TAG = "SET TAG";
     String WEL_FRAG_TAG = "WEL TAG";
-    /* access modifiers changed from: private */
+
+    //Fragments
+    FragmentGamePad gamepadfragment;
+    FragmentSettings settingsFragment;
+    FragmentWelcome welcomefragment;
+
+    //Bluetooth
     public ListAdapter ble_device_list_adapter;
-    /* access modifiers changed from: private */
     public BleScanner ble_scanner;
-    /* access modifiers changed from: private */
     public boolean ble_scanning = false;
-    /* access modifiers changed from: private */
     public BleAdapterService bluetooth_le_adapter;
+
+    LinearLayout connectLayout;
+    private int device_count = 0;
+    String displayedFragment;
+    private Vibrator gamepadVib;
+    Intent gattServiceIntent;
+    private Handler handler = new Handler();
+    NavigationView navigationView;
+    private boolean permissions_granted = false;
+    public Toast toast;
+    Toolbar toolbar;
+
+
     final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             if ("android.bluetooth.device.action.BOND_STATE_CHANGED".equals(intent.getAction())) {
@@ -95,17 +108,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             }
         }
     };
-    BluetoothAdapter btAdapter;
-    BluetoothManager btManager;
-    LinearLayout connectLayout;
-    private int device_count = 0;
-    String displayedFragment;
-    private Vibrator gamepadVib;
-    FragmentGamePad gamepadfragment;
-    Intent gattServiceIntent;
-    private Handler handler = new Handler();
-    FragmentSettings settingsFragment;
-    /* access modifiers changed from: private */
+
     public Handler mMessageHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -146,15 +149,8 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             BleAdapterService unused = StartScreen.this.bluetooth_le_adapter = null;
         }
     };
-    NavigationView navigationView;
-    private boolean permissions_granted = false;
-    FragmentSettings settingsfragment;
-    /* access modifiers changed from: private */
-    public Toast toast;
-    Toolbar toolbar;
-    FragmentWelcome welcomefragment;
 
-    static /* synthetic */ int access$1008(StartScreen x0) {
+    static int access$1008(StartScreen x0) {
         int i = x0.device_count;
         x0.device_count = i + 1;
         return i;
@@ -168,27 +164,26 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         }
     }
 
-    /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        this.gamepadVib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        this.navigationView = (NavigationView) findViewById(R.id.nav_view);
-        this.navigationView.setNavigationItemSelectedListener(this);
-        this.connectLayout = (LinearLayout) findViewById(R.id.connect_layout);
-        this.connectLayout.setVisibility(View.VISIBLE);
-        this.welcomefragment = new FragmentWelcome();
+        gamepadVib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        connectLayout = (LinearLayout) findViewById(R.id.connect_layout);
+        connectLayout.setVisibility(View.VISIBLE);
+        welcomefragment = new FragmentWelcome();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, this.welcomefragment, this.WEL_FRAG_TAG).commit();
-        this.displayedFragment = this.WEL_FRAG_TAG;
+        displayedFragment = this.WEL_FRAG_TAG;
         Settings.getInstance().restore(this);
-        this.ble_device_list_adapter = new ListAdapter();
+        ble_device_list_adapter = new ListAdapter();
         ListView listView = (ListView) findViewById(R.id.deviceList);
         listView.setAdapter(this.ble_device_list_adapter);
         registerReceiver(this.broadcastReceiver, new IntentFilter("android.bluetooth.device.action.BOND_STATE_CHANGED"));
-        this.ble_scanner = BleHardwareScanner.getBleScanner(getApplicationContext());
-        this.ble_scanner.setDevice_name_start(DEVICE_NAME_START);
-        this.ble_scanner.setSelect_bonded_devices_only(true);
+        ble_scanner = BleHardwareScanner.getBleScanner(getApplicationContext());
+        ble_scanner.setDevice_name_start(DEVICE_NAME_START);
+        ble_scanner.setSelect_bonded_devices_only(true);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -198,7 +193,8 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
                     StartScreen.this.ble_scanner.stopScanning();
                 }
                 BluetoothDevice device = StartScreen.this.ble_device_list_adapter.getDevice(position);
-                if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {}
+                if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {
+                }
                 if (device.getBondState() != 10 || !Settings.getInstance().isFilter_unpaired_devices()) {
                     try {
                         StartScreen.this.unregisterReceiver(StartScreen.this.broadcastReceiver);
@@ -242,7 +238,6 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         super.onRestart();
     }
 
-    /* access modifiers changed from: protected */
     public void onDestroy() {
         super.onDestroy();
         try {
@@ -259,17 +254,18 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             this.gamepadVib.vibrate(50);
             return;
         }
-        this.toast = Toast.makeText(this, "NOT CONNECTED: Please connect to Microbit from menu options", Toast.LENGTH_LONG);
-        this.toast.show();
+        toast = Toast.makeText(this, "NOT CONNECTED: Please connect to Microbit from menu options", Toast.LENGTH_LONG);
+        toast.show();
     }
 
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_gamepad) {
-            this.gamepadfragment = new FragmentGamePad();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, this.gamepadfragment, this.PAD_FRAG_TAG).commit();
-            this.displayedFragment = this.PAD_FRAG_TAG;
-            this.connectLayout.setVisibility((int) 8);
+            gamepadfragment = new FragmentGamePad();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, gamepadfragment, PAD_FRAG_TAG).commit();
+            displayedFragment = PAD_FRAG_TAG;
+            connectLayout.setVisibility(View.GONE);
+
         } else if (id == R.id.nav_connect) {
             String str = this.displayedFragment;
             char c = 65535;
@@ -282,42 +278,34 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
                     break;
                 case -89419187:
                     if (str.equals("PAD TAG")) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-                case -7729637:
-                    if (str.equals("HELP TAG")) {
                         c = 1;
                         break;
                     }
                     break;
                 case 1950044056:
                     if (str.equals("WEL TAG")) {
-                        ((Button) findViewById(R.id.scanButton)).setVisibility(View.VISIBLE);
-                        c = 3;
+                        c = 2;
                         break;
                     }
                     break;
             }
             switch (c) {
                 case 0:
-                    getSupportFragmentManager().beginTransaction().hide(this.settingsfragment).commit();
-                    break;
-                case 1:
                     getSupportFragmentManager().beginTransaction().hide(this.settingsFragment).commit();
                     break;
-                case 2:
+                case 1:
                     getSupportFragmentManager().beginTransaction().hide(this.gamepadfragment).commit();
                     break;
-                case 3:
+                case 2:
                     getSupportFragmentManager().beginTransaction().hide(this.welcomefragment).commit();
                     break;
                 default:
                     this.connectLayout.setVisibility(View.VISIBLE);
+                    ((Button) findViewById(R.id.scanButton)).setVisibility(View.VISIBLE);
                     break;
             }
             this.connectLayout.setVisibility(View.VISIBLE);
+            ((Button) findViewById(R.id.scanButton)).setVisibility(View.VISIBLE);
             if (Microbit.getInstance().isMicrobit_connected()) {
                 setScanButton(2);
             } else {
@@ -335,7 +323,6 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         return true;
     }
 
-    /* access modifiers changed from: protected */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -384,7 +371,6 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         showMsg(Utility.htmlColorRed("Permission to perform Bluetooth scanning was not yet granted"));
     }
 
-    /* access modifiers changed from: private */
     public void connectToDevice() {
         showMsg(Utility.htmlColorBlue("Connecting to micro:bit"));
         if (this.bluetooth_le_adapter.connect(Microbit.getInstance().getMicrobit_address())) {
@@ -434,11 +420,10 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     }
 
     private void simpleToast(String message, int duration) {
-        this.toast = Toast.makeText(this, message, duration);
-        this.toast.show();
+        toast = Toast.makeText(this, message, duration);
+        toast.show();
     }
 
-    /* access modifiers changed from: private */
     public void setScanState(boolean value) {
         this.ble_scanning = value;
         ((Button) findViewById(R.id.scanButton)).setText(value ? Constants.STOP_SCANNING : "Find paired BBC micro:bits");
@@ -556,7 +541,6 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         }
     }
 
-    /* access modifiers changed from: private */
     public void showMsg(final String msg) {
         runOnUiThread(new Runnable() {
             public void run() {

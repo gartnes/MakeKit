@@ -1,4 +1,4 @@
-package com.example.makekit;
+package com.example.makekit.microbit;
 
 public class Constants {
     public static final String ACCELEROMETER_HELP = "file:///android_res/raw/accelerometer_help.html";

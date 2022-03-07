@@ -1,6 +1,6 @@
 package com.example.makekit.ble;
 
-import com.example.makekit.Utility;
+import com.example.makekit.microbit.Utility;
 
 public class Operation {
     public static final int OPERATION_EXECUTING = 1;

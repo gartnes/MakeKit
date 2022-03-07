@@ -9,12 +9,13 @@
     <string name="find_bluetooth_device">Finn enhet</string>
     <string name="get_paired_devices">Vis tilkoblede enheter</string>
     <string name="start">Start</string>
-    <string name="settings">Settings</string>
-    <string name="connect_to_microbit">Connect to MicroBit</string>
-    <string name="game_pad">Game Pad</string>
+    <string name="settings">Innstillinger</string>
+    <string name="connect_to_microbit">Koble til Micro:Bit</string>
+    <string name="game_pad">Kontroller</string>
     <string name="scan">Scan</string>
-    <string name="title_new_devices">New Microbit devices</string>
-    <string name="title_paired_devices">Paired Microbit devices</string>
+    <string name="title_new_devices">Nye Micro:Bit enheter</string>
+    <string name="title_paired_devices">Parede Micro:Bit enheter</string>
     <string name="scanning">Scanning...</string>
+    <string name="instructions">Dra mot høyre fra venstresiden av skjermen for å åpne menyen. Herfra kan du koble deg til din MicroBit og navigere mellom kontrolleren og instillinger</string>
 
 </resources>

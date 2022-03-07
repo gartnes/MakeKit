@@ -1,4 +1,4 @@
-package com.example.makekit;
+package com.example.makekit.microbit;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;

@@ -1,4 +1,4 @@
-package com.example.makekit;
+package com.example.makekit.microbit;
 
 public class MicrobitEvent {
     private short event_type;

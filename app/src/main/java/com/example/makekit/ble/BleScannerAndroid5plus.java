@@ -11,7 +11,7 @@ import android.content.pm.PackageManager;
 
 import androidx.core.app.ActivityCompat;
 
-import com.example.makekit.Settings;
+import com.example.makekit.microbit.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
