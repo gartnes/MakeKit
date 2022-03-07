@@ -565,9 +565,9 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
 
     public void connectionStatusChanged(boolean connected) {
         if (connected) {
-            showMsg(Utility.htmlColorGreen("Connected"));
+            showMsg(Utility.htmlColorGreen(getString(R.string.connected)));
         } else {
-            showMsg(Utility.htmlColorRed("Disconnected"));
+            showMsg(Utility.htmlColorRed(getString(R.string.disconnected)));
         }
     }
 

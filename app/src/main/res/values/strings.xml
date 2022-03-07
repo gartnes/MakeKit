@@ -17,5 +17,7 @@
     <string name="title_paired_devices">Parede Micro:Bit enheter</string>
     <string name="scanning">Scanning...</string>
     <string name="instructions">Dra mot høyre fra venstresiden av skjermen for å åpne menyen. Herfra kan du koble deg til din MicroBit og navigere mellom kontrolleren og instillinger</string>
+    <string name="connected">Koblet til</string>
+    <string name="disconnected">Koblet fra</string>
 
 </resources>
