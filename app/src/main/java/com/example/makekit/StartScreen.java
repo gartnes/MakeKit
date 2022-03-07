@@ -292,16 +292,21 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             switch (c) {
                 case 0:
                     getSupportFragmentManager().beginTransaction().hide(this.settingsFragment).commit();
+                    this.connectLayout.setVisibility(View.INVISIBLE);
+                    ((Button) findViewById(R.id.scanButton)).setVisibility(View.INVISIBLE);
                     break;
                 case 1:
                     getSupportFragmentManager().beginTransaction().hide(this.gamepadfragment).commit();
+                    this.connectLayout.setVisibility(View.INVISIBLE);
+                    ((Button) findViewById(R.id.scanButton)).setVisibility(View.INVISIBLE);
                     break;
                 case 2:
                     getSupportFragmentManager().beginTransaction().hide(this.welcomefragment).commit();
-                    break;
-                default:
                     this.connectLayout.setVisibility(View.VISIBLE);
                     ((Button) findViewById(R.id.scanButton)).setVisibility(View.VISIBLE);
+                    break;
+                default:
+
                     break;
             }
             this.connectLayout.setVisibility(View.VISIBLE);
@@ -426,7 +431,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
 
     public void setScanState(boolean value) {
         this.ble_scanning = value;
-        ((Button) findViewById(R.id.scanButton)).setText(value ? Constants.STOP_SCANNING : "Find paired BBC micro:bits");
+        ((Button) findViewById(R.id.scanButton)).setText(value ? Constants.STOP_SCANNING : getString(R.string.find_paired_microbits));
     }
 
     public void candidateBleDevice(final BluetoothDevice device, byte[] scan_record, int rssi) {
@@ -449,7 +454,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         setScanButton(0);
         setScanState(false);
         if (this.device_count > 0) {
-            showMsg(Utility.htmlColorGreen("Click on microbit in list to connect"));
+            showMsg(Utility.htmlColorGreen(getString(R.string.click_on_microbit_to_connect)));
         } else {
             showMsg(Utility.htmlColorRed(getNoneFoundMessage()));
         }
@@ -459,17 +464,17 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         switch (buttonState) {
             case 0:
                 if (Settings.getInstance().isFilter_unpaired_devices()) {
-                    ((TextView) findViewById(R.id.scanButton)).setText(Constants.SCAN_FOR_MICROBIT);
+                    ((TextView) findViewById(R.id.scanButton)).setText(R.string.scan_for_microbit);
                     return;
                 } else {
-                    ((TextView) findViewById(R.id.scanButton)).setText(Constants.SCAN_FOR_PAIRED_MICROBIT);
+                    ((TextView) findViewById(R.id.scanButton)).setText(R.string.scan_for_paired_microbits);
                     return;
                 }
             case 1:
-                ((TextView) findViewById(R.id.scanButton)).setText(Constants.STOP_SCANNING);
+                ((TextView) findViewById(R.id.scanButton)).setText(R.string.stop_scanning);
                 return;
             case 2:
-                ((TextView) findViewById(R.id.scanButton)).setText(Constants.DISCONNECT);
+                ((TextView) findViewById(R.id.scanButton)).setText(R.string.disconnect);
                 return;
             default:
                 return;
@@ -551,9 +556,9 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
 
     private String getScanningMessage() {
         if (Settings.getInstance().isFilter_unpaired_devices()) {
-            return "Scanning for paired micro:bits";
+            return getString(R.string.scanning_for_paired_microbits);
         }
-        return "Scanning for all micro:bits";
+        return getString(R.string.scanning_for_all_microbits);
     }
 
     private String getNoneFoundMessage() {

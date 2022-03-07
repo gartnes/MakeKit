@@ -19,5 +19,13 @@
     <string name="instructions">Dra mot høyre fra venstresiden av skjermen for å åpne menyen. Herfra kan du koble deg til din MicroBit og navigere mellom kontrolleren og instillinger</string>
     <string name="connected">Koblet til</string>
     <string name="disconnected">Koblet fra</string>
+    <string name="scanning_for_paired_microbits">Søker etter parede Micro:Bit enheter</string>
+    <string name="scanning_for_all_microbits">Søker etter alle Micro:bit enheter</string>
+    <string name="click_on_microbit_to_connect">Trykk på Micro:Bit for å koble til</string>
+    <string name="find_paired_microbits">Finn parede Micro:Bit enheter</string>
+    <string name="scan_for_microbit">Søk etter Micro:Bit</string>
+    <string name="scan_for_paired_microbits">Søk etter parede Micro:Bits</string>
+    <string name="stop_scanning">Stopp søking</string>
+    <string name="disconnect">Koble fra</string>
 
 </resources>

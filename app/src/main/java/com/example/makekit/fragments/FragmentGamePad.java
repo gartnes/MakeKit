@@ -48,6 +48,7 @@ public class FragmentGamePad extends Fragment {
     MaterialButton btn_segment_hoverbit;
     MaterialButton btn_segment_airbit;
     Button btn_start;
+    int throttle;
 
     View view;
 
@@ -98,6 +99,7 @@ public class FragmentGamePad extends Fragment {
                 short id = CONTROLLER;
                 activityCommander.passDpadPress(id, value);
                 btn_start.setVisibility(View.GONE);
+                throttle = 00;
                 return true;
 
             }
