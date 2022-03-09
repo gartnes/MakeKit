@@ -1,7 +1,10 @@
 package com.example.makekit.fragments;
 
+import static android.content.Context.SENSOR_SERVICE;
+
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,11 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.example.makekit.R;
+import com.example.makekit.sensors.Gyroscope;
 import com.google.android.material.button.MaterialButton;
 
 public class FragmentGamePad extends Fragment {
@@ -49,6 +51,8 @@ public class FragmentGamePad extends Fragment {
     MaterialButton btn_segment_airbit;
     Button btn_start;
     int throttle;
+    private Gyroscope gyroscope;
+    int gyroPos = 0;
 
     View view;
 
@@ -92,6 +96,45 @@ public class FragmentGamePad extends Fragment {
         btn_yawRight.setVisibility(View.INVISIBLE);
         btn_pitchForward.setVisibility(View.INVISIBLE);
         btn_pitchBackwards.setVisibility(View.INVISIBLE);
+
+        gyroscope = new Gyroscope(getActivity());
+
+        gyroscope.setListener(new Gyroscope.Listener() {
+            @Override
+            public void onRotation(float rx, float ry, float rz) {
+
+                if(rx > 1.5f){
+                    short value = YAW_RIGHT_PRESSED;
+                    short id = CONTROLLER;
+                    activityCommander.passDpadPress(id, value);
+                    gyroPos = 1;
+                }
+                else if(rx < -1.5f){
+                    short value = YAW_LEFT_PRESSED;
+                    short id = CONTROLLER;
+                    activityCommander.passDpadPress(id, value);
+                    gyroPos = -1;
+                }
+                else if(rx < 1.0f && rx > -1.0f){
+
+                    if(gyroPos != 0){
+
+                        if(gyroPos == -1){
+                            short value = YAW_LEFT_RELEASED;
+                            short id = CONTROLLER;
+                            activityCommander.passDpadPress(id, value);
+                        }else if(gyroPos == 1){
+                            short value = YAW_RIGHT_RELEASED;
+                            short id = CONTROLLER;
+                            activityCommander.passDpadPress(id, value);
+                        }
+
+                        gyroPos = 0;
+                    }
+
+                }
+            }
+        });
 
         btn_start.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -222,5 +265,17 @@ public class FragmentGamePad extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        gyroscope.register();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        gyroscope.unregister();
     }
 }
