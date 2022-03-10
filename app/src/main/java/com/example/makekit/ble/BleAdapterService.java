@@ -115,9 +115,17 @@ public class BleAdapterService extends Service implements Runnable {
                 Message.obtain(BleAdapterService.this.activity_handler, 2).sendToTarget();
                 if (BleAdapterService.this.bluetooth_gatt != null) {
                     if (ActivityCompat.checkSelfPermission(BleAdapterService.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                        BleAdapterService.this.bluetooth_gatt.close();
-                        BluetoothGatt unused = BleAdapterService.this.bluetooth_gatt = null;
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
                     }
+                    BleAdapterService.this.bluetooth_gatt.close();
+                    BluetoothGatt unused = BleAdapterService.this.bluetooth_gatt = null;
                 }
             }
         }
@@ -408,17 +416,17 @@ public class BleAdapterService extends Service implements Runnable {
             return false;
         }
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            this.bluetooth_gatt = this.device.connectGatt(this, false, this.mGattCallback);
-            return true;
-        }
-        return false;
-    }
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
 
-    public Set<BluetoothDevice> getBondedDevices() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            return this.bluetooth_adapter.getBondedDevices();
         }
-        return this.bluetooth_adapter.getBondedDevices();
+        this.bluetooth_gatt = this.device.connectGatt(this, false, this.mGattCallback);
+        return true;
     }
 
     public void disconnect() {
@@ -431,15 +439,31 @@ public class BleAdapterService extends Service implements Runnable {
         this.keep_alive.stop();
         if (this.bluetooth_gatt != null) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                this.bluetooth_gatt.disconnect();
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
             }
+            this.bluetooth_gatt.disconnect();
         }
     }
 
     public void discoverServices() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            this.bluetooth_gatt.discoverServices();
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
+        this.bluetooth_gatt.discoverServices();
     }
 
     public void setActivityHandler(Handler handler) {
@@ -499,7 +523,13 @@ public class BleAdapterService extends Service implements Runnable {
         }
         timestamp();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            return this.bluetooth_gatt.readCharacteristic(gattChar);
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
         }
         return this.bluetooth_gatt.readCharacteristic(gattChar);
     }
@@ -551,7 +581,14 @@ public class BleAdapterService extends Service implements Runnable {
         gattChar.setValue(value);
         timestamp();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            return this.bluetooth_gatt.writeCharacteristic(gattChar);
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
         }
         return this.bluetooth_gatt.writeCharacteristic(gattChar);
     }
@@ -635,7 +672,14 @@ public class BleAdapterService extends Service implements Runnable {
             return false;
         }
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            this.bluetooth_gatt.setCharacteristicNotification(gattChar, enabled);
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
         }
         this.bluetooth_gatt.setCharacteristicNotification(gattChar, enabled);
         this.descriptor = gattChar.getDescriptor(UUID.fromString(CLIENT_CHARACTERISTIC_CONFIG));
@@ -651,7 +695,14 @@ public class BleAdapterService extends Service implements Runnable {
     public void readRemoteRssi() {
         if (this.bluetooth_adapter != null && this.bluetooth_gatt != null) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                this.bluetooth_gatt.readRemoteRssi();;
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
             }
             this.bluetooth_gatt.readRemoteRssi();
         }

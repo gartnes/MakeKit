@@ -2,6 +2,7 @@ package com.example.makekit;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattService;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -57,6 +59,7 @@ import com.example.makekit.microbit.Utility;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+
 
 public class StartScreen extends AppCompatActivity implements ConnectionStatusListener, ScanResultsConsumer, NavigationView.OnNavigationItemSelectedListener, FragmentGamePad.GamePadListener {
     private static final String DEVICE_NAME_START = "BBC micro";
@@ -350,7 +353,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
                 this.permissions_granted = true;
             } else if (checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION") != PackageManager.PERMISSION_GRANTED) {
                 this.permissions_granted = false;
-                requestLocationPermission();
+                requestBlePermissions(StartScreen.this, 0);
             } else {
                 this.permissions_granted = true;
             }
@@ -386,33 +389,22 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         setScanButton(0);
     }
 
-    @SuppressLint("ResourceType")
-    private void requestLocationPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, "android.permission.ACCESS_COARSE_LOCATION")) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle((CharSequence) "Permission Required");
-            builder.setMessage((CharSequence) "Please grant Location access so this application can perform Bluetooth scanning");
-            builder.setPositiveButton(17039370, (DialogInterface.OnClickListener) null);
-            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                public void onDismiss(DialogInterface dialog) {
-                    ActivityCompat.requestPermissions(StartScreen.this, new String[]{"android.permission.ACCESS_COARSE_LOCATION"}, 0);
-                }
-            });
-            builder.show();
-            return;
-        }
-        ActivityCompat.requestPermissions(this, new String[]{"android.permission.ACCESS_COARSE_LOCATION"}, 0);
-    }
+    private static final String[] BLE_PERMISSIONS = new String[]{
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+    };
 
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode != 0) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        } else if (grantResults.length == 1 && grantResults[0] == 0) {
-            this.permissions_granted = true;
-            if (this.ble_scanner.isScanning()) {
-                startScanning();
-            }
-        }
+    private static final String[] ANDROID_12_BLE_PERMISSIONS = new String[]{
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+    };
+
+    public static void requestBlePermissions(Activity activity, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            ActivityCompat.requestPermissions(activity, ANDROID_12_BLE_PERMISSIONS, requestCode);
+        else
+            ActivityCompat.requestPermissions(activity, BLE_PERMISSIONS, requestCode);
     }
 
     @SuppressLint("ResourceType")
@@ -522,15 +514,15 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             if (view == null) {
                 view = StartScreen.this.getLayoutInflater().inflate(R.layout.list_row, (ViewGroup) null);
                 viewHolder = new ViewHolder();
-                viewHolder.text = (TextView) view.findViewById(R.id.textView);
-                viewHolder.bdaddr = (TextView) view.findViewById(R.id.bdaddr);
+                viewHolder.text = view.findViewById(R.id.textView);
+                viewHolder.bdaddr = view.findViewById(R.id.bdaddr);
                 view.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) view.getTag();
             }
             BluetoothDevice device = this.ble_devices.get(i);
-            if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {
-
+            if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                requestBlePermissions(StartScreen.this, 0);
             }
             String deviceName = device.getName();
             if (device.getBondState() == 12) {
@@ -545,6 +537,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             return view;
         }
     }
+
 
     public void showMsg(final String msg) {
         runOnUiThread(new Runnable() {

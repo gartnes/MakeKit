@@ -23,14 +23,21 @@ public class BleScannerAndroid5plus extends BleScanner {
         public void onScanResult(int callbackType, ScanResult result) {
             if (BleScannerAndroid5plus.this.scanning) {
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    if (BleScannerAndroid5plus.this.device_name_start != null && result.getDevice().getName() != null && !result.getDevice().getName().startsWith(BleScannerAndroid5plus.this.device_name_start)) {
-                        return;
-                    }
-                    if (!BleScannerAndroid5plus.this.select_bonded_devices_only || !Settings.getInstance().isFilter_unpaired_devices() || result.getDevice().getBondState() == 12) {
-                        BleScannerAndroid5plus.this.scan_results_consumer.candidateBleDevice(result.getDevice(), result.getScanRecord().getBytes(), result.getRssi());
-                    }
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
                 }
-
+                if (BleScannerAndroid5plus.this.device_name_start != null && result.getDevice().getName() != null && !result.getDevice().getName().startsWith(BleScannerAndroid5plus.this.device_name_start)) {
+                    return;
+                }
+                if (!BleScannerAndroid5plus.this.select_bonded_devices_only || !Settings.getInstance().isFilter_unpaired_devices() || result.getDevice().getBondState() == 12) {
+                    BleScannerAndroid5plus.this.scan_results_consumer.candidateBleDevice(result.getDevice(), result.getScanRecord().getBytes(), result.getRssi());
+                }
             }
         }
     };
@@ -57,10 +64,17 @@ public class BleScannerAndroid5plus extends BleScanner {
             this.handler.postDelayed(new Runnable() {
                 public void run() {
                     if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-                        BleScannerAndroid5plus.this.scanner.stopScan(BleScannerAndroid5plus.this.scan_callback);
-                        BleScannerAndroid5plus.this.setScanning(false);
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
                     }
-
+                    BleScannerAndroid5plus.this.scanner.stopScan(BleScannerAndroid5plus.this.scan_callback);
+                    BleScannerAndroid5plus.this.setScanning(false);
                 }
             }, stop_after_ms);
             startScanning(scan_results_consumer);
@@ -70,9 +84,16 @@ public class BleScannerAndroid5plus extends BleScanner {
     public void stopScanning() {
         setScanning(false);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-            this.scanner.stopScan(this.scan_callback);
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
-
+        this.scanner.stopScan(this.scan_callback);
     }
 
     private void scanLeDevices() {
@@ -80,8 +101,15 @@ public class BleScannerAndroid5plus extends BleScanner {
         ScanSettings settings = new ScanSettings.Builder().setScanMode(2).build();
         setScanning(true);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-            this.scanner.startScan(filters, settings, this.scan_callback);
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
-
+        this.scanner.startScan(filters, settings, this.scan_callback);
     }
 }

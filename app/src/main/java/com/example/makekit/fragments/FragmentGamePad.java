@@ -115,7 +115,7 @@ public class FragmentGamePad extends Fragment {
                     activityCommander.passDpadPress(id, value);
                     gyroPos = -1;
                 }
-                else if(rx < 1.0f && rx > -1.0f){
+                else if(rx < 1.5f && rx > -1.5f){
 
                     if(gyroPos != 0){
 
