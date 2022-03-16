@@ -89,7 +89,6 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     NavigationView navigationView;
     private boolean permissions_granted = false;
     public Toast toast;
-    Toolbar toolbar;
 
 
     final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -349,11 +348,13 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         this.ble_scanner.setSelect_bonded_devices_only(true);
         if (!this.ble_scanner.isScanning()) {
             this.device_count = 0;
-            if (Build.VERSION.SDK_INT < 23) {
-                this.permissions_granted = true;
-            } else if (checkSelfPermission("android.permission.ACCESS_COARSE_LOCATION") != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT > 30 && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                 this.permissions_granted = false;
                 requestBlePermissions(StartScreen.this, 0);
+            } else if (Build.VERSION.SDK_INT < 30 && Build.VERSION.SDK_INT > 23 && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                this.permissions_granted = false;
+                requestLocationPermission();
+
             } else {
                 this.permissions_granted = true;
             }
@@ -405,6 +406,34 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             ActivityCompat.requestPermissions(activity, ANDROID_12_BLE_PERMISSIONS, requestCode);
         else
             ActivityCompat.requestPermissions(activity, BLE_PERMISSIONS, requestCode);
+    }
+
+    private void requestLocationPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, "android.permission.ACCESS_COARSE_LOCATION")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle((CharSequence) "Permission Required");
+            builder.setMessage((CharSequence) "Please grant Location access so this application can perform Bluetooth scanning");
+            builder.setPositiveButton("17039370", (DialogInterface.OnClickListener) null);
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                public void onDismiss(DialogInterface dialog) {
+                    ActivityCompat.requestPermissions(StartScreen.this, new String[]{"android.permission.ACCESS_COARSE_LOCATION"}, 0);
+                }
+            });
+            builder.show();
+            return;
+        }
+        ActivityCompat.requestPermissions(this, new String[]{"android.permission.ACCESS_COARSE_LOCATION"}, 0);
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode != 0) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        } else if (grantResults.length == 1 && grantResults[0] == 0) {
+            this.permissions_granted = true;
+            if (this.ble_scanner.isScanning()) {
+                startScanning();
+            }
+        }
     }
 
     @SuppressLint("ResourceType")
@@ -526,10 +555,10 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             }
             String deviceName = device.getName();
             if (device.getBondState() == 12) {
-                deviceName = deviceName + " (BONDED)";
+                deviceName = deviceName + getString(R.string.bonded);
             }
             if (deviceName == null || deviceName.length() <= 0) {
-                viewHolder.text.setText("unknown device");
+                viewHolder.text.setText(R.string.unknown_device);
             } else {
                 viewHolder.text.setText(deviceName);
             }

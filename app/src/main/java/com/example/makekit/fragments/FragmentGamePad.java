@@ -54,6 +54,7 @@ public class FragmentGamePad extends Fragment {
     private Gyroscope gyroscope;
     int gyroPos = 0;
 
+
     View view;
 
     public interface GamePadListener {
@@ -99,42 +100,46 @@ public class FragmentGamePad extends Fragment {
 
         gyroscope = new Gyroscope(getActivity());
 
-        gyroscope.setListener(new Gyroscope.Listener() {
-            @Override
-            public void onRotation(float rx, float ry, float rz) {
+        if(gyroscopeEnabled){
+            gyroscope.setListener(new Gyroscope.Listener() {
+                @Override
+                public void onRotation(float rx, float ry, float rz) {
 
-                if(rx > 1.5f){
-                    short value = YAW_RIGHT_PRESSED;
-                    short id = CONTROLLER;
-                    activityCommander.passDpadPress(id, value);
-                    gyroPos = 1;
-                }
-                else if(rx < -1.5f){
-                    short value = YAW_LEFT_PRESSED;
-                    short id = CONTROLLER;
-                    activityCommander.passDpadPress(id, value);
-                    gyroPos = -1;
-                }
-                else if(rx < 1.5f && rx > -1.5f){
+                    if(rx > 1.5f){
+                        short value = YAW_RIGHT_PRESSED;
+                        short id = CONTROLLER;
+                        activityCommander.passDpadPress(id, value);
+                        gyroPos = 1;
+                    }
+                    else if(rx < -1.5f){
+                        short value = YAW_LEFT_PRESSED;
+                        short id = CONTROLLER;
+                        activityCommander.passDpadPress(id, value);
+                        gyroPos = -1;
+                    }
+                    else if(rx < 1.5f && rx > -1.5f){
 
-                    if(gyroPos != 0){
+                        if(gyroPos != 0){
 
-                        if(gyroPos == -1){
-                            short value = YAW_LEFT_RELEASED;
-                            short id = CONTROLLER;
-                            activityCommander.passDpadPress(id, value);
-                        }else if(gyroPos == 1){
-                            short value = YAW_RIGHT_RELEASED;
-                            short id = CONTROLLER;
-                            activityCommander.passDpadPress(id, value);
+                            if(gyroPos == -1){
+                                short value = YAW_LEFT_RELEASED;
+                                short id = CONTROLLER;
+                                activityCommander.passDpadPress(id, value);
+                            }else if(gyroPos == 1){
+                                short value = YAW_RIGHT_RELEASED;
+                                short id = CONTROLLER;
+                                activityCommander.passDpadPress(id, value);
+                            }
+
+                            gyroPos = 0;
                         }
 
-                        gyroPos = 0;
                     }
-
                 }
-            }
-        });
+            });
+        }
+
+
 
         btn_start.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -142,7 +147,7 @@ public class FragmentGamePad extends Fragment {
                 short id = CONTROLLER;
                 activityCommander.passDpadPress(id, value);
                 btn_start.setVisibility(View.GONE);
-                throttle = 00;
+                throttle = 0;
                 return true;
 
             }
