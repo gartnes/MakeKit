@@ -1,10 +1,7 @@
 package com.example.makekit.fragments;
 
-import static android.content.Context.SENSOR_SERVICE;
-
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -53,8 +50,8 @@ public class FragmentGamePad extends Fragment {
     int throttle;
     private Gyroscope gyroscope;
     int gyroPos = 0;
+    boolean gyroscopeEnabled = true;
 
-    boolean gyroscopeEnabled = false;
 
     View view;
 

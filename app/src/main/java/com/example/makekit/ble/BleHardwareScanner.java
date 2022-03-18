@@ -6,7 +6,12 @@ import android.os.Build;
 public class BleHardwareScanner {
     public static BleScanner getBleScanner(Context context) {
 
-        return new BleScannerAndroid5plus(context);
+        if (Build.VERSION.SDK_INT > 30){
+            return new BleScannerAndroid12plus(context);
+        } else{
+            return new BleScannerAndroid5plus(context);
+        }
+
 
     }
 }

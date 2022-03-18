@@ -36,8 +36,6 @@ public class FragmentSettings extends Fragment {
             }
         });
 
-
-
         return view;
 
     }

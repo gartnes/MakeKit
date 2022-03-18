@@ -351,8 +351,10 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             this.device_count = 0;
             if (Build.VERSION.SDK_INT < 31 && Build.VERSION.SDK_INT > 23 && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 this.permissions_granted = false;
-            } else if (Build.VERSION.SDK_INT > 30 && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                requestBlePermissions(StartScreen.this, 0);
                 System.out.println("   TETATT");
+            } else if (Build.VERSION.SDK_INT > 30 && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+
                 this.permissions_granted = false;
                 requestBlePermissions(StartScreen.this, 0);
             } else {
