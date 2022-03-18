@@ -54,6 +54,7 @@ public class FragmentGamePad extends Fragment {
     private Gyroscope gyroscope;
     int gyroPos = 0;
 
+    boolean gyroscopeEnabled = false;
 
     View view;
 
