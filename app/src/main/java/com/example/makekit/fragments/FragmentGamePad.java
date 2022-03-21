@@ -25,14 +25,14 @@ public class FragmentGamePad extends Fragment {
     public short YAW_LEFT_RELEASED = 6;
     public short YAW_RIGHT_PRESSED = 7;
     public short YAW_RIGHT_RELEASED = 8;
-    public short PITCH_FORWARD_PRESSED = 9;
-    public short PITCH_FORWARD_RELEASED = 10;
-    public short PITCH_BACKWARDS_PRESSED = 11;
-    public short PITCH_BACKWARDS_RELEASED = 12;
-    public short ROLL_LEFT_PRESSED = 13;
-    public short ROLL_LEFT_RELEASED = 14;
-    public short ROLL_RIGHT_PRESSED = 15;
-    public short ROLL_RIGHT_RELEASED = 16;
+    public short THROTTLE20_PRESSED = 9;
+    public short THROTTLE20_RELEASED = 10;
+    public short THROTTLE30_PRESSED = 11;
+    public short THROTTLE30_RELESASED = 12;
+    public short THROTTLE40_PRESSED = 13;
+    public short THROTTLE40_RELEASED = 14;
+    public short THROTTLE50_PRESSED = 15;
+    public short THROTTLE50_RELEASED = 16;
     public short CONTROLLER = 1104;
 
     GamePadListener activityCommander;
@@ -195,6 +195,45 @@ public class FragmentGamePad extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
+                        short value = THROTTLE40_PRESSED;
+                        short id = CONTROLLER;
+                        activityCommander.passDpadPress(id, value);
+                        return true;
+                    case 1:
+                        short value2 = THROTTLE40_RELEASED;
+                        short id2 = CONTROLLER;
+                        activityCommander.passDpadPress(id2, value2);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        btn_rollRight.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case 0:
+                        short value = THROTTLE50_PRESSED;
+                        short id = CONTROLLER;
+                        activityCommander.passDpadPress(id, value);
+                        return true;
+                    case 1:
+                        short value2 = THROTTLE50_RELEASED;
+                        short id2 = CONTROLLER;
+                        activityCommander.passDpadPress(id2, value2);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        btn_yawLeft.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                switch (event.getAction()) {
+                    case 0:
                         short value = YAW_LEFT_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
@@ -210,8 +249,9 @@ public class FragmentGamePad extends Fragment {
             }
         });
 
-        btn_rollRight.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
+        btn_yawRight.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
                         short value = YAW_RIGHT_PRESSED;
@@ -233,12 +273,12 @@ public class FragmentGamePad extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
-                        short value = PITCH_FORWARD_PRESSED;
+                        short value = THROTTLE20_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
-                        short value2 = PITCH_FORWARD_RELEASED;
+                        short value2 = THROTTLE20_RELEASED;
                         short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
                         return true;
@@ -252,12 +292,12 @@ public class FragmentGamePad extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
-                        short value = PITCH_BACKWARDS_PRESSED;
+                        short value = THROTTLE30_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
-                        short value2 = PITCH_BACKWARDS_RELEASED;
+                        short value2 = THROTTLE30_RELESASED;
                         short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
                         return true;

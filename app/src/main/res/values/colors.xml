@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#FF00afef</color>
     <color name="accent">#FF00ef40</color>
+    <color name="BlueNorwegianFlag">#003087</color>
 </resources>
