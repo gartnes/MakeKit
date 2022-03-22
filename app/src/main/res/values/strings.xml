@@ -27,4 +27,5 @@
     <string name="bonded">\" (BONDED)\"</string>
     <string name="unknown_device">Unknown device</string>
     <string name="gyroscope_steering">Gyroscope steering</string>
+    <string name="stop">Stop</string>
 </resources>

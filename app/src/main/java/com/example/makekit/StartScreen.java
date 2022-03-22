@@ -111,6 +111,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     };
 
     public Handler mMessageHandler = new Handler() {
+        @SuppressLint("HandlerLeak")
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:

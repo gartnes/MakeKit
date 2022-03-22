@@ -17,10 +17,17 @@
         <Button
             android:id="@+id/btn_start"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="30dp"
             android:background="@drawable/rounded_corners"
             android:text="@string/start" />
+
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
+            android:text="@string/stop" />
 
         <RelativeLayout
             android:id="@+id/rellay_throttle_yaw"

@@ -3,6 +3,8 @@ package com.example.makekit.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -46,12 +48,13 @@ public class FragmentGamePad extends Fragment {
     MaterialButton btn_segment_hoverbit;
     MaterialButton btn_segment_airbit;
     Button btn_start;
+    Button btn_stop;
     Slider slider;
     int throttle;
+    float trim;
     private Gyroscope gyroscope;
     int gyroPos = 0;
-    boolean gyroscopeEnabled = true;
-
+    boolean gyroscopeEnabled = false;
 
     View view;
 
@@ -84,6 +87,7 @@ public class FragmentGamePad extends Fragment {
         btn_rollLeft = view.findViewById(R.id.btn_roll_left);
         btn_rollRight = view.findViewById(R.id.btn_roll_right);
         btn_start = view.findViewById(R.id.btn_start);
+        btn_stop = view.findViewById(R.id.btn_stop);
         btn_segment_hoverbit = view.findViewById(R.id.segment_hoverbit);
         btn_segment_airbit = view.findViewById(R.id.segment_airbit);
         slider = view.findViewById(R.id.slider_hoverbit);
@@ -93,11 +97,10 @@ public class FragmentGamePad extends Fragment {
         btn_yawRight.setVisibility(View.INVISIBLE);
         btn_pitchForward.setVisibility(View.INVISIBLE);
         btn_pitchBackwards.setVisibility(View.INVISIBLE);
+        slider.setVisibility(View.GONE);
         btn_throttleUp.setEnabled(false);
         btn_throttleDown.setEnabled(false);
-        btn_rollRight.setVisibility(View.GONE);
-        btn_rollLeft.setVisibility(View.GONE);
-
+        btn_stop.setVisibility(View.GONE);
 
         gyroscope = new Gyroscope(getActivity());
 
@@ -111,11 +114,13 @@ public class FragmentGamePad extends Fragment {
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
                         gyroPos = 1;
+
                     } else if (rx < -1.5f) {
                         short value = TURN_LEFT_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
                         gyroPos = -1;
+
                     } else if (rx < 1.5f && rx > -1.5f) {
 
                         if (gyroPos != 0) {
@@ -129,49 +134,19 @@ public class FragmentGamePad extends Fragment {
                                 short id = CONTROLLER;
                                 activityCommander.passDpadPress(id, value);
                             }
-
                             gyroPos = 0;
                         }
-
                     }
                 }
             });
         }
 
 
-
         slider.addOnChangeListener(new Slider.OnChangeListener() {
             @SuppressLint("RestrictedApi")
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-                if (value > 0.70) {
-                    short value1 = TURN_RIGHT_PRESSED;
-                    short id1 = CONTROLLER;
-                    activityCommander.passDpadPress(id1, value1);
-                    gyroPos = 1;
-                } else if (value < 0.30) {
-                    short value2 = TURN_LEFT_PRESSED;
-                    short id2 = CONTROLLER;
-                    activityCommander.passDpadPress(id2, value2);
-                    gyroPos = -1;
-                } else if (value > 0.30 && value < 0.70) {
 
-                    if (gyroPos != 0) {
-
-                        if (gyroPos == -1) {
-                            short value1 = TURN_LEFT_RELEASED;
-                            short id1 = CONTROLLER;
-                            activityCommander.passDpadPress(id1, value1);
-                        } else if (gyroPos == 1) {
-                            short value2 = TURN_RIGHT_RELEASED;
-                            short id2 = CONTROLLER;
-                            activityCommander.passDpadPress(id2, value2);
-                        }
-
-                        gyroPos = 0;
-                    }
-
-                }
             }
         });
 
@@ -181,10 +156,27 @@ public class FragmentGamePad extends Fragment {
                 short value = START_PRESSED;
                 short id = CONTROLLER;
                 activityCommander.passDpadPress(id, value);
-                btn_start.setVisibility(View.GONE);
                 btn_throttleUp.setEnabled(true);
                 btn_throttleDown.setEnabled(true);
                 throttle = 0;
+                btn_stop.setVisibility(View.VISIBLE);
+                btn_start.setVisibility(View.GONE);
+
+
+            }
+        });
+
+        btn_stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                short value = STOP_PRESSED;
+                short id = CONTROLLER;
+                activityCommander.passDpadPress(id, value);
+                btn_throttleUp.setEnabled(false);
+                btn_throttleDown.setEnabled(false);
+                throttle = 0;
+                btn_stop.setVisibility(View.GONE);
+                btn_start.setVisibility(View.VISIBLE);
             }
         });
 
@@ -243,6 +235,15 @@ public class FragmentGamePad extends Fragment {
 
                 throttle -= 1;
                 switch (throttle) {
+
+                    case -1:
+                        btn_start.setVisibility(View.VISIBLE);
+                        short value0 = STOP_PRESSED;
+                        short id0 = CONTROLLER;
+                        activityCommander.passDpadPress(id0, value0);
+                        btn_throttleUp.setEnabled(false);
+                        btn_throttleDown.setEnabled(false);
+                        break;
 
                     case 0:
                         short value = STOP_PRESSED;
