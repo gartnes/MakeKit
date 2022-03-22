@@ -128,6 +128,13 @@
                 android:src="@drawable/ic_arrow_right"
                 tools:ignore="SpeakableTextPresentCheck" />
 
+            <com.google.android.material.slider.Slider
+                android:id="@+id/slider_hoverbit"
+                android:layout_width="320dp"
+                android:layout_height="75dp"
+                />
+
+
         </LinearLayout>
 
         <ImageButton

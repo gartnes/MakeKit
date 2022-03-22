@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import com.example.makekit.R;
 import com.example.makekit.sensors.Gyroscope;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.slider.Slider;
+
 
 public class FragmentGamePad extends Fragment {
     public short START_PRESSED = 1;
@@ -44,6 +46,7 @@ public class FragmentGamePad extends Fragment {
     MaterialButton btn_segment_hoverbit;
     MaterialButton btn_segment_airbit;
     Button btn_start;
+    Slider slider;
     int throttle;
     private Gyroscope gyroscope;
     int gyroPos = 0;
@@ -83,6 +86,7 @@ public class FragmentGamePad extends Fragment {
         btn_start = view.findViewById(R.id.btn_start);
         btn_segment_hoverbit = view.findViewById(R.id.segment_hoverbit);
         btn_segment_airbit = view.findViewById(R.id.segment_airbit);
+        slider = view.findViewById(R.id.slider_hoverbit);
 
         //Default layout with Hover:Bit selected
         btn_yawLeft.setVisibility(View.INVISIBLE);
@@ -91,6 +95,9 @@ public class FragmentGamePad extends Fragment {
         btn_pitchBackwards.setVisibility(View.INVISIBLE);
         btn_throttleUp.setEnabled(false);
         btn_throttleDown.setEnabled(false);
+        btn_rollRight.setVisibility(View.GONE);
+        btn_rollLeft.setVisibility(View.GONE);
+
 
         gyroscope = new Gyroscope(getActivity());
 
@@ -131,6 +138,42 @@ public class FragmentGamePad extends Fragment {
             });
         }
 
+
+
+        slider.addOnChangeListener(new Slider.OnChangeListener() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+                if (value > 0.70) {
+                    short value1 = TURN_RIGHT_PRESSED;
+                    short id1 = CONTROLLER;
+                    activityCommander.passDpadPress(id1, value1);
+                    gyroPos = 1;
+                } else if (value < 0.30) {
+                    short value2 = TURN_LEFT_PRESSED;
+                    short id2 = CONTROLLER;
+                    activityCommander.passDpadPress(id2, value2);
+                    gyroPos = -1;
+                } else if (value > 0.30 && value < 0.70) {
+
+                    if (gyroPos != 0) {
+
+                        if (gyroPos == -1) {
+                            short value1 = TURN_LEFT_RELEASED;
+                            short id1 = CONTROLLER;
+                            activityCommander.passDpadPress(id1, value1);
+                        } else if (gyroPos == 1) {
+                            short value2 = TURN_RIGHT_RELEASED;
+                            short id2 = CONTROLLER;
+                            activityCommander.passDpadPress(id2, value2);
+                        }
+
+                        gyroPos = 0;
+                    }
+
+                }
+            }
+        });
 
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
