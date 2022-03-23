@@ -45,7 +45,8 @@ import com.example.makekit.ble.BleHardwareScanner;
 import com.example.makekit.ble.BleScanner;
 import com.example.makekit.ble.ConnectionStatusListener;
 import com.example.makekit.ble.ScanResultsConsumer;
-import com.example.makekit.fragments.FragmentGamePad;
+import com.example.makekit.fragments.FragmentGamePadAirbit;
+import com.example.makekit.fragments.FragmentGamePadhOVERBIT;
 import com.example.makekit.fragments.FragmentSettings;
 import com.example.makekit.fragments.FragmentWelcome;
 import com.example.makekit.microbit.Constants;
@@ -58,7 +59,7 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 
 
-public class StartScreen extends AppCompatActivity implements ConnectionStatusListener, ScanResultsConsumer, NavigationView.OnNavigationItemSelectedListener, FragmentGamePad.GamePadListener {
+public class StartScreen extends AppCompatActivity implements ConnectionStatusListener, ScanResultsConsumer, NavigationView.OnNavigationItemSelectedListener, FragmentGamePadhOVERBIT.GamePadListener {
     private static final String DEVICE_NAME_START = "BBC micro";
     private static String[] PERMISSIONS_LOCATION = {"android.permission.ACCESS_COARSE_LOCATION"};
     private static final long SCAN_TIMEOUT = 8000;
@@ -67,7 +68,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     String WEL_FRAG_TAG = "WEL TAG";
 
     //Fragments
-    FragmentGamePad gamepadfragment;
+    FragmentGamePadhOVERBIT gamepadfragment;
     FragmentSettings settingsFragment;
     FragmentWelcome welcomefragment;
 
@@ -263,7 +264,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_gamepad) {
-            gamepadfragment = new FragmentGamePad();
+            gamepadfragment = new FragmentGamePadhOVERBIT();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, gamepadfragment, PAD_FRAG_TAG).commit();
             displayedFragment = PAD_FRAG_TAG;
             connectLayout.setVisibility(View.GONE);

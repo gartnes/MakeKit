@@ -12,15 +12,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="100dp">
 
-        <ImageButton
+        <Button
             android:id="@+id/btn_start"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="30dp"
             android:background="@drawable/rounded_corners"
             android:text="@string/start" />
+
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
+            android:text="@string/stop" />
 
         <RelativeLayout
             android:id="@+id/rellay_throttle_yaw"
@@ -88,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="30dp">
+        android:layout_margin="100dp">
 
         <ImageButton
             android:id="@+id/btn_pitch_forward"

@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,17 +24,23 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
 
 
-public class FragmentGamePad extends Fragment {
-    public short START_PRESSED = 1;
-    public short STOP_PRESSED = 3;
-    public short TURN_LEFT_PRESSED = 5;
-    public short TURN_LEFT_RELEASED = 6;
-    public short TURN_RIGHT_PRESSED = 7;
-    public short TURN_RIGHT_RELEASED = 8;
-    public short THROTTLE20_PRESSED = 9;
-    public short THROTTLE30_PRESSED = 11;
-    public short THROTTLE40_PRESSED = 13;
-    public short THROTTLE50_PRESSED = 15;
+public class FragmentGamePadAirbit extends Fragment {
+    public short THROTTLE_UP_PRESSED = 1;
+    public short THROTTLE_UP_RELEASED = 2;
+    public short THROTTLE_DOWN_PRESSED = 3;
+    public short THROTTLE_DOWN_RELEASED = 4;
+    public short YAW_LEFT_PRESSED = 5;
+    public short YAW_LEFT_RELEASED = 6;
+    public short YAW_RIGHT_PRESSED = 7;
+    public short YAW_RIGHT_RELEASED = 8;
+    public short PITCH_FORWARD_PRESSED = 9;
+    public short PITCH_FORWARD_RELEASED = 10;
+    public short PITCH_BACKWARDS_PRESSED = 11;
+    public short PITCH_BACKWARDS_RELEASED = 12;
+    public short ROLL_LEFT_PRESSED = 13;
+    public short ROLL_LEFT_RELEASED = 14;
+    public short ROLL_RIGHT_PRESSED = 15;
+    public short ROLL_RIGHT_RELEASED = 16;
     public short CONTROLLER = 1104;
 
     GamePadListener activityCommander;
@@ -104,7 +111,7 @@ public class FragmentGamePad extends Fragment {
 
         gyroscope = new Gyroscope(getActivity());
 
-        if (gyroscopeEnabled) {
+        /*if (gyroscopeEnabled) {
             gyroscope.setListener(new Gyroscope.Listener() {
                 @Override
                 public void onRotation(float rx, float ry, float rz) {
@@ -139,7 +146,7 @@ public class FragmentGamePad extends Fragment {
                     }
                 }
             });
-        }
+        }*/
 
 
         slider.addOnChangeListener(new Slider.OnChangeListener() {
@@ -153,7 +160,7 @@ public class FragmentGamePad extends Fragment {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                short value = START_PRESSED;
+                short value = THROTTLE_UP_PRESSED;
                 short id = CONTROLLER;
                 activityCommander.passDpadPress(id, value);
                 btn_throttleUp.setEnabled(true);
@@ -169,7 +176,7 @@ public class FragmentGamePad extends Fragment {
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                short value = STOP_PRESSED;
+                short value = THROTTLE_DOWN_PRESSED;
                 short id = CONTROLLER;
                 activityCommander.passDpadPress(id, value);
                 btn_throttleUp.setEnabled(false);
@@ -200,79 +207,79 @@ public class FragmentGamePad extends Fragment {
             }
         });
 
-        btn_throttleUp.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-
-                throttle += 1;
-                switch (throttle) {
-                    case 1:
-                        short value = THROTTLE20_PRESSED;
+        btn_throttleUp.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case 0:
+                        short value = THROTTLE_UP_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
-                        break;
-                    case 2:
-                        short value2 = THROTTLE30_PRESSED;
+                        return true;
+                    case 1:
+                        short value2 = THROTTLE_UP_RELEASED;
                         short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
-                        break;
-                    case 3:
-                        short value3 = THROTTLE40_PRESSED;
-                        short id3 = CONTROLLER;
-                        activityCommander.passDpadPress(id3, value3);
-                        break;
-                    case 4:
-                        short value4 = THROTTLE50_PRESSED;
-                        short id4 = CONTROLLER;
-                        activityCommander.passDpadPress(id4, value4);
-                        break;
+                        return true;
+                    default:
+                        return false;
                 }
-
             }
         });
 
-        btn_throttleDown.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-
-                throttle -= 1;
-                switch (throttle) {
-
-                    case -1:
-                        btn_start.setVisibility(View.VISIBLE);
-                        short value0 = STOP_PRESSED;
-                        short id0 = CONTROLLER;
-                        activityCommander.passDpadPress(id0, value0);
-                        btn_throttleUp.setEnabled(false);
-                        btn_throttleDown.setEnabled(false);
-                        break;
-
+        btn_throttleDown.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
                     case 0:
-                        short value = STOP_PRESSED;
+                        short value = THROTTLE_DOWN_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
-                        btn_throttleUp.setEnabled(false);
-                        btn_throttleDown.setEnabled(false);
                         btn_start.setVisibility(View.VISIBLE);
-                        break;
+                        return true;
                     case 1:
-                        short value1 = THROTTLE20_PRESSED;
-                        short id1 = CONTROLLER;
-                        activityCommander.passDpadPress(id1, value1);
-                        break;
-                    case 2:
-                        short value2 = THROTTLE30_PRESSED;
+                        short value2 = THROTTLE_DOWN_RELEASED;
                         short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
-                        break;
-                    case 3:
-                        short value3 = THROTTLE40_PRESSED;
-                        short id3 = CONTROLLER;
-                        activityCommander.passDpadPress(id3, value3);
-                        break;
-                    case 4:
-                        short value4 = THROTTLE50_PRESSED;
-                        short id4 = CONTROLLER;
-                        activityCommander.passDpadPress(id4, value4);
-                        break;
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        btn_yawRight.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case 0:
+                        short value = YAW_RIGHT_PRESSED;
+                        short id = CONTROLLER;
+                        activityCommander.passDpadPress(id, value);
+                        return true;
+                    case 1:
+                        short value2 = YAW_RIGHT_RELEASED;
+                        short id2 = CONTROLLER;
+                        activityCommander.passDpadPress(id2, value2);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        btn_yawLeft.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case 0:
+                        short value = YAW_LEFT_PRESSED;
+                        short id = CONTROLLER;
+                        activityCommander.passDpadPress(id, value);
+                        return true;
+                    case 1:
+                        short value2 = YAW_LEFT_RELEASED;
+                        short id2 = CONTROLLER;
+                        activityCommander.passDpadPress(id2, value2);
+                        return true;
+                    default:
+                        return false;
                 }
             }
         });
@@ -281,12 +288,12 @@ public class FragmentGamePad extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
-                        short value = TURN_LEFT_PRESSED;
+                        short value = ROLL_LEFT_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
-                        short value2 = TURN_LEFT_RELEASED;
+                        short value2 = ROLL_LEFT_RELEASED;
                         short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
                         return true;
@@ -300,12 +307,53 @@ public class FragmentGamePad extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
-                        short value = TURN_RIGHT_PRESSED;
+                        short value = ROLL_RIGHT_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
                         return true;
                     case 1:
-                        short value2 = TURN_RIGHT_RELEASED;
+                        short value2 = ROLL_RIGHT_RELEASED;
+                        short id2 = CONTROLLER;
+                        activityCommander.passDpadPress(id2, value2);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+
+
+
+        btn_pitchForward.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case 0:
+                        short value = PITCH_FORWARD_PRESSED;
+                        short id = CONTROLLER;
+                        activityCommander.passDpadPress(id, value);
+                        return true;
+                    case 1:
+                        short value2 = PITCH_FORWARD_RELEASED;
+                        short id2 = CONTROLLER;
+                        activityCommander.passDpadPress(id2, value2);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        btn_pitchBackwards.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case 0:
+                        short value = PITCH_BACKWARDS_PRESSED;
+                        short id = CONTROLLER;
+                        activityCommander.passDpadPress(id, value);
+                        return true;
+                    case 1:
+                        short value2 = PITCH_BACKWARDS_RELEASED;
                         short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
                         return true;
