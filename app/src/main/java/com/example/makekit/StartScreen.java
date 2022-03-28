@@ -45,8 +45,8 @@ import com.example.makekit.ble.BleHardwareScanner;
 import com.example.makekit.ble.BleScanner;
 import com.example.makekit.ble.ConnectionStatusListener;
 import com.example.makekit.ble.ScanResultsConsumer;
-import com.example.makekit.fragments.FragmentGamePadAirbit;
-import com.example.makekit.fragments.FragmentGamePadhOVERBIT;
+import com.example.makekit.fragments.FragmentGamePadAirBit;
+import com.example.makekit.fragments.FragmentGamePadHoverBit;
 import com.example.makekit.fragments.FragmentSettings;
 import com.example.makekit.fragments.FragmentWelcome;
 import com.example.makekit.microbit.Constants;
@@ -59,16 +59,19 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 
 
-public class StartScreen extends AppCompatActivity implements ConnectionStatusListener, ScanResultsConsumer, NavigationView.OnNavigationItemSelectedListener, FragmentGamePadhOVERBIT.GamePadListener {
+public class StartScreen extends AppCompatActivity implements ConnectionStatusListener, ScanResultsConsumer,
+        NavigationView.OnNavigationItemSelectedListener, FragmentGamePadAirBit.GamePadListener, FragmentGamePadHoverBit.GamePadListener {
     private static final String DEVICE_NAME_START = "BBC micro";
     private static String[] PERMISSIONS_LOCATION = {"android.permission.ACCESS_COARSE_LOCATION"};
     private static final long SCAN_TIMEOUT = 8000;
-    String HELP_FRAG_TAG = "HELP TAG";
-    String PAD_FRAG_TAG = "PAD TAG";
+    String HOV_FRAG_TAG = "HOV TAG";
+    String AIR_FRAG_TAG = "AIR TAG";
     String WEL_FRAG_TAG = "WEL TAG";
+    String SET_FRAG_TAG = "SET TAG";
 
     //Fragments
-    FragmentGamePadhOVERBIT gamepadfragment;
+    FragmentGamePadHoverBit gamepadFragmentHoverBit;
+    FragmentGamePadAirBit gamepadFragmentAirBit;
     FragmentSettings settingsFragment;
     FragmentWelcome welcomefragment;
 
@@ -88,7 +91,6 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     private boolean permissions_granted = false;
     public Toast toast;
     Toolbar toolbar;
-
 
 
     final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -263,10 +265,17 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
 
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.nav_gamepad) {
-            gamepadfragment = new FragmentGamePadhOVERBIT();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, gamepadfragment, PAD_FRAG_TAG).commit();
-            displayedFragment = PAD_FRAG_TAG;
+        if (id == R.id.nav_airbit) {
+            System.out.println("   123");
+            gamepadFragmentAirBit = new FragmentGamePadAirBit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, gamepadFragmentAirBit, AIR_FRAG_TAG).commit();
+            displayedFragment = AIR_FRAG_TAG;
+            connectLayout.setVisibility(View.GONE);
+
+        } else if (id == R.id.nav_hoverbit) {
+            gamepadFragmentHoverBit = new FragmentGamePadHoverBit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, gamepadFragmentHoverBit, HOV_FRAG_TAG).commit();
+            displayedFragment = HOV_FRAG_TAG;
             connectLayout.setVisibility(View.GONE);
 
         } else if (id == R.id.nav_connect) {
@@ -279,15 +288,22 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
                         break;
                     }
                     break;
-                case -89419187:
-                    if (str.equals("PAD TAG")) {
+                case -275110012:
+                    if (str.equals("AIR TAG")) {
                         c = 1;
+                        System.out.println("   456");
                         break;
                     }
                     break;
                 case 1950044056:
                     if (str.equals("WEL TAG")) {
                         c = 2;
+                        break;
+                    }
+                case 1817917449:
+                    if (str.equals("HOV TAG")) {
+                        c = 3;
+
                         break;
                     }
                     break;
@@ -299,14 +315,21 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
                     ((Button) findViewById(R.id.scanButton)).setVisibility(View.INVISIBLE);
                     break;
                 case 1:
-                    getSupportFragmentManager().beginTransaction().hide(this.gamepadfragment).commit();
+                    getSupportFragmentManager().beginTransaction().hide(this.gamepadFragmentAirBit).commit();
                     this.connectLayout.setVisibility(View.INVISIBLE);
                     ((Button) findViewById(R.id.scanButton)).setVisibility(View.INVISIBLE);
                     break;
                 case 2:
                     getSupportFragmentManager().beginTransaction().hide(this.welcomefragment).commit();
                     this.connectLayout.setVisibility(View.VISIBLE);
+
                     ((Button) findViewById(R.id.scanButton)).setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    getSupportFragmentManager().beginTransaction().hide(this.gamepadFragmentHoverBit).commit();
+                    this.connectLayout.setVisibility(View.INVISIBLE);
+                    ((Button) findViewById(R.id.scanButton)).setVisibility(View.INVISIBLE);
+
                     break;
                 default:
 
@@ -323,8 +346,8 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             if (this.settingsFragment == null) {
                 this.settingsFragment = new FragmentSettings();
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, this.settingsFragment, this.HELP_FRAG_TAG).commit();
-            this.displayedFragment = this.HELP_FRAG_TAG;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, this.settingsFragment, this.HOV_FRAG_TAG).commit();
+            this.displayedFragment = this.HOV_FRAG_TAG;
             this.connectLayout.setVisibility((int) 8);
         }
         ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);

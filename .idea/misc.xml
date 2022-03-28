@@ -4,8 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/torje/AndroidStudioProjects/MakeKit/app/src/main/res/layout-land/activity_main.xml" value="0.3207207207207207" />
+        <entry key="..\:/Users/torje/AndroidStudioProjects/MakeKit/app/src/main/res/layout-land/fragment_game_pad.xml" value="0.2625" />
+        <entry key="..\:/Users/torje/AndroidStudioProjects/MakeKit/app/src/main/res/layout-land/fragment_game_pad_airbit.xml" value="0.25" />
         <entry key="..\:/Users/torje/AndroidStudioProjects/MakeKit/app/src/main/res/layout-port/activity_main.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/torje/AndroidStudioProjects/MakeKit/app/src/main/res/layout/activity_start_screen.xml" value="0.33" />
+        <entry key="..\:/Users/torje/AndroidStudioProjects/MakeKit/app/src/main/res/layout/fragment_game_pad_airbit.xml" value="0.33" />
+        <entry key="..\:/Users/torje/AndroidStudioProjects/MakeKit/app/src/main/res/layout/fragment_game_pad_hover_bit.xml" value="0.33" />
+        <entry key="..\:/Users/torje/AndroidStudioProjects/MakeKit/app/src/main/res/layout/fragment_welcome.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/torje/AndroidStudioProjects/MakeKit/app/src/main/res/layout/nav_header_main.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/torje/AndroidStudioProjects/MakeKit/app/src/main/res/menu/activity_main_drawer.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MakeKit1/app/src/main/res/drawable/ic_settings.xml" value="0.2555" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MakeKit1/app/src/main/res/drawable/makekit_gradient.xml" value="0.3195" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MakeKit1/app/src/main/res/drawable/playbtn.xml" value="0.3195" />
@@ -17,7 +24,6 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/MakeKit1/app/src/main/res/layout-port/activity_main.xml" value="0.2368659420289855" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MakeKit1/app/src/main/res/layout/activity_ble_device_list.xml" value="0.184375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MakeKit1/app/src/main/res/layout/activity_start_screen.xml" value="0.22" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/MakeKit1/app/src/main/res/layout/fragment_game_airbit.xml" value="0.3484375" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MakeKit1/app/src/main/res/layout/fragment_game_pad.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MakeKit1/app/src/main/res/layout/fragment_settings.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MakeKit1/app/src/main/res/layout/fragment_welcome.xml" value="0.1" />

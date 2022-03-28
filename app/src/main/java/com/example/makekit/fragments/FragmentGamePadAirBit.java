@@ -3,10 +3,7 @@ package com.example.makekit.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +21,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
 
 
-public class FragmentGamePadAirbit extends Fragment {
+public class FragmentGamePadAirBit extends Fragment {
     public short THROTTLE_UP_PRESSED = 1;
     public short THROTTLE_UP_RELEASED = 2;
     public short THROTTLE_DOWN_PRESSED = 3;
@@ -81,7 +78,7 @@ public class FragmentGamePadAirbit extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_game_pad, container, false);
+        view = inflater.inflate(R.layout.fragment_game_pad_airbit, container, false);
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         //Initializing all buttons
@@ -100,11 +97,7 @@ public class FragmentGamePadAirbit extends Fragment {
         slider = view.findViewById(R.id.slider_hoverbit);
 
         //Default layout with Hover:Bit selected
-        btn_yawLeft.setVisibility(View.INVISIBLE);
-        btn_yawRight.setVisibility(View.INVISIBLE);
-        btn_pitchForward.setVisibility(View.INVISIBLE);
-        btn_pitchBackwards.setVisibility(View.INVISIBLE);
-        slider.setVisibility(View.GONE);
+
         btn_throttleUp.setEnabled(false);
         btn_throttleDown.setEnabled(false);
         btn_stop.setVisibility(View.GONE);
