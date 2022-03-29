@@ -85,8 +85,8 @@ public class FragmentGamePadHoverBit extends Fragment {
         btn_rollRight = view.findViewById(R.id.btn_roll_right_hover);
         btn_start = view.findViewById(R.id.btn_start_hover);
         btn_stop = view.findViewById(R.id.btn_stop_hover);
-        btn_segment_hoverbit = view.findViewById(R.id.segment_hoverbit);
-        btn_segment_airbit = view.findViewById(R.id.segment_airbit);
+        btn_segment_hoverbit = view.findViewById(R.id.segment_hoverbit_hover);
+        btn_segment_airbit = view.findViewById(R.id.segment_airbit_hover);
 
         //Default layout with Hover:Bit selected
         btn_throttleUp.setEnabled(false);
@@ -131,6 +131,15 @@ public class FragmentGamePadHoverBit extends Fragment {
                 }
             });
         }*/
+
+        btn_segment_airbit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentGamePadAirBit fragmentGamePadAirBit = new FragmentGamePadAirBit();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_area, fragmentGamePadAirBit).commit();
+            }
+        });
 
 
         btn_start.setOnClickListener(new View.OnClickListener() {

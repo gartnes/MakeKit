@@ -6,7 +6,7 @@
     android:background="@drawable/makekit_gradient"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_area"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,19 +43,17 @@
             android:layout_height="wrap_content"
             android:enabled="true"
             android:gravity="center"
-            android:onClick="onScan"
-            android:text=""
-            android:visibility="invisible"/>
+            android:text="@string/scan_for_paired_microbits"/>
+
+        <Button
+            android:id="@+id/gamepadButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:gravity="center"
+            android:text="Gamepad"/>
     </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView xmlns:ns1="http://schemas.android.com/apk/res-auto"
-        xmlns:ns2="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        ns1:headerLayout="@layout/nav_header_main"
-        ns2:menu="@menu/activity_main_drawer" />
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

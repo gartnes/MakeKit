@@ -113,18 +113,20 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/segment_airbit_hover"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/air_bit"
-            app:icon="@drawable/ic_settings" />
+            app:icon="@drawable/ic_airbit_transparent"
+            app:iconSize="50dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/segment_hoverbit_hover"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/hover_bit"
-            app:icon="@drawable/ic_settings" />
+            app:icon="@drawable/ic_hoverbit_transparent"
+            app:iconSize="50dp"/>
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 

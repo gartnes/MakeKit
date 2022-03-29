@@ -39,6 +39,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.makekit.ble.BleAdapterService;
 import com.example.makekit.ble.BleHardwareScanner;
@@ -59,21 +60,10 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 
 
-public class StartScreen extends AppCompatActivity implements ConnectionStatusListener, ScanResultsConsumer,
-        NavigationView.OnNavigationItemSelectedListener, FragmentGamePadAirBit.GamePadListener, FragmentGamePadHoverBit.GamePadListener {
+public class StartScreen extends AppCompatActivity implements ConnectionStatusListener, ScanResultsConsumer, FragmentGamePadAirBit.GamePadListener, FragmentGamePadHoverBit.GamePadListener {
     private static final String DEVICE_NAME_START = "BBC micro";
     private static String[] PERMISSIONS_LOCATION = {"android.permission.ACCESS_COARSE_LOCATION"};
     private static final long SCAN_TIMEOUT = 8000;
-    String HOV_FRAG_TAG = "HOV TAG";
-    String AIR_FRAG_TAG = "AIR TAG";
-    String WEL_FRAG_TAG = "WEL TAG";
-    String SET_FRAG_TAG = "SET TAG";
-
-    //Fragments
-    FragmentGamePadHoverBit gamepadFragmentHoverBit;
-    FragmentGamePadAirBit gamepadFragmentAirBit;
-    FragmentSettings settingsFragment;
-    FragmentWelcome welcomefragment;
 
     //Bluetooth
     public ListAdapter ble_device_list_adapter;
@@ -81,16 +71,16 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     public boolean ble_scanning = false;
     public BleAdapterService bluetooth_le_adapter;
 
-    LinearLayout connectLayout;
     private int device_count = 0;
-    String displayedFragment;
     private Vibrator gamepadVib;
     Intent gattServiceIntent;
     private Handler handler = new Handler();
-    NavigationView navigationView;
     private boolean permissions_granted = false;
     public Toast toast;
-    Toolbar toolbar;
+    Button btn_Gamepad;
+    Button btn_scan;
+    LinearLayout connectLayout;
+
 
 
     final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -174,13 +164,6 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         setContentView(R.layout.activity_start_screen);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         gamepadVib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        connectLayout = (LinearLayout) findViewById(R.id.connect_layout);
-        connectLayout.setVisibility(View.VISIBLE);
-        welcomefragment = new FragmentWelcome();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, this.welcomefragment, this.WEL_FRAG_TAG).commit();
-        displayedFragment = this.WEL_FRAG_TAG;
         Settings.getInstance().restore(this);
         ble_device_list_adapter = new ListAdapter();
         ListView listView = (ListView) findViewById(R.id.deviceList);
@@ -189,6 +172,23 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         ble_scanner = BleHardwareScanner.getBleScanner(getApplicationContext());
         ble_scanner.setDevice_name_start(DEVICE_NAME_START);
         ble_scanner.setSelect_bonded_devices_only(true);
+        connectLayout = findViewById(R.id.connect_layout);
+
+        btn_Gamepad= findViewById(R.id.gamepadButton);
+        btn_Gamepad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToGamepad();
+            }
+        });
+
+        btn_scan = findViewById(R.id.scanButton);
+        btn_scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onScan(view);
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -263,96 +263,6 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         toast.show();
     }
 
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_airbit) {
-            System.out.println("   123");
-            gamepadFragmentAirBit = new FragmentGamePadAirBit();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, gamepadFragmentAirBit, AIR_FRAG_TAG).commit();
-            displayedFragment = AIR_FRAG_TAG;
-            connectLayout.setVisibility(View.GONE);
-
-        } else if (id == R.id.nav_hoverbit) {
-            gamepadFragmentHoverBit = new FragmentGamePadHoverBit();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, gamepadFragmentHoverBit, HOV_FRAG_TAG).commit();
-            displayedFragment = HOV_FRAG_TAG;
-            connectLayout.setVisibility(View.GONE);
-
-        } else if (id == R.id.nav_connect) {
-            String str = this.displayedFragment;
-            char c = 65535;
-            switch (str.hashCode()) {
-                case -1592582500:
-                    if (str.equals("SET TAG")) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case -275110012:
-                    if (str.equals("AIR TAG")) {
-                        c = 1;
-                        System.out.println("   456");
-                        break;
-                    }
-                    break;
-                case 1950044056:
-                    if (str.equals("WEL TAG")) {
-                        c = 2;
-                        break;
-                    }
-                case 1817917449:
-                    if (str.equals("HOV TAG")) {
-                        c = 3;
-
-                        break;
-                    }
-                    break;
-            }
-            switch (c) {
-                case 0:
-                    getSupportFragmentManager().beginTransaction().hide(this.settingsFragment).commit();
-                    this.connectLayout.setVisibility(View.INVISIBLE);
-                    ((Button) findViewById(R.id.scanButton)).setVisibility(View.INVISIBLE);
-                    break;
-                case 1:
-                    getSupportFragmentManager().beginTransaction().hide(this.gamepadFragmentAirBit).commit();
-                    this.connectLayout.setVisibility(View.INVISIBLE);
-                    ((Button) findViewById(R.id.scanButton)).setVisibility(View.INVISIBLE);
-                    break;
-                case 2:
-                    getSupportFragmentManager().beginTransaction().hide(this.welcomefragment).commit();
-                    this.connectLayout.setVisibility(View.VISIBLE);
-
-                    ((Button) findViewById(R.id.scanButton)).setVisibility(View.VISIBLE);
-                    break;
-                case 3:
-                    getSupportFragmentManager().beginTransaction().hide(this.gamepadFragmentHoverBit).commit();
-                    this.connectLayout.setVisibility(View.INVISIBLE);
-                    ((Button) findViewById(R.id.scanButton)).setVisibility(View.INVISIBLE);
-
-                    break;
-                default:
-
-                    break;
-            }
-            this.connectLayout.setVisibility(View.VISIBLE);
-            ((Button) findViewById(R.id.scanButton)).setVisibility(View.VISIBLE);
-            if (Microbit.getInstance().isMicrobit_connected()) {
-                setScanButton(2);
-            } else {
-                setScanButton(0);
-            }
-        } else if (id == R.id.nav_help) {
-            if (this.settingsFragment == null) {
-                this.settingsFragment = new FragmentSettings();
-            }
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_area, this.settingsFragment, this.HOV_FRAG_TAG).commit();
-            this.displayedFragment = this.HOV_FRAG_TAG;
-            this.connectLayout.setVisibility((int) 8);
-        }
-        ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -623,5 +533,16 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     }
 
     public void serviceDiscoveryStatusChanged(boolean new_state) {
+    }
+
+    public void goToGamepad(){
+        FragmentGamePadAirBit fragmentGamePadAirBit = new FragmentGamePadAirBit();
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.fragment_area, fragmentGamePadAirBit).commit();
+
+        btn_Gamepad.setVisibility(View.GONE);
+        btn_scan.setVisibility(View.GONE);
+        connectLayout.setVisibility(View.GONE);
+
     }
 }

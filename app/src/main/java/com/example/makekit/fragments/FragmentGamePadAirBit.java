@@ -101,6 +101,8 @@ public class FragmentGamePadAirBit extends Fragment {
 
         btn_throttleUp.setEnabled(false);
         btn_throttleDown.setEnabled(false);
+        btn_yawLeft.setEnabled(false);
+        btn_yawRight.setEnabled(false);
         btn_stop.setVisibility(View.GONE);
 
 
@@ -146,11 +148,13 @@ public class FragmentGamePadAirBit extends Fragment {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                short value = THROTTLE_UP_PRESSED;
+                short value = YAW_RIGHT_PRESSED;
                 short id = CONTROLLER;
                 activityCommander.passDpadPress(id, value);
                 btn_throttleUp.setEnabled(true);
                 btn_throttleDown.setEnabled(true);
+                btn_yawLeft.setEnabled(true);
+                btn_yawRight.setEnabled(true);
                 throttle = 0;
                 btn_stop.setVisibility(View.VISIBLE);
                 btn_start.setVisibility(View.GONE);
@@ -162,7 +166,7 @@ public class FragmentGamePadAirBit extends Fragment {
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                short value = THROTTLE_DOWN_PRESSED;
+                short value = YAW_LEFT_PRESSED;
                 short id = CONTROLLER;
                 activityCommander.passDpadPress(id, value);
                 btn_throttleUp.setEnabled(false);
@@ -176,20 +180,16 @@ public class FragmentGamePadAirBit extends Fragment {
         btn_segment_hoverbit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn_yawLeft.setVisibility(View.INVISIBLE);
-                btn_yawRight.setVisibility(View.INVISIBLE);
-                btn_pitchForward.setVisibility(View.INVISIBLE);
-                btn_pitchBackwards.setVisibility(View.INVISIBLE);
+                FragmentGamePadHoverBit fragmentGamePadHoverBit = new FragmentGamePadHoverBit();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_area, fragmentGamePadHoverBit).commit();
             }
         });
 
         btn_segment_airbit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn_yawLeft.setVisibility(View.VISIBLE);
-                btn_yawRight.setVisibility(View.VISIBLE);
-                btn_pitchForward.setVisibility(View.VISIBLE);
-                btn_pitchBackwards.setVisibility(View.VISIBLE);
+
             }
         });
 
