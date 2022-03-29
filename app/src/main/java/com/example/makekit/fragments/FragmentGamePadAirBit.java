@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,7 +54,7 @@ public class FragmentGamePadAirBit extends Fragment {
     MaterialButton btn_segment_airbit;
     Button btn_start;
     Button btn_stop;
-    Slider slider;
+    TextView tv_throttle;
     int throttle;
     float trim;
     private Gyroscope gyroscope;
@@ -94,13 +95,14 @@ public class FragmentGamePadAirBit extends Fragment {
         btn_stop = view.findViewById(R.id.btn_stop);
         btn_segment_hoverbit = view.findViewById(R.id.segment_hoverbit);
         btn_segment_airbit = view.findViewById(R.id.segment_airbit);
-        slider = view.findViewById(R.id.slider_hoverbit);
+        tv_throttle = view.findViewById(R.id.tv_throttle_air);
 
         //Default layout with Hover:Bit selected
 
         btn_throttleUp.setEnabled(false);
         btn_throttleDown.setEnabled(false);
         btn_stop.setVisibility(View.GONE);
+
 
         gyroscope = new Gyroscope(getActivity());
 
@@ -140,15 +142,6 @@ public class FragmentGamePadAirBit extends Fragment {
                 }
             });
         }*/
-
-
-        slider.addOnChangeListener(new Slider.OnChangeListener() {
-            @SuppressLint("RestrictedApi")
-            @Override
-            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-
-            }
-        });
 
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,9 +197,12 @@ public class FragmentGamePadAirBit extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
+                        throttle += 1;
+                        tv_throttle.setText(String.valueOf(throttle));
                         short value = THROTTLE_UP_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
+
                         return true;
                     case 1:
                         short value2 = THROTTLE_UP_RELEASED;
@@ -223,10 +219,17 @@ public class FragmentGamePadAirBit extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
+                        throttle -= 1;
+                        tv_throttle.setText(String.valueOf(throttle));
                         short value = THROTTLE_DOWN_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
-                        btn_start.setVisibility(View.VISIBLE);
+                        if (throttle < 1){
+                            btn_start.setVisibility(View.VISIBLE);
+                            btn_stop.setVisibility(View.GONE);
+                            btn_throttleUp.setEnabled(false);
+                            btn_throttleDown.setEnabled(false);
+                        }
                         return true;
                     case 1:
                         short value2 = THROTTLE_DOWN_RELEASED;

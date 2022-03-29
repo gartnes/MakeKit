@@ -207,6 +207,7 @@ public class FragmentGamePadHoverBit extends Fragment {
                         activityCommander.passDpadPress(id0, value0);
                         btn_throttleUp.setEnabled(false);
                         btn_throttleDown.setEnabled(false);
+                        btn_stop.setVisibility(View.GONE);
                         break;
 
                     case 0:

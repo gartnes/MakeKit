@@ -18,31 +18,24 @@
 
         <Button
             android:id="@+id/btn_start_hover"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:background="@drawable/rounded_corners"
             android:text="@string/start" />
 
         <Button
             android:id="@+id/btn_stop_hover"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:text="@string/stop" />
 
-
-        <RelativeLayout
-            android:id="@+id/rellay_throttle_yaw_hover"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp">
 
             <ImageButton
                 android:id="@+id/btn_throttle_up_hover"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="2dp"
@@ -50,17 +43,14 @@
                 android:background="@drawable/rounded_corners"
                 android:src="@drawable/ic_throttle_up" />
 
-
             <ImageButton
                 android:id="@+id/btn_throttle_down_hover"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
                 android:layout_margin="2dp"
+                android:layout_marginTop="100dp"
                 android:background="@drawable/rounded_corners"
                 android:src="@drawable/ic_throttle_down" />
-
-        </RelativeLayout>
 
     </LinearLayout>
 
@@ -103,8 +93,6 @@
                 android:background="@drawable/rounded_corners"
                 android:src="@drawable/ic_arrow_right"
                 tools:ignore="SpeakableTextPresentCheck" />
-
-
 
         </LinearLayout>
 

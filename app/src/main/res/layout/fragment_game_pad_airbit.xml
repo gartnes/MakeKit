@@ -9,12 +9,13 @@
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
+        android:id="@+id/linlay_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:layout_marginBottom="50dp"
-        android:layout_marginStart="20dp">
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_start"
@@ -29,14 +30,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="30dp"
+            android:background="@drawable/rounded_corners"
             android:text="@string/stop" />
 
 
         <RelativeLayout
             android:id="@+id/rellay_throttle_yaw"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="30dp">
+            android:layout_height="wrap_content">
 
             <ImageButton
                 android:id="@+id/btn_throttle_up"
@@ -70,13 +71,12 @@
                     android:id="@+id/btn_yaw_right"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginStart="80dp"
+                    android:layout_marginStart="110dp"
                     android:background="@drawable/rounded_corners"
                     android:src="@drawable/ic_rotate_right"
                     tools:ignore="SpeakableTextPresentCheck" />
 
             </LinearLayout>
-
 
             <ImageButton
                 android:id="@+id/btn_throttle_down"
@@ -91,6 +91,19 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_throttle_air"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/accent"
+        android:textSize="30sp"
+        android:text="@string/_0"
+        android:layout_gravity="center_vertical"
+        android:layout_toEndOf="@+id/linlay_left"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="30dp"/>
 
     <RelativeLayout
         android:id="@+id/rellay_pitch_roll"
@@ -144,12 +157,6 @@
                 android:src="@drawable/ic_arrow_right"
                 tools:ignore="SpeakableTextPresentCheck" />
 
-            <com.google.android.material.slider.Slider
-                android:id="@+id/slider_hoverbit"
-                android:layout_width="320dp"
-                android:layout_height="75dp" />
-
-
         </LinearLayout>
 
         <ImageButton
@@ -192,7 +199,8 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/hover_bit"
-            app:icon="@drawable/ic_settings" />
+            app:icon="@drawable/ic_hoverbit_transparent"
+            app:iconSize="30dp"/>
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
