@@ -27,7 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.NoActionBar">
         <activity
-            android:name=".StartScreen"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

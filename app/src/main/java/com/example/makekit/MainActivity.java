@@ -21,25 +21,21 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Vibrator;
 import android.text.Html;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.makekit.ble.BleAdapterService;
 import com.example.makekit.ble.BleHardwareScanner;
@@ -48,19 +44,16 @@ import com.example.makekit.ble.ConnectionStatusListener;
 import com.example.makekit.ble.ScanResultsConsumer;
 import com.example.makekit.fragments.FragmentGamePadAirBit;
 import com.example.makekit.fragments.FragmentGamePadHoverBit;
-import com.example.makekit.fragments.FragmentSettings;
-import com.example.makekit.fragments.FragmentWelcome;
 import com.example.makekit.microbit.Constants;
 import com.example.makekit.microbit.Microbit;
 import com.example.makekit.microbit.MicrobitEvent;
 import com.example.makekit.microbit.Settings;
 import com.example.makekit.microbit.Utility;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
 
-public class StartScreen extends AppCompatActivity implements ConnectionStatusListener, ScanResultsConsumer, FragmentGamePadAirBit.GamePadListener, FragmentGamePadHoverBit.GamePadListener {
+public class MainActivity extends AppCompatActivity implements ConnectionStatusListener, ScanResultsConsumer, FragmentGamePadAirBit.GamePadListener, FragmentGamePadHoverBit.GamePadListener {
     private static final String DEVICE_NAME_START = "BBC micro";
     private static String[] PERMISSIONS_LOCATION = {"android.permission.ACCESS_COARSE_LOCATION"};
     private static final long SCAN_TIMEOUT = 8000;
@@ -79,6 +72,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     public Toast toast;
     Button btn_Gamepad;
     Button btn_scan;
+
     LinearLayout connectLayout;
 
 
@@ -87,17 +81,17 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         public void onReceive(Context context, Intent intent) {
             if ("android.bluetooth.device.action.BOND_STATE_CHANGED".equals(intent.getAction())) {
                 BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra("android.bluetooth.device.extra.DEVICE");
-                if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {
                     if (device.getBondState() == 10) {
-                        StartScreen.this.showMsg(Utility.htmlColorRed("Device was not paired successfully"));
+                        MainActivity.this.showMsg(Utility.htmlColorRed("Device was not paired successfully"));
                     }
 
-                } else if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {
+                } else if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {
                     if (device.getBondState() == 11) {
-                        StartScreen.this.showMsg(Utility.htmlColorGreen("Pairing is in progress"));
+                        MainActivity.this.showMsg(Utility.htmlColorGreen("Pairing is in progress"));
                     }
                 } else {
-                    StartScreen.this.showMsg(Utility.htmlColorGreen("Device was paired successfully - select it now"));
+                    MainActivity.this.showMsg(Utility.htmlColorGreen("Device was paired successfully - select it now"));
                 }
             }
         }
@@ -108,13 +102,13 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    StartScreen.this.bluetooth_le_adapter.discoverServices();
+                    MainActivity.this.bluetooth_le_adapter.discoverServices();
                     return;
                 case 2:
-                    StartScreen.this.bluetooth_le_adapter.disconnect();
+                    MainActivity.this.bluetooth_le_adapter.disconnect();
                     return;
                 case 3:
-                    for (BluetoothGattService svc : StartScreen.this.bluetooth_le_adapter.getSupportedGattServices()) {
+                    for (BluetoothGattService svc : MainActivity.this.bluetooth_le_adapter.getSupportedGattServices()) {
                         Microbit.getInstance().addService(svc);
                     }
                     Microbit.getInstance().setMicrobit_services_discovered(true);
@@ -135,17 +129,17 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
 
     public final ServiceConnection mServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName componentName, IBinder service) {
-            BleAdapterService unused = StartScreen.this.bluetooth_le_adapter = ((BleAdapterService.LocalBinder) service).getService();
-            StartScreen.this.bluetooth_le_adapter.setActivityHandler(StartScreen.this.mMessageHandler);
-            StartScreen.this.connectToDevice();
+            BleAdapterService unused = MainActivity.this.bluetooth_le_adapter = ((BleAdapterService.LocalBinder) service).getService();
+            MainActivity.this.bluetooth_le_adapter.setActivityHandler(MainActivity.this.mMessageHandler);
+            MainActivity.this.connectToDevice();
         }
 
         public void onServiceDisconnected(ComponentName componentName) {
-            BleAdapterService unused = StartScreen.this.bluetooth_le_adapter = null;
+            BleAdapterService unused = MainActivity.this.bluetooth_le_adapter = null;
         }
     };
 
-    static int access$1008(StartScreen x0) {
+    static int access$1008(MainActivity x0) {
         int i = x0.device_count;
         x0.device_count = i + 1;
         return i;
@@ -174,6 +168,10 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         ble_scanner.setSelect_bonded_devices_only(true);
         connectLayout = findViewById(R.id.connect_layout);
 
+        listView.setVisibility(View.GONE);
+        ((TextView) MainActivity.this.findViewById(R.id.message)).setVisibility(View.GONE);
+        ((ImageView) MainActivity.this.findViewById(R.id.makekit_logo)).setVisibility(View.VISIBLE);
+
         btn_Gamepad= findViewById(R.id.gamepadButton);
         btn_Gamepad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,39 +184,42 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         btn_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                listView.setVisibility(View.VISIBLE);
+                ((TextView) MainActivity.this.findViewById(R.id.message)).setVisibility(View.VISIBLE);
+                ((ImageView) MainActivity.this.findViewById(R.id.makekit_logo)).setVisibility(View.GONE);
                 onScan(view);
             }
         });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                if (StartScreen.this.ble_scanning) {
-                    StartScreen.this.setScanButton(0);
-                    StartScreen.this.setScanState(false);
-                    StartScreen.this.ble_scanner.stopScanning();
+                if (MainActivity.this.ble_scanning) {
+                    MainActivity.this.setScanButton(0);
+                    MainActivity.this.setScanState(false);
+                    MainActivity.this.ble_scanner.stopScanning();
                 }
-                BluetoothDevice device = StartScreen.this.ble_device_list_adapter.getDevice(position);
-                if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {
+                BluetoothDevice device = MainActivity.this.ble_device_list_adapter.getDevice(position);
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_CONNECT) != 0) {
                 }
                 if (device.getBondState() != 10 || !Settings.getInstance().isFilter_unpaired_devices()) {
                     try {
-                        StartScreen.this.unregisterReceiver(StartScreen.this.broadcastReceiver);
+                        MainActivity.this.unregisterReceiver(MainActivity.this.broadcastReceiver);
                     } catch (Exception e) {
                     }
-                    if (StartScreen.this.toast != null) {
-                        StartScreen.this.toast.cancel();
+                    if (MainActivity.this.toast != null) {
+                        MainActivity.this.toast.cancel();
                     }
                     Microbit.getInstance().setBluetooth_device(device);
                     System.out.print(Microbit.getInstance().isMicrobit_connected());
                     Microbit.getInstance().setMicrobit_name(device.getName());
                     Microbit.getInstance().setMicrobit_address(device.getAddress());
-                    Microbit.getInstance().setConnection_status_listener(StartScreen.this);
-                    StartScreen.this.gattServiceIntent = new Intent(StartScreen.this, BleAdapterService.class);
-                    StartScreen.this.bindService(StartScreen.this.gattServiceIntent, StartScreen.this.mServiceConnection, (int) 1);
+                    Microbit.getInstance().setConnection_status_listener(MainActivity.this);
+                    MainActivity.this.gattServiceIntent = new Intent(MainActivity.this, BleAdapterService.class);
+                    MainActivity.this.bindService(MainActivity.this.gattServiceIntent, MainActivity.this.mServiceConnection, (int) 1);
                     return;
                 }
                 device.createBond();
-                StartScreen.this.showMsg(Utility.htmlColorRed("Selected micro:bit must be paired - pairing now"));
+                MainActivity.this.showMsg(Utility.htmlColorRed("Selected micro:bit must be paired - pairing now"));
             }
         });
     }
@@ -284,10 +285,10 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             this.device_count = 0;
             if (Build.VERSION.SDK_INT < 31 && Build.VERSION.SDK_INT > 23 && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 this.permissions_granted = false;
-                requestBlePermissions(StartScreen.this, 0);
+                requestBlePermissions(MainActivity.this, 0);
             } else if (Build.VERSION.SDK_INT > 30 && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                 this.permissions_granted = false;
-                requestBlePermissions(StartScreen.this, 0);
+                requestBlePermissions(MainActivity.this, 0);
             } else {
                 this.permissions_granted = true;
             }
@@ -302,8 +303,8 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         if (this.permissions_granted) {
             runOnUiThread(new Runnable() {
                 public void run() {
-                    StartScreen.this.ble_device_list_adapter.clear();
-                    StartScreen.this.ble_device_list_adapter.notifyDataSetChanged();
+                    MainActivity.this.ble_device_list_adapter.clear();
+                    MainActivity.this.ble_device_list_adapter.notifyDataSetChanged();
                 }
             });
             simpleToast(getScanningMessage(), 2000);
@@ -349,7 +350,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             builder.setPositiveButton("17039370", (DialogInterface.OnClickListener) null);
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 public void onDismiss(DialogInterface dialog) {
-                    ActivityCompat.requestPermissions(StartScreen.this, new String[]{"android.permission.ACCESS_COARSE_LOCATION"}, 0);
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.ACCESS_COARSE_LOCATION"}, 0);
                 }
             });
             builder.show();
@@ -391,9 +392,9 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     public void candidateBleDevice(final BluetoothDevice device, byte[] scan_record, int rssi) {
         runOnUiThread(new Runnable() {
             public void run() {
-                StartScreen.this.ble_device_list_adapter.addDevice(device);
-                StartScreen.this.ble_device_list_adapter.notifyDataSetChanged();
-                StartScreen.access$1008(StartScreen.this);
+                MainActivity.this.ble_device_list_adapter.addDevice(device);
+                MainActivity.this.ble_device_list_adapter.notifyDataSetChanged();
+                MainActivity.access$1008(MainActivity.this);
             }
         });
     }
@@ -474,7 +475,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
         public View getView(int i, View view, ViewGroup viewGroup) {
             ViewHolder viewHolder;
             if (view == null) {
-                view = StartScreen.this.getLayoutInflater().inflate(R.layout.list_row, (ViewGroup) null);
+                view = MainActivity.this.getLayoutInflater().inflate(R.layout.list_row, (ViewGroup) null);
                 viewHolder = new ViewHolder();
                 viewHolder.text = view.findViewById(R.id.textView);
                 viewHolder.bdaddr = view.findViewById(R.id.bdaddr);
@@ -484,8 +485,8 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
             }
             BluetoothDevice device = this.ble_devices.get(i);
 
-            if (ActivityCompat.checkSelfPermission(StartScreen.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                requestBlePermissions(StartScreen.this, 0);
+            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                requestBlePermissions(MainActivity.this, 0);
             }
             String deviceName = device.getName();
             if (device.getBondState() == 12) {
@@ -505,7 +506,7 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
     public void showMsg(final String msg) {
         runOnUiThread(new Runnable() {
             public void run() {
-                ((TextView) StartScreen.this.findViewById(R.id.message)).setText(Html.fromHtml(msg));
+                ((TextView) MainActivity.this.findViewById(R.id.message)).setText(Html.fromHtml(msg));
             }
         });
     }
@@ -537,12 +538,15 @@ public class StartScreen extends AppCompatActivity implements ConnectionStatusLi
 
     public void goToGamepad(){
         FragmentGamePadAirBit fragmentGamePadAirBit = new FragmentGamePadAirBit();
-        getSupportFragmentManager().beginTransaction().
-                replace(R.id.fragment_area, fragmentGamePadAirBit).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_area, fragmentGamePadAirBit)
+                .commit();
 
         btn_Gamepad.setVisibility(View.GONE);
         btn_scan.setVisibility(View.GONE);
         connectLayout.setVisibility(View.GONE);
 
     }
+
 }

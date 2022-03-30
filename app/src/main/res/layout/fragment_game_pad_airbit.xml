@@ -205,5 +205,13 @@
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
+    <ImageButton
+        android:id="@+id/btn_settings_air"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_settings"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"/>
 
 </RelativeLayout>

@@ -33,4 +33,6 @@
     <string name="airbit">Air:bit</string>
     <string name="hoverbit">Hover:bit</string>
     <string name="_0">0</string>
+    <string name="gamepad">Gamepad</string>
+    <string name="connect_to_micro_bit">Connect to Micro:bit</string>
 </resources>

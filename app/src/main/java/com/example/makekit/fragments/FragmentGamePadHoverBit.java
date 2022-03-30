@@ -13,12 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.makekit.R;
+import com.example.makekit.sensors.Accelerometer;
 import com.example.makekit.sensors.Gyroscope;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.Slider;
@@ -38,22 +40,18 @@ public class FragmentGamePadHoverBit extends Fragment {
     public short CONTROLLER = 1104;
 
     GamePadListener activityCommander;
-    ImageButton btn_pitchBackwards;
-    ImageButton btn_pitchForward;
     ImageButton btn_rollLeft;
     ImageButton btn_rollRight;
     ImageButton btn_throttleUp;
     ImageButton btn_throttleDown;
-    ImageButton btn_yawLeft;
-    ImageButton btn_yawRight;
+    ImageButton btn_settings;
     MaterialButton btn_segment_hoverbit;
     MaterialButton btn_segment_airbit;
     Button btn_start;
     Button btn_stop;
-    Slider slider;
+
     int throttle;
-    float trim;
-    private Gyroscope gyroscope;
+    private Accelerometer accelerometer;
     int gyroPos = 0;
     boolean gyroscopeEnabled = false;
 
@@ -78,6 +76,7 @@ public class FragmentGamePadHoverBit extends Fragment {
         view = inflater.inflate(R.layout.fragment_game_pad_hover_bit, container, false);
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+
         //Initializing all buttons
         btn_throttleUp = view.findViewById(R.id.btn_throttle_up_hover);
         btn_throttleDown = view.findViewById(R.id.btn_throttle_down_hover);
@@ -87,57 +86,37 @@ public class FragmentGamePadHoverBit extends Fragment {
         btn_stop = view.findViewById(R.id.btn_stop_hover);
         btn_segment_hoverbit = view.findViewById(R.id.segment_hoverbit_hover);
         btn_segment_airbit = view.findViewById(R.id.segment_airbit_hover);
+        btn_settings = view.findViewById(R.id.btn_settings_hover);
 
         //Default layout with Hover:Bit selected
         btn_throttleUp.setEnabled(false);
         btn_throttleDown.setEnabled(false);
         btn_stop.setVisibility(View.GONE);
 
-        gyroscope = new Gyroscope(getActivity());
+        Bundle bundle = this.getArguments();
 
-        /*if (gyroscopeEnabled) {
-            gyroscope.setListener(new Gyroscope.Listener() {
-                @Override
-                public void onRotation(float rx, float ry, float rz) {
+        if (bundle != null) {
+            gyroscopeEnabled = bundle.getBoolean("gyroEnabled");
+        }
 
-                    if (rx > 1.5f) {
-                        short value = TURN_RIGHT_PRESSED;
-                        short id = CONTROLLER;
-                        activityCommander.passDpadPress(id, value);
-                        gyroPos = 1;
+        accelerometer = new Accelerometer(getActivity());
 
-                    } else if (rx < -1.5f) {
-                        short value = TURN_LEFT_PRESSED;
-                        short id = CONTROLLER;
-                        activityCommander.passDpadPress(id, value);
-                        gyroPos = -1;
 
-                    } else if (rx < 1.5f && rx > -1.5f) {
-
-                        if (gyroPos != 0) {
-
-                            if (gyroPos == -1) {
-                                short value = TURN_LEFT_RELEASED;
-                                short id = CONTROLLER;
-                                activityCommander.passDpadPress(id, value);
-                            } else if (gyroPos == 1) {
-                                short value = TURN_RIGHT_RELEASED;
-                                short id = CONTROLLER;
-                                activityCommander.passDpadPress(id, value);
-                            }
-                            gyroPos = 0;
-                        }
-                    }
-                }
-            });
-        }*/
+        btn_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSettings();
+            }
+        });
 
         btn_segment_airbit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentGamePadAirBit fragmentGamePadAirBit = new FragmentGamePadAirBit();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_area, fragmentGamePadAirBit).commit();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_area, fragmentGamePadAirBit)
+                        .commit();
             }
         });
 
@@ -153,8 +132,9 @@ public class FragmentGamePadHoverBit extends Fragment {
                 throttle = 0;
                 btn_stop.setVisibility(View.VISIBLE);
                 btn_start.setVisibility(View.GONE);
-
-
+                if (gyroscopeEnabled) {
+                    enableGyroscope();
+                }
             }
         });
 
@@ -169,6 +149,7 @@ public class FragmentGamePadHoverBit extends Fragment {
                 throttle = 0;
                 btn_stop.setVisibility(View.GONE);
                 btn_start.setVisibility(View.VISIBLE);
+                disableGyroscope();
             }
         });
 
@@ -294,12 +275,67 @@ public class FragmentGamePadHoverBit extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        gyroscope.register();
+        accelerometer.register();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        gyroscope.unregister();
+        accelerometer.unregister();
+    }
+
+    public void goToSettings() {
+
+        Bundle bundle = new Bundle();
+
+        bundle.putBoolean("gyroEnabled", gyroscopeEnabled);
+
+        FragmentSettings fragmentSettings = new FragmentSettings();
+        fragmentSettings.setArguments(bundle);
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_area, fragmentSettings)
+                .commit();
+    }
+
+    public void enableGyroscope() {
+        accelerometer.setListener(new Accelerometer.Listener() {
+            @Override
+            public void onRotation(float rx, float ry, float rz) {
+                if (ry > 3.2f) {
+                    short value = TURN_RIGHT_PRESSED;
+                    short id = CONTROLLER;
+                    activityCommander.passDpadPress(id, value);
+                    gyroPos = 1;
+
+                } else if (ry < -3.2f) {
+                    short value = TURN_LEFT_PRESSED;
+                    short id = CONTROLLER;
+                    activityCommander.passDpadPress(id, value);
+                    gyroPos = -1;
+
+                } else if (ry < 2.5f && ry > -2.5f) {
+
+                    if (gyroPos != 0) {
+
+                        if (gyroPos == -1) {
+                            short value = TURN_LEFT_RELEASED;
+                            short id = CONTROLLER;
+                            activityCommander.passDpadPress(id, value);
+                        } else if (gyroPos == 1) {
+                            short value = TURN_RIGHT_RELEASED;
+                            short id = CONTROLLER;
+                            activityCommander.passDpadPress(id, value);
+                        }
+                        gyroPos = 0;
+                    }
+                }
+            }
+        });
+        accelerometer.register();
+    }
+
+    public void disableGyroscope() {
+        accelerometer.unregister();
     }
 }

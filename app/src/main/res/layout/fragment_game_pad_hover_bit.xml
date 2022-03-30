@@ -12,45 +12,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:layout_marginBottom="50dp"
-        android:layout_marginStart="20dp">
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_start_hover"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
             android:background="@drawable/rounded_corners"
             android:text="@string/start" />
 
         <Button
             android:id="@+id/btn_stop_hover"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
+            android:background="@drawable/rounded_corners"
             android:text="@string/stop" />
 
 
-            <ImageButton
-                android:id="@+id/btn_throttle_up_hover"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@drawable/rounded_corners"
-                android:src="@drawable/ic_throttle_up" />
+        <ImageButton
+            android:id="@+id/btn_throttle_up_hover"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_corners"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_throttle_up" />
 
-            <ImageButton
-                android:id="@+id/btn_throttle_down_hover"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="2dp"
-                android:layout_marginTop="100dp"
-                android:background="@drawable/rounded_corners"
-                android:src="@drawable/ic_throttle_down" />
+        <ImageButton
+            android:id="@+id/btn_throttle_down_hover"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/rounded_corners"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_throttle_down" />
 
     </LinearLayout>
 
@@ -63,8 +60,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp">
-
+        android:layout_marginBottom="130dp">
 
 
         <LinearLayout
@@ -97,7 +93,6 @@
         </LinearLayout>
 
 
-
     </RelativeLayout>
 
     <com.google.android.material.button.MaterialButtonToggleGroup
@@ -107,7 +102,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_marginTop="2dp"
-        app:checkedButton="@id/segment_hoverbit"
+        app:checkedButton="@id/segment_hoverbit_hover"
         app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
@@ -117,7 +112,7 @@
             android:layout_height="wrap_content"
             android:text="@string/air_bit"
             app:icon="@drawable/ic_airbit_transparent"
-            app:iconSize="50dp"/>
+            app:iconSize="50dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/segment_hoverbit_hover"
@@ -126,9 +121,17 @@
             android:layout_height="wrap_content"
             android:text="@string/hover_bit"
             app:icon="@drawable/ic_hoverbit_transparent"
-            app:iconSize="50dp"/>
+            app:iconSize="50dp" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
+    <ImageButton
+        android:id="@+id/btn_settings_hover"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_settings"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"/>
 
 </RelativeLayout>

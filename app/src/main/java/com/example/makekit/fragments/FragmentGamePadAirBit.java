@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +21,6 @@ import androidx.fragment.app.Fragment;
 import com.example.makekit.R;
 import com.example.makekit.sensors.Gyroscope;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.slider.Slider;
 
 
 public class FragmentGamePadAirBit extends Fragment {
@@ -50,6 +51,7 @@ public class FragmentGamePadAirBit extends Fragment {
     ImageButton btn_throttleDown;
     ImageButton btn_yawLeft;
     ImageButton btn_yawRight;
+    ImageButton btn_settings;
     MaterialButton btn_segment_hoverbit;
     MaterialButton btn_segment_airbit;
     Button btn_start;
@@ -60,6 +62,7 @@ public class FragmentGamePadAirBit extends Fragment {
     private Gyroscope gyroscope;
     int gyroPos = 0;
     boolean gyroscopeEnabled = false;
+    RelativeLayout layout_joystick;
 
     View view;
 
@@ -82,6 +85,12 @@ public class FragmentGamePadAirBit extends Fragment {
         view = inflater.inflate(R.layout.fragment_game_pad_airbit, container, false);
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        Bundle bundle = this.getArguments();
+
+        if (bundle != null) {
+            gyroscopeEnabled = bundle.getBoolean("gyroEnabled");
+        }
+
         //Initializing all buttons
         btn_throttleUp = view.findViewById(R.id.btn_throttle_up);
         btn_throttleDown = view.findViewById(R.id.btn_throttle_down);
@@ -95,9 +104,8 @@ public class FragmentGamePadAirBit extends Fragment {
         btn_stop = view.findViewById(R.id.btn_stop);
         btn_segment_hoverbit = view.findViewById(R.id.segment_hoverbit);
         btn_segment_airbit = view.findViewById(R.id.segment_airbit);
+        btn_settings = view.findViewById(R.id.btn_settings_air);
         tv_throttle = view.findViewById(R.id.tv_throttle_air);
-
-        //Default layout with Hover:Bit selected
 
         btn_throttleUp.setEnabled(false);
         btn_throttleDown.setEnabled(false);
@@ -106,44 +114,12 @@ public class FragmentGamePadAirBit extends Fragment {
         btn_stop.setVisibility(View.GONE);
 
 
-        gyroscope = new Gyroscope(getActivity());
-
-        /*if (gyroscopeEnabled) {
-            gyroscope.setListener(new Gyroscope.Listener() {
-                @Override
-                public void onRotation(float rx, float ry, float rz) {
-
-                    if (rx > 1.5f) {
-                        short value = TURN_RIGHT_PRESSED;
-                        short id = CONTROLLER;
-                        activityCommander.passDpadPress(id, value);
-                        gyroPos = 1;
-
-                    } else if (rx < -1.5f) {
-                        short value = TURN_LEFT_PRESSED;
-                        short id = CONTROLLER;
-                        activityCommander.passDpadPress(id, value);
-                        gyroPos = -1;
-
-                    } else if (rx < 1.5f && rx > -1.5f) {
-
-                        if (gyroPos != 0) {
-
-                            if (gyroPos == -1) {
-                                short value = TURN_LEFT_RELEASED;
-                                short id = CONTROLLER;
-                                activityCommander.passDpadPress(id, value);
-                            } else if (gyroPos == 1) {
-                                short value = TURN_RIGHT_RELEASED;
-                                short id = CONTROLLER;
-                                activityCommander.passDpadPress(id, value);
-                            }
-                            gyroPos = 0;
-                        }
-                    }
-                }
-            });
-        }*/
+        btn_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSettings();
+            }
+        });
 
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +147,8 @@ public class FragmentGamePadAirBit extends Fragment {
                 activityCommander.passDpadPress(id, value);
                 btn_throttleUp.setEnabled(false);
                 btn_throttleDown.setEnabled(false);
+                btn_yawLeft.setEnabled(false);
+                btn_yawRight.setEnabled(false);
                 throttle = 0;
                 btn_stop.setVisibility(View.GONE);
                 btn_start.setVisibility(View.VISIBLE);
@@ -224,7 +202,7 @@ public class FragmentGamePadAirBit extends Fragment {
                         short value = THROTTLE_DOWN_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
-                        if (throttle < 1){
+                        if (throttle < 1) {
                             btn_start.setVisibility(View.VISIBLE);
                             btn_stop.setVisibility(View.GONE);
                             btn_throttleUp.setEnabled(false);
@@ -319,8 +297,6 @@ public class FragmentGamePadAirBit extends Fragment {
         });
 
 
-
-
         btn_pitchForward.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -364,12 +340,18 @@ public class FragmentGamePadAirBit extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        gyroscope.register();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        gyroscope.unregister();
+    }
+
+    public void goToSettings() {
+        FragmentSettings fragmentSettings = new FragmentSettings();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_area, fragmentSettings)
+                .commit();
     }
 }
