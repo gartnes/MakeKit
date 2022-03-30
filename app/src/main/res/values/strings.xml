@@ -35,4 +35,14 @@
     <string name="_0">0</string>
     <string name="gamepad">Gamepad</string>
     <string name="connect_to_micro_bit">Connect to Micro:bit</string>
+    <string name="PitchBackwards">Pitch backwards</string>
+    <string name="ThrottleDown">Throttle down</string>
+    <string name="ThrottleUp">Throttle up</string>
+    <string name="YawLeft">Yaw left</string>
+    <string name="YawRight">Yaw right</string>
+    <string name="PitchForward">Pitch forward</string>
+    <string name="RollLeft">Roll left</string>
+    <string name="RollRight">Roll right</string>
+    <string name="TurnLeft">Turn left</string>
+    <string name="TurnRight">Turn right</string>
 </resources>

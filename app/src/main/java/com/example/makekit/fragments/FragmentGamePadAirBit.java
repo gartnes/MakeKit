@@ -134,8 +134,6 @@ public class FragmentGamePadAirBit extends Fragment {
                 throttle = 0;
                 btn_stop.setVisibility(View.VISIBLE);
                 btn_start.setVisibility(View.GONE);
-
-
             }
         });
 

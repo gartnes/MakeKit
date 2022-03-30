@@ -23,9 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
+        android:orientation="vertical"
         android:layout_marginBottom="30dp"
-        android:orientation="vertical">
+        android:layout_marginStart="20dp"
+        android:gravity="center">
+
 
         <Button
             android:id="@+id/btn_start"
@@ -33,7 +35,8 @@
             android:layout_height="match_parent"
             android:layout_margin="30dp"
             android:background="@drawable/rounded_corners"
-            android:text="@string/start" />
+            android:text="@string/start"/>
+
 
         <Button
             android:id="@+id/btn_stop"
@@ -43,11 +46,37 @@
             android:background="@drawable/rounded_corners"
             android:text="@string/stop" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ThrottleUp"
+            android:textColor="@color/Orange" />
 
         <RelativeLayout
             android:id="@+id/rellay_throttle_yaw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_yaw_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/YawLeft"
+                android:layout_marginTop="80dp"
+                android:layout_marginStart="25dp"
+                android:textColor="@color/Orange"
+                android:layout_alignParentStart="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="150dp"
+                android:layout_marginTop="80dp"
+                android:text="@string/YawRight"
+                android:textColor="@color/Orange"
+                android:layout_toRightOf="@+id/tv_yaw_left"
+                />
 
             <ImageButton
                 android:id="@+id/btn_throttle_up"
@@ -100,6 +129,12 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ThrottleDown"
+            android:textColor="@color/Orange"/>
+
     </LinearLayout>
 
     <TextView
@@ -115,6 +150,8 @@
         android:layout_marginStart="5dp"
         android:layout_marginBottom="30dp"/>
 
+
+
     <LinearLayout
         android:id="@+id/joystick_btns_layout"
         android:layout_width="wrap_content"
@@ -122,12 +159,39 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="30dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/PitchForward"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/Orange" />
+
+
 
         <RelativeLayout
             android:id="@+id/rellay_pitch_roll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/RollLeft"
+                android:layout_marginTop="80dp"
+                android:layout_marginStart="25dp"
+                android:textColor="@color/Orange"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="230dp"
+                android:layout_marginTop="80dp"
+                android:text="@string/RollRight"
+                android:textColor="@color/Orange" />
 
             <ImageButton
                 android:id="@+id/btn_pitch_forward"
@@ -188,7 +252,12 @@
 
         </RelativeLayout>
 
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/PitchBackwards"
+            android:gravity="center"
+            android:textColor="@color/Orange"/>
 
     </LinearLayout>
 
