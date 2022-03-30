@@ -8,6 +8,14 @@
     android:background="@color/BlueNorwegianFlag"
     tools:ignore="MissingDefaultResource">
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_airbit_logo"
+        android:layout_below="@id/segmentedGroup"
+        android:layout_centerHorizontal="true"/>
+
+
     <LinearLayout
         android:id="@+id/linlay_left"
         android:layout_width="wrap_content"
@@ -105,75 +113,84 @@
         android:layout_marginStart="5dp"
         android:layout_marginBottom="30dp"/>
 
-    <RelativeLayout
-        android:id="@+id/rellay_pitch_roll"
+    <LinearLayout
+        android:id="@+id/joystick_btns_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp">
+        android:layout_alignParentRight="true"
+        android:layout_margin="30dp"
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/btn_pitch_forward"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp"
-            android:background="@drawable/rounded_corners"
-            android:src="@drawable/ic_arrow_up"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <LinearLayout
-            android:id="@+id/linlay_roll"
+        <RelativeLayout
+            android:id="@+id/rellay_pitch_roll"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_pitch_forward"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <ImageButton
-                android:id="@+id/btn_roll_left"
+                android:id="@+id/btn_pitch_forward"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
                 android:background="@drawable/rounded_corners"
-                android:src="@drawable/ic_arrow_left"
+                android:src="@drawable/ic_arrow_up"
                 tools:ignore="SpeakableTextPresentCheck" />
+
+            <LinearLayout
+                android:id="@+id/linlay_roll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_pitch_forward"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btn_roll_left"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/rounded_corners"
+                    android:src="@drawable/ic_arrow_left"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <ImageButton
+                    android:id="@+id/btn_roll_right"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="110dp"
+                    android:background="@drawable/rounded_corners"
+                    android:src="@drawable/ic_arrow_right"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+            </LinearLayout>
 
             <ImageButton
-                android:id="@+id/btn_roll_right"
+                android:id="@+id/btn_pitch_backwards"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginStart="110dp"
+                android:layout_below="@+id/linlay_roll"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
                 android:background="@drawable/rounded_corners"
-                android:src="@drawable/ic_arrow_right"
+                android:src="@drawable/ic_arrow_down"
                 tools:ignore="SpeakableTextPresentCheck" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <ImageButton
-            android:id="@+id/btn_pitch_backwards"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_below="@+id/linlay_roll"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp"
-            android:background="@drawable/rounded_corners"
-            android:src="@drawable/ic_arrow_down"
-            tools:ignore="SpeakableTextPresentCheck" />
 
-    </RelativeLayout>
+
+    </LinearLayout>
+
+
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/segmentedGroup"
