@@ -12,4 +12,5 @@
     <color name="BlueNorwegianFlag">#003087</color>
     <color name="RedNorwegianFlag">#FFC8102E</color>
     <color name="Orange">#EF9228</color>
+    <color name="grey">#FFBBBBBB</color>
 </resources>

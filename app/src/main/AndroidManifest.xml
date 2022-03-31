@@ -38,6 +38,9 @@
         <service
             android:name="com.example.makekit.ble.BleAdapterService"
             android:enabled="true" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

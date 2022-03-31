@@ -51,7 +51,7 @@ public class FragmentGamePadHoverBit extends Fragment {
     int throttle;
     private Accelerometer accelerometer;
     int gyroPos = 0;
-    boolean gyroscopeEnabled = false;
+    boolean accelerometerEnabled;
 
     View view;
 
@@ -94,7 +94,7 @@ public class FragmentGamePadHoverBit extends Fragment {
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
-            gyroscopeEnabled = bundle.getBoolean("gyroEnabled");
+            accelerometerEnabled = bundle.getBoolean("accelerometerEnabled");
         }
 
         accelerometer = new Accelerometer(getActivity());
@@ -112,7 +112,7 @@ public class FragmentGamePadHoverBit extends Fragment {
             public void onClick(View view) {
                 FragmentGamePadAirBit fragmentGamePadAirBit = new FragmentGamePadAirBit();
                 Bundle bundle = new Bundle();
-                bundle.putBoolean("gyroEnabled", gyroscopeEnabled);
+                bundle.putBoolean("gyroEnabled", accelerometerEnabled);
                 fragmentGamePadAirBit.setArguments(bundle);
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
@@ -133,8 +133,8 @@ public class FragmentGamePadHoverBit extends Fragment {
                 throttle = 0;
                 btn_stop.setVisibility(View.VISIBLE);
                 btn_start.setVisibility(View.GONE);
-                if (gyroscopeEnabled) {
-                    enableGyroscope();
+                if (accelerometerEnabled) {
+                    enableAccelerometer();
                 }
             }
         });
@@ -289,7 +289,7 @@ public class FragmentGamePadHoverBit extends Fragment {
 
         Bundle bundle = new Bundle();
 
-        bundle.putBoolean("gyroEnabled", gyroscopeEnabled);
+        bundle.putBoolean("accelerometerEnabled", accelerometerEnabled);
 
         FragmentSettings fragmentSettings = new FragmentSettings();
         fragmentSettings.setArguments(bundle);
@@ -299,17 +299,17 @@ public class FragmentGamePadHoverBit extends Fragment {
                 .commit();
     }
 
-    public void enableGyroscope() {
+    public void enableAccelerometer() {
         accelerometer.setListener(new Accelerometer.Listener() {
             @Override
             public void onRotation(float rx, float ry, float rz) {
-                if (ry > 3.2f) {
+                if (ry > 2.5f) {
                     short value = TURN_RIGHT_PRESSED;
                     short id = CONTROLLER;
                     activityCommander.passDpadPress(id, value);
                     gyroPos = 1;
 
-                } else if (ry < -3.2f) {
+                } else if (ry < -2.5f) {
                     short value = TURN_LEFT_PRESSED;
                     short id = CONTROLLER;
                     activityCommander.passDpadPress(id, value);

@@ -3,9 +3,9 @@ package com.example.makekit.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,10 +21,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.makekit.R;
-import com.example.makekit.sensors.Gyroscope;
+import com.example.makekit.ble.Handle;
+import com.example.makekit.sensors.Accelerometer;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 
 public class FragmentGamePadAirBit extends Fragment {
@@ -68,12 +70,13 @@ public class FragmentGamePadAirBit extends Fragment {
 
     TextView tv_throttle;
     int throttle;
-    float trim;
-    private Gyroscope gyroscope;
-    int gyroPos = 0;
-    boolean gyroscopeEnabled = false;
+    int gyroPosX = 0;
+    int gyroPosY = 0;
+    int gyroPosZ = 0;
+    boolean accelerometerEnabled;
     boolean flippedGamepad = false;
-    RelativeLayout layout_joystick;
+    Accelerometer accelerometer;
+    Handler handler;
 
     View view;
 
@@ -96,15 +99,13 @@ public class FragmentGamePadAirBit extends Fragment {
         view = inflater.inflate(R.layout.fragment_game_pad_airbit, container, false);
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        accelerometer = new Accelerometer(getActivity());
         Bundle bundle = this.getArguments();
+        handler = new Handler();
 
         if (bundle != null) {
-            gyroscopeEnabled = bundle.getBoolean("gyroEnabled");
+            accelerometerEnabled = bundle.getBoolean("accelerometerEnabled");
             flippedGamepad = bundle.getBoolean("flipped");
-        }
-
-        if(flippedGamepad){
-            flipGamepad();
         }
 
         //Initializing all buttons
@@ -150,25 +151,69 @@ public class FragmentGamePadAirBit extends Fragment {
                 btn_throttleDown.setEnabled(true);
                 btn_yawLeft.setEnabled(true);
                 btn_yawRight.setEnabled(true);
-                throttle = 0;
+                throttle = 1;
+                tv_throttle.setText(String.valueOf(throttle));
                 btn_stop.setVisibility(View.VISIBLE);
                 btn_start.setVisibility(View.GONE);
+                if (accelerometerEnabled) {
+                    enableAccelerometer();
+                }
             }
         });
 
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                short value = YAW_LEFT_PRESSED;
-                short id = CONTROLLER;
-                activityCommander.passDpadPress(id, value);
-                btn_throttleUp.setEnabled(false);
-                btn_throttleDown.setEnabled(false);
-                btn_yawLeft.setEnabled(false);
-                btn_yawRight.setEnabled(false);
-                throttle = 0;
+
+
                 btn_stop.setVisibility(View.GONE);
                 btn_start.setVisibility(View.VISIBLE);
+                btn_start.setEnabled(false);
+                btn_start.setBackgroundResource(R.drawable.custom_btns_grey);
+                disableGyroscope();
+
+                for(int i = throttle; i > 0; i--){
+                    short value1 = THROTTLE_DOWN_PRESSED;
+                    short id1 = CONTROLLER;
+                    activityCommander.passDpadPress(id1, value1);
+                    throttle -= 1;
+                    System.out.println(throttle);
+
+                    handler.post(new Runnable() {
+                        public void run() {
+                            tv_throttle.setText(String.valueOf(throttle));
+                        }
+                    });
+
+                    if(throttle < 1){
+                        short value = YAW_LEFT_PRESSED;
+                        short id = CONTROLLER;
+                        activityCommander.passDpadPress(id, value);
+                        btn_throttleUp.setEnabled(false);
+                        btn_throttleDown.setEnabled(false);
+                        btn_yawLeft.setEnabled(false);
+                        btn_yawRight.setEnabled(false);
+                        btn_start.setEnabled(true);
+                        btn_start.setBackgroundResource(R.drawable.custom_btns_orange);
+                        throttle = 0;
+                        tv_throttle.setText(String.valueOf(throttle));
+                    }
+
+                    if(throttle > 10){
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(250);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
             }
         });
 
@@ -177,7 +222,7 @@ public class FragmentGamePadAirBit extends Fragment {
             public void onClick(View view) {
                 FragmentGamePadHoverBit fragmentGamePadHoverBit = new FragmentGamePadHoverBit();
                 Bundle bundle = new Bundle();
-                bundle.putBoolean("gyroEnabled", gyroscopeEnabled);
+                bundle.putBoolean("gyroEnabled", accelerometerEnabled);
                 fragmentGamePadHoverBit.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_area, fragmentGamePadHoverBit).commit();
@@ -217,17 +262,26 @@ public class FragmentGamePadAirBit extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case 0:
-                        throttle -= 1;
-                        tv_throttle.setText(String.valueOf(throttle));
                         short value = THROTTLE_DOWN_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
-                        if (throttle < 1) {
+                        if (throttle < 2) {
                             btn_start.setVisibility(View.VISIBLE);
                             btn_stop.setVisibility(View.GONE);
+                            throttle = 0;
+                            tv_throttle.setText(String.valueOf(throttle));
                             btn_throttleUp.setEnabled(false);
                             btn_throttleDown.setEnabled(false);
+                            btn_yawLeft.setEnabled(false);
+                            btn_yawRight.setEnabled(false);
+                            short value1 = YAW_LEFT_PRESSED;
+                            short id1 = CONTROLLER;
+                            activityCommander.passDpadPress(id1, value1);
+                        }else{
+                            throttle -= 1;
+                            tv_throttle.setText(String.valueOf(throttle));
                         }
+
                         return true;
                     case 1:
                         short value2 = THROTTLE_DOWN_RELEASED;
@@ -357,6 +411,105 @@ public class FragmentGamePadAirBit extends Fragment {
         return view;
     }
 
+    public void enableAccelerometer() {
+        accelerometer.setListener(new Accelerometer.Listener() {
+            @Override
+            public void onRotation(float rx, float ry, float rz) {
+                if (ry > 2.5f) {
+                    short value = ROLL_LEFT_PRESSED;
+                    short id = CONTROLLER;
+                    activityCommander.passDpadPress(id, value);
+                    gyroPosY = 1;
+
+                } else if (ry < -2.5f) {
+                    short value = ROLL_RIGHT_PRESSED;
+                    short id = CONTROLLER;
+                    activityCommander.passDpadPress(id, value);
+                    gyroPosY = -1;
+
+                } else if (ry < 2.5f && ry > -2.5f) {
+
+                    if (gyroPosY != 0) {
+
+                        if (gyroPosY == -1) {
+                            short value = ROLL_LEFT_RELEASED;
+                            short id = CONTROLLER;
+                            activityCommander.passDpadPress(id, value);
+                        } else if (gyroPosY == 1) {
+                            short value = ROLL_RIGHT_RELEASED;
+                            short id = CONTROLLER;
+                            activityCommander.passDpadPress(id, value);
+                        }
+                        gyroPosY = 0;
+                    }
+                }
+
+                if (rx > 2.5f) {
+                    short value = PITCH_FORWARD_PRESSED;
+                    short id = CONTROLLER;
+                    activityCommander.passDpadPress(id, value);
+                    gyroPosX = 1;
+
+                } else if (rx < -2.5f) {
+                    short value = PITCH_BACKWARDS_PRESSED;
+                    short id = CONTROLLER;
+                    activityCommander.passDpadPress(id, value);
+                    gyroPosX = -1;
+
+                } else if (rx < 2.5f && ry > -2.5f) {
+
+                    if (gyroPosX != 0) {
+
+                        if (gyroPosX == -1) {
+                            short value = PITCH_FORWARD_RELEASED;
+                            short id = CONTROLLER;
+                            activityCommander.passDpadPress(id, value);
+                        } else if (gyroPosX == 1) {
+                            short value = PITCH_BACKWARDS_RELEASED;
+                            short id = CONTROLLER;
+                            activityCommander.passDpadPress(id, value);
+                        }
+                        gyroPosX = 0;
+                    }
+                }
+
+                if (rz > 2.5f) {
+                    short value = YAW_LEFT_PRESSED;
+                    short id = CONTROLLER;
+                    activityCommander.passDpadPress(id, value);
+                    gyroPosZ = 1;
+
+                } else if (rz < -2.5f) {
+                    short value = YAW_RIGHT_PRESSED;
+                    short id = CONTROLLER;
+                    activityCommander.passDpadPress(id, value);
+                    gyroPosZ = -1;
+
+                } else if (rz < 2.5f && ry > -2.5f) {
+
+                    if (gyroPosZ != 0) {
+
+                        if (gyroPosZ == -1) {
+                            short value = YAW_LEFT_RELEASED;
+                            short id = CONTROLLER;
+                            activityCommander.passDpadPress(id, value);
+                        } else if (gyroPosZ == 1) {
+                            short value = YAW_RIGHT_RELEASED;
+                            short id = CONTROLLER;
+                            activityCommander.passDpadPress(id, value);
+                        }
+                        gyroPosZ = 0;
+                    }
+                }
+            }
+        });
+        accelerometer.register();
+    }
+
+    public void disableGyroscope() {
+        accelerometer.unregister();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -369,23 +522,15 @@ public class FragmentGamePadAirBit extends Fragment {
 
     public void goToSettings() {
         FragmentSettings fragmentSettings = new FragmentSettings();
+        Bundle bundle1 = new Bundle();
+        bundle1.putBoolean("airbit", true);
+        bundle1.putBoolean("accelerometerEnabled", accelerometerEnabled);
+        fragmentSettings.setArguments(bundle1);
+
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_area, fragmentSettings)
                 .commit();
-
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("airbit", true);
-
-        fragmentSettings.setArguments(bundle);
     }
 
-    public void flipGamepad(){
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
-        throttle_yaw.setLeft(0);
-        pitch_roll.setX(30);
-    }
 }

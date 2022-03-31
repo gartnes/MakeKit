@@ -26,8 +26,8 @@ public class FragmentSettings extends Fragment {
     }
 
     View view;
-    boolean gyroscopeEnabled,flippedGamepad, goBackToAirbit = false;
-    SwitchCompat gyroSwitch, flipSwitch;
+    boolean accelerometerEnabled,flippedGamepad, goBackToAirbit = false;
+    SwitchCompat accelerometerSwitch, flipSwitch;
     ImageButton btn_back;
     Button btn_connect_microbit;
 
@@ -35,7 +35,7 @@ public class FragmentSettings extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        gyroSwitch = view.findViewById(R.id.settings_switch_gyro);
+        accelerometerSwitch = view.findViewById(R.id.settings_switch_gyro);
         flipSwitch = view.findViewById(R.id.settings_switch_flip);
         btn_back = view.findViewById(R.id.btn_back_settings);
         btn_connect_microbit = view.findViewById(R.id.btn_connect_settings);
@@ -43,10 +43,9 @@ public class FragmentSettings extends Fragment {
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
-            gyroscopeEnabled = bundle.getBoolean("gyroEnabled");
-            gyroSwitch.setChecked(gyroscopeEnabled);
+            accelerometerEnabled = bundle.getBoolean("accelerometerEnabled");
+            accelerometerSwitch.setChecked(accelerometerEnabled);
             goBackToAirbit = bundle.getBoolean("airbit");
-
         }
 
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +54,7 @@ public class FragmentSettings extends Fragment {
 
                 if(!goBackToAirbit){
                     Bundle bundle = new Bundle();
-                    bundle.putBoolean("gyroEnabled", gyroscopeEnabled);
+                    bundle.putBoolean("accelerometerEnabled", accelerometerEnabled);
                     bundle.putBoolean("flipped", flippedGamepad);
 
                     FragmentGamePadHoverBit fragmentGamePadHoverBit = new FragmentGamePadHoverBit();
@@ -67,7 +66,7 @@ public class FragmentSettings extends Fragment {
                             .commit();
                 }else {
                     Bundle bundle = new Bundle();
-                    bundle.putBoolean("gyroEnabled", gyroscopeEnabled);
+                    bundle.putBoolean("accelerometerEnabled", accelerometerEnabled);
                     bundle.putBoolean("flipped", flippedGamepad);
 
                     FragmentGamePadAirBit fragmentGamePadAirBit = new FragmentGamePadAirBit();
@@ -88,10 +87,10 @@ public class FragmentSettings extends Fragment {
             }
         });
 
-        gyroSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        accelerometerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                gyroscopeEnabled = compoundButton.isChecked();
+                accelerometerEnabled = compoundButton.isChecked();
             }
         });
 
