@@ -26,8 +26,8 @@ public class FragmentSettings extends Fragment {
     }
 
     View view;
-    boolean gyroscopeEnabled = false;
-    SwitchCompat gyroSwitch;
+    boolean gyroscopeEnabled,flippedGamepad, goBackToAirbit = false;
+    SwitchCompat gyroSwitch, flipSwitch;
     ImageButton btn_back;
     Button btn_connect_microbit;
 
@@ -36,6 +36,7 @@ public class FragmentSettings extends Fragment {
         view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         gyroSwitch = view.findViewById(R.id.settings_switch_gyro);
+        flipSwitch = view.findViewById(R.id.settings_switch_flip);
         btn_back = view.findViewById(R.id.btn_back_settings);
         btn_connect_microbit = view.findViewById(R.id.btn_connect_settings);
 
@@ -44,6 +45,7 @@ public class FragmentSettings extends Fragment {
         if (bundle != null) {
             gyroscopeEnabled = bundle.getBoolean("gyroEnabled");
             gyroSwitch.setChecked(gyroscopeEnabled);
+            goBackToAirbit = bundle.getBoolean("airbit");
 
         }
 
@@ -51,16 +53,31 @@ public class FragmentSettings extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("gyroEnabled", gyroscopeEnabled);
+                if(!goBackToAirbit){
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("gyroEnabled", gyroscopeEnabled);
+                    bundle.putBoolean("flipped", flippedGamepad);
 
-                FragmentGamePadHoverBit fragmentGamePadHoverBit = new FragmentGamePadHoverBit();
-                fragmentGamePadHoverBit.setArguments(bundle);
+                    FragmentGamePadHoverBit fragmentGamePadHoverBit = new FragmentGamePadHoverBit();
+                    fragmentGamePadHoverBit.setArguments(bundle);
 
-                getActivity().getSupportFragmentManager().
-                        beginTransaction()
-                        .replace(R.id.fragment_area, fragmentGamePadHoverBit)
-                        .commit();
+                    getActivity().getSupportFragmentManager().
+                            beginTransaction()
+                            .replace(R.id.fragment_area, fragmentGamePadHoverBit)
+                            .commit();
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("gyroEnabled", gyroscopeEnabled);
+                    bundle.putBoolean("flipped", flippedGamepad);
+
+                    FragmentGamePadAirBit fragmentGamePadAirBit = new FragmentGamePadAirBit();
+                    fragmentGamePadAirBit.setArguments(bundle);
+
+                    getActivity().getSupportFragmentManager().
+                            beginTransaction()
+                            .replace(R.id.fragment_area, fragmentGamePadAirBit)
+                            .commit();
+                }
             }
         });
 
@@ -75,6 +92,13 @@ public class FragmentSettings extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 gyroscopeEnabled = compoundButton.isChecked();
+            }
+        });
+
+        flipSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                flippedGamepad = compoundButton.isChecked();
             }
         });
 

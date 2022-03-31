@@ -43,15 +43,40 @@
         android:id="@+id/settings_switch_gyro"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_toEndOf="@+id/tv_gyro_settings"
         android:layout_below="@+id/settings_linlay_top"
-        android:layout_margin="10dp"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/tv_gyro_settings" />
+
+    <TextView
+        android:id="@+id/tv_flip_gamepad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Flipped gamepad"
+        android:layout_below="@+id/tv_gyro_settings"
+        android:textSize="30sp" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/settings_switch_flip"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tv_gyro_settings"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/tv_flip_gamepad" />
 
     <Button
         android:id="@+id/btn_connect_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_gyro_settings"
+        android:layout_below="@+id/tv_flip_gamepad"
         android:text="@string/connect_to_micro_bit"
         android:layout_margin="10dp"/>
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MakeKit</string>
-    <string name="air_bit">Air:Bit</string>
-    <string name="hover_bit">Hover:Bit</string>
+    <string name="air_bit">Air:bit</string>
+    <string name="hover_bit">Hover:bit</string>
     <string name="paired_devices">Paired devices</string>
     <string name="find_bluetooth_device">Find device</string>
     <string name="get_paired_devices">Show paired devices</string>

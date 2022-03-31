@@ -8,42 +8,42 @@
     android:background="@color/BlueNorwegianFlag"
     tools:ignore="MissingDefaultResource">
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="50dp"
-        android:src="@drawable/ic_airbit_logo"
-        android:layout_below="@id/segmentedGroup"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/qtypesquarebook"
+        android:text="@string/air_bit"
+        android:textSize="70sp"
+        android:textColor="@color/Orange"
+        android:layout_margin="30dp"/>
 
     <LinearLayout
-        android:id="@+id/linlay_left"
+        android:id="@+id/throttle_yaw_btns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:layout_marginBottom="30dp"
         android:layout_marginStart="20dp"
-        android:gravity="center">
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_start"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:background="@drawable/rounded_corners"
-            android:text="@string/start"/>
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/custom_btns_orange"
+            android:text="@string/start" />
 
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_stop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:background="@drawable/rounded_corners"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/custom_btns_red"
             android:text="@string/stop" />
 
         <TextView
@@ -61,22 +61,20 @@
                 android:id="@+id/tv_yaw_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/YawLeft"
-                android:layout_marginTop="80dp"
-                android:layout_marginStart="25dp"
-                android:textColor="@color/Orange"
                 android:layout_alignParentStart="true"
-                />
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="80dp"
+                android:text="@string/YawLeft"
+                android:textColor="@color/Orange" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="150dp"
                 android:layout_marginTop="80dp"
-                android:text="@string/YawRight"
-                android:textColor="@color/Orange"
                 android:layout_toRightOf="@+id/tv_yaw_left"
-                />
+                android:text="@string/YawRight"
+                android:textColor="@color/Orange" />
 
             <ImageButton
                 android:id="@+id/btn_throttle_up"
@@ -87,7 +85,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="2dp"
                 android:layout_marginBottom="2dp"
-                android:background="@drawable/rounded_corners"
+                android:background="@drawable/custom_btns_accent"
                 android:src="@drawable/ic_throttle_up" />
 
             <LinearLayout
@@ -102,7 +100,7 @@
                     android:id="@+id/btn_yaw_left"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/rounded_corners"
+                    android:background="@drawable/custom_btns_accent"
                     android:src="@drawable/ic_rotate_left"
                     tools:ignore="SpeakableTextPresentCheck" />
 
@@ -111,7 +109,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginStart="110dp"
-                    android:background="@drawable/rounded_corners"
+                    android:background="@drawable/custom_btns_accent"
                     android:src="@drawable/ic_rotate_right"
                     tools:ignore="SpeakableTextPresentCheck" />
 
@@ -124,7 +122,7 @@
                 android:layout_below="@+id/linlay_yaw"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="2dp"
-                android:background="@drawable/rounded_corners"
+                android:background="@drawable/custom_btns_accent"
                 android:src="@drawable/ic_throttle_down" />
 
         </RelativeLayout>
@@ -133,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ThrottleDown"
-            android:textColor="@color/Orange"/>
+            android:textColor="@color/Orange" />
 
     </LinearLayout>
 
@@ -141,34 +139,32 @@
         android:id="@+id/tv_throttle_air"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/accent"
-        android:textSize="30sp"
-        android:text="@string/_0"
-        android:layout_gravity="center_vertical"
-        android:layout_toEndOf="@+id/linlay_left"
         android:layout_alignParentBottom="true"
+        android:layout_gravity="center_vertical"
         android:layout_marginStart="5dp"
-        android:layout_marginBottom="30dp"/>
-
+        android:layout_marginBottom="30dp"
+        android:layout_toEndOf="@+id/linlay_left"
+        android:text="@string/_0"
+        android:textColor="@color/accent"
+        android:textSize="30sp" />
 
 
     <LinearLayout
         android:id="@+id/joystick_btns_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="30dp"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/PitchForward"
             android:layout_gravity="center_horizontal"
+            android:text="@string/PitchForward"
             android:textColor="@color/Orange" />
-
 
 
         <RelativeLayout
@@ -179,11 +175,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/RollLeft"
-                android:layout_marginTop="80dp"
                 android:layout_marginStart="25dp"
-                android:textColor="@color/Orange"
-                />
+                android:layout_marginTop="80dp"
+                android:text="@string/RollLeft"
+                android:textColor="@color/Orange" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -202,12 +197,12 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="2dp"
                 android:layout_marginBottom="2dp"
-                android:background="@drawable/rounded_corners"
+                android:background="@drawable/custom_btns_accent"
                 android:src="@drawable/ic_arrow_up"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <LinearLayout
-                android:id="@+id/linlay_roll"
+                android:id="@+id/pitch_roll_btns"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_pitch_forward"
@@ -221,7 +216,7 @@
                     android:id="@+id/btn_roll_left"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:background="@drawable/rounded_corners"
+                    android:background="@drawable/custom_btns_accent"
                     android:src="@drawable/ic_arrow_left"
                     tools:ignore="SpeakableTextPresentCheck" />
 
@@ -230,7 +225,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginStart="110dp"
-                    android:background="@drawable/rounded_corners"
+                    android:background="@drawable/custom_btns_accent"
                     android:src="@drawable/ic_arrow_right"
                     tools:ignore="SpeakableTextPresentCheck" />
 
@@ -240,13 +235,13 @@
                 android:id="@+id/btn_pitch_backwards"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_below="@+id/linlay_roll"
+                android:layout_below="@+id/pitch_roll_btns"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="2dp"
                 android:layout_marginBottom="2dp"
-                android:background="@drawable/rounded_corners"
+                android:background="@drawable/custom_btns_accent"
                 android:src="@drawable/ic_arrow_down"
                 tools:ignore="SpeakableTextPresentCheck" />
 
@@ -255,12 +250,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/PitchBackwards"
             android:gravity="center"
-            android:textColor="@color/Orange"/>
+            android:text="@string/PitchBackwards"
+            android:textColor="@color/Orange" />
 
     </LinearLayout>
-
 
 
     <com.google.android.material.button.MaterialButtonToggleGroup
@@ -280,7 +274,7 @@
             android:layout_height="wrap_content"
             android:text="@string/air_bit"
             app:icon="@drawable/ic_airbit_transparent"
-            app:iconSize="50dp"/>
+            app:iconSize="50dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/segment_hoverbit"
@@ -289,7 +283,7 @@
             android:layout_height="wrap_content"
             android:text="@string/hover_bit"
             app:icon="@drawable/ic_hoverbit_transparent"
-            app:iconSize="50dp"/>
+            app:iconSize="50dp" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -297,9 +291,11 @@
         android:id="@+id/btn_settings_air"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/ic_settings"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_settings" />
+
+
 
 </RelativeLayout>

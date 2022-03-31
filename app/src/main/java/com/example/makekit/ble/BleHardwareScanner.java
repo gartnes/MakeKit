@@ -11,7 +11,5 @@ public class BleHardwareScanner {
         } else{
             return new BleScannerAndroid5plus(context);
         }
-
-
     }
 }

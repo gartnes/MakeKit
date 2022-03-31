@@ -23,7 +23,7 @@ public class Settings {
     private static final String MES_DPAD_2_BUTTON_UP_ON = "mes_dpad_2_button_up_on";
     private static final String MES_DPAD_CONTROLLER = "mes_dpad_controller";
     private static final String SCROLLING_DELAY = "scrolling_delay";
-    private static final String SETTINGS_FILE = "com.kitronik.kitronikmove.settings_file";
+    private static final String SETTINGS_FILE = "com.example.makekit.settings_file";
     private static Settings instance;
     private boolean filter_unpaired_devices = true;
     private short mes_dpad_1_button_down_off = 4;
@@ -79,7 +79,7 @@ public class Settings {
         editor.putInt(MES_DPAD_2_BUTTON_LEFT_OFF, this.mes_dpad_2_button_left_off);
         editor.putInt(MES_DPAD_2_BUTTON_RIGHT_ON, this.mes_dpad_2_button_right_on);
         editor.putInt(MES_DPAD_2_BUTTON_RIGHT_OFF, this.mes_dpad_2_button_right_off);
-        editor.commit();
+        editor.apply();
     }
 
     public void restore(Context context) {

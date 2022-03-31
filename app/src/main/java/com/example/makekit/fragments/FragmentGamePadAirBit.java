@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +23,8 @@ import androidx.fragment.app.Fragment;
 import com.example.makekit.R;
 import com.example.makekit.sensors.Gyroscope;
 import com.google.android.material.button.MaterialButton;
+
+import java.util.Objects;
 
 
 public class FragmentGamePadAirBit extends Fragment {
@@ -42,6 +46,7 @@ public class FragmentGamePadAirBit extends Fragment {
     public short ROLL_RIGHT_RELEASED = 16;
     public short CONTROLLER = 1104;
 
+    //Buttons
     GamePadListener activityCommander;
     ImageButton btn_pitchBackwards;
     ImageButton btn_pitchForward;
@@ -56,12 +61,18 @@ public class FragmentGamePadAirBit extends Fragment {
     MaterialButton btn_segment_airbit;
     Button btn_start;
     Button btn_stop;
+
+    //Layouts
+    LinearLayout throttle_yaw;
+    LinearLayout pitch_roll;
+
     TextView tv_throttle;
     int throttle;
     float trim;
     private Gyroscope gyroscope;
     int gyroPos = 0;
     boolean gyroscopeEnabled = false;
+    boolean flippedGamepad = false;
     RelativeLayout layout_joystick;
 
     View view;
@@ -89,6 +100,11 @@ public class FragmentGamePadAirBit extends Fragment {
 
         if (bundle != null) {
             gyroscopeEnabled = bundle.getBoolean("gyroEnabled");
+            flippedGamepad = bundle.getBoolean("flipped");
+        }
+
+        if(flippedGamepad){
+            flipGamepad();
         }
 
         //Initializing all buttons
@@ -106,6 +122,9 @@ public class FragmentGamePadAirBit extends Fragment {
         btn_segment_airbit = view.findViewById(R.id.segment_airbit);
         btn_settings = view.findViewById(R.id.btn_settings_air);
         tv_throttle = view.findViewById(R.id.tv_throttle_air);
+
+        throttle_yaw = view.findViewById(R.id.throttle_yaw_btns);
+        pitch_roll = view.findViewById(R.id.pitch_roll_btns);
 
         btn_throttleUp.setEnabled(false);
         btn_throttleDown.setEnabled(false);
@@ -157,6 +176,9 @@ public class FragmentGamePadAirBit extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentGamePadHoverBit fragmentGamePadHoverBit = new FragmentGamePadHoverBit();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("gyroEnabled", gyroscopeEnabled);
+                fragmentGamePadHoverBit.setArguments(bundle);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_area, fragmentGamePadHoverBit).commit();
             }
@@ -351,5 +373,19 @@ public class FragmentGamePadAirBit extends Fragment {
                 .beginTransaction()
                 .replace(R.id.fragment_area, fragmentSettings)
                 .commit();
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("airbit", true);
+
+        fragmentSettings.setArguments(bundle);
+    }
+
+    public void flipGamepad(){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        throttle_yaw.setLeft(0);
+        pitch_roll.setX(30);
     }
 }

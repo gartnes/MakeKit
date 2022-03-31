@@ -3,17 +3,14 @@ package com.example.makekit.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,9 +18,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.makekit.R;
 import com.example.makekit.sensors.Accelerometer;
-import com.example.makekit.sensors.Gyroscope;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.slider.Slider;
+
 
 
 public class FragmentGamePadHoverBit extends Fragment {
@@ -37,7 +33,9 @@ public class FragmentGamePadHoverBit extends Fragment {
     public short THROTTLE30_PRESSED = 11;
     public short THROTTLE40_PRESSED = 13;
     public short THROTTLE50_PRESSED = 15;
+    public short MES_DEVICE_GESTURE_DEVICE_SHAKEN = 4;
     public short CONTROLLER = 1104;
+
 
     GamePadListener activityCommander;
     ImageButton btn_rollLeft;
@@ -113,6 +111,9 @@ public class FragmentGamePadHoverBit extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentGamePadAirBit fragmentGamePadAirBit = new FragmentGamePadAirBit();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("gyroEnabled", gyroscopeEnabled);
+                fragmentGamePadAirBit.setArguments(bundle);
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_area, fragmentGamePadAirBit)

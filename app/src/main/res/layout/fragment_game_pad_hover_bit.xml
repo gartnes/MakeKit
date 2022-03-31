@@ -9,14 +9,17 @@
     tools:ignore="MissingDefaultResource">
 
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_below="@id/segmentedGroup_hover"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="50dp"
-        android:src="@drawable/ic_hoverbit_logo" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/qtypesquarebook"
+        android:text="@string/hover_bit"
+        android:textColor="@color/Orange"
+        android:textSize="60sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -26,18 +29,18 @@
         android:layout_marginBottom="30dp"
         android:orientation="vertical">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_start_hover"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corners"
+            android:background="@drawable/custom_btns_orange"
             android:text="@string/start" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_stop_hover"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corners"
+            android:background="@drawable/custom_btns_red"
             android:text="@string/stop" />
 
         <TextView
@@ -54,7 +57,7 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:background="@drawable/rounded_corners"
+            android:background="@drawable/custom_btns_accent"
             android:src="@drawable/ic_throttle_up" />
 
         <ImageButton
@@ -63,7 +66,7 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginTop="100dp"
-            android:background="@drawable/rounded_corners"
+            android:background="@drawable/custom_btns_accent"
             android:src="@drawable/ic_throttle_down" />
 
         <TextView
@@ -91,7 +94,7 @@
             android:id="@+id/btn_roll_left_hover"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@drawable/rounded_corners"
+            android:background="@drawable/custom_btns_accent"
             android:src="@drawable/ic_arrow_left"
             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -101,7 +104,7 @@
             android:layout_height="100dp"
             android:layout_marginStart="110dp"
             android:layout_toRightOf="@+id/btn_roll_left_hover"
-            android:background="@drawable/rounded_corners"
+            android:background="@drawable/custom_btns_accent"
             android:src="@drawable/ic_arrow_right"
             tools:ignore="SpeakableTextPresentCheck" />
 
