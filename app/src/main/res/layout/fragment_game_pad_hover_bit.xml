@@ -22,6 +22,7 @@
         android:textSize="60sp" />
 
     <LinearLayout
+        android:id="@+id/throttle_btns_hover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -32,14 +33,14 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_start_hover"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:background="@drawable/custom_btns_orange"
             android:text="@string/start" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_stop_hover"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:background="@drawable/custom_btns_red"
             android:text="@string/stop" />
 
@@ -76,7 +77,20 @@
             android:layout_marginTop="5dp"
             android:text="@string/ThrottleDown"
             android:textColor="@color/Orange" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_throttle_hover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/_0"
+        android:textColor="@color/accent"
+        android:textSize="30sp"
+        android:layout_toEndOf="@+id/throttle_btns_hover"
+        android:layout_alignParentBottom="true"/>
 
     <RelativeLayout
         android:id="@+id/rellay_pitch_roll_hover"
@@ -107,6 +121,7 @@
             android:background="@drawable/custom_btns_accent"
             android:src="@drawable/ic_arrow_right"
             tools:ignore="SpeakableTextPresentCheck" />
+
 
     </RelativeLayout>
 

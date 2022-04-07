@@ -97,9 +97,9 @@ public class FragmentGamePadAirBit extends Fragment {
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_game_pad_airbit, container, false);
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        accelerometer = new Accelerometer(getActivity());
+        accelerometer = new Accelerometer(requireActivity());
         Bundle bundle = this.getArguments();
         handler = new Handler();
 
@@ -127,6 +127,7 @@ public class FragmentGamePadAirBit extends Fragment {
         throttle_yaw = view.findViewById(R.id.throttle_yaw_btns);
         pitch_roll = view.findViewById(R.id.pitch_roll_btns);
 
+        //Disables buttons before arming
         btn_throttleUp.setEnabled(false);
         btn_throttleDown.setEnabled(false);
         btn_yawLeft.setEnabled(false);
@@ -224,7 +225,7 @@ public class FragmentGamePadAirBit extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("gyroEnabled", accelerometerEnabled);
                 fragmentGamePadHoverBit.setArguments(bundle);
-                getActivity().getSupportFragmentManager().beginTransaction()
+                requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_area, fragmentGamePadHoverBit).commit();
             }
         });
@@ -415,19 +416,19 @@ public class FragmentGamePadAirBit extends Fragment {
         accelerometer.setListener(new Accelerometer.Listener() {
             @Override
             public void onRotation(float rx, float ry, float rz) {
-                if (ry > 2.5f) {
+                if (ry > 3.0f) {
                     short value = ROLL_LEFT_PRESSED;
                     short id = CONTROLLER;
                     activityCommander.passDpadPress(id, value);
                     gyroPosY = 1;
 
-                } else if (ry < -2.5f) {
+                } else if (ry < -3.0f) {
                     short value = ROLL_RIGHT_PRESSED;
                     short id = CONTROLLER;
                     activityCommander.passDpadPress(id, value);
                     gyroPosY = -1;
 
-                } else if (ry < 2.5f && ry > -2.5f) {
+                } else if (ry < 3.0f && ry > -3.0f) {
 
                     if (gyroPosY != 0) {
 
@@ -444,19 +445,19 @@ public class FragmentGamePadAirBit extends Fragment {
                     }
                 }
 
-                if (rx > 2.5f) {
+                if (rx > 3.0f) {
                     short value = PITCH_FORWARD_PRESSED;
                     short id = CONTROLLER;
                     activityCommander.passDpadPress(id, value);
                     gyroPosX = 1;
 
-                } else if (rx < -2.5f) {
+                } else if (rx < -3.0f) {
                     short value = PITCH_BACKWARDS_PRESSED;
                     short id = CONTROLLER;
                     activityCommander.passDpadPress(id, value);
                     gyroPosX = -1;
 
-                } else if (rx < 2.5f && ry > -2.5f) {
+                } else if (rx < 3.0f && ry > -3.0f) {
 
                     if (gyroPosX != 0) {
 
@@ -527,7 +528,7 @@ public class FragmentGamePadAirBit extends Fragment {
         bundle1.putBoolean("accelerometerEnabled", accelerometerEnabled);
         fragmentSettings.setArguments(bundle1);
 
-        getActivity().getSupportFragmentManager()
+        requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_area, fragmentSettings)
                 .commit();

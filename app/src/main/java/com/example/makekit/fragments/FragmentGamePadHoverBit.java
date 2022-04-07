@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ public class FragmentGamePadHoverBit extends Fragment {
     MaterialButton btn_segment_airbit;
     Button btn_start;
     Button btn_stop;
+    TextView tv_throttle;
 
     int throttle;
     private Accelerometer accelerometer;
@@ -72,7 +74,7 @@ public class FragmentGamePadHoverBit extends Fragment {
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_game_pad_hover_bit, container, false);
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 
         //Initializing all buttons
@@ -86,7 +88,8 @@ public class FragmentGamePadHoverBit extends Fragment {
         btn_segment_airbit = view.findViewById(R.id.segment_airbit_hover);
         btn_settings = view.findViewById(R.id.btn_settings_hover);
 
-        //Default layout with Hover:Bit selected
+        tv_throttle = view.findViewById(R.id.tv_throttle_hover);
+
         btn_throttleUp.setEnabled(false);
         btn_throttleDown.setEnabled(false);
         btn_stop.setVisibility(View.GONE);
@@ -97,7 +100,7 @@ public class FragmentGamePadHoverBit extends Fragment {
             accelerometerEnabled = bundle.getBoolean("accelerometerEnabled");
         }
 
-        accelerometer = new Accelerometer(getActivity());
+        accelerometer = new Accelerometer(requireActivity());
 
 
         btn_settings.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +117,7 @@ public class FragmentGamePadHoverBit extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("gyroEnabled", accelerometerEnabled);
                 fragmentGamePadAirBit.setArguments(bundle);
-                getActivity().getSupportFragmentManager()
+                requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_area, fragmentGamePadAirBit)
                         .commit();
@@ -148,6 +151,7 @@ public class FragmentGamePadHoverBit extends Fragment {
                 btn_throttleUp.setEnabled(false);
                 btn_throttleDown.setEnabled(false);
                 throttle = 0;
+                tv_throttle.setText("0");
                 btn_stop.setVisibility(View.GONE);
                 btn_start.setVisibility(View.VISIBLE);
                 disableGyroscope();
@@ -158,27 +162,33 @@ public class FragmentGamePadHoverBit extends Fragment {
         btn_throttleUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                throttle += 1;
+                if(throttle < 4){
+                    throttle +=1;
+                }
                 switch (throttle) {
                     case 1:
                         short value = THROTTLE20_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
+                        tv_throttle.setText("1");
                         break;
                     case 2:
                         short value2 = THROTTLE30_PRESSED;
                         short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
+                        tv_throttle.setText("2");
                         break;
                     case 3:
                         short value3 = THROTTLE40_PRESSED;
                         short id3 = CONTROLLER;
                         activityCommander.passDpadPress(id3, value3);
+                        tv_throttle.setText("3");
                         break;
                     case 4:
                         short value4 = THROTTLE50_PRESSED;
                         short id4 = CONTROLLER;
                         activityCommander.passDpadPress(id4, value4);
+                        tv_throttle.setText("4");
                         break;
                 }
 
@@ -199,6 +209,7 @@ public class FragmentGamePadHoverBit extends Fragment {
                         btn_throttleUp.setEnabled(false);
                         btn_throttleDown.setEnabled(false);
                         btn_stop.setVisibility(View.GONE);
+                        tv_throttle.setText("0");
                         break;
 
                     case 0:
@@ -208,26 +219,33 @@ public class FragmentGamePadHoverBit extends Fragment {
                         btn_throttleUp.setEnabled(false);
                         btn_throttleDown.setEnabled(false);
                         btn_start.setVisibility(View.VISIBLE);
+                        btn_stop.setVisibility(View.GONE);
+                        tv_throttle.setText("0");
                         break;
                     case 1:
                         short value1 = THROTTLE20_PRESSED;
                         short id1 = CONTROLLER;
                         activityCommander.passDpadPress(id1, value1);
+                        tv_throttle.setText("1");
                         break;
                     case 2:
                         short value2 = THROTTLE30_PRESSED;
                         short id2 = CONTROLLER;
                         activityCommander.passDpadPress(id2, value2);
+                        tv_throttle.setText("2");
+
                         break;
                     case 3:
                         short value3 = THROTTLE40_PRESSED;
                         short id3 = CONTROLLER;
                         activityCommander.passDpadPress(id3, value3);
+                        tv_throttle.setText("3");
                         break;
                     case 4:
                         short value4 = THROTTLE50_PRESSED;
                         short id4 = CONTROLLER;
                         activityCommander.passDpadPress(id4, value4);
+                        tv_throttle.setText("4");
                         break;
                 }
             }
@@ -293,7 +311,7 @@ public class FragmentGamePadHoverBit extends Fragment {
 
         FragmentSettings fragmentSettings = new FragmentSettings();
         fragmentSettings.setArguments(bundle);
-        getActivity().getSupportFragmentManager()
+        requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_area, fragmentSettings)
                 .commit();

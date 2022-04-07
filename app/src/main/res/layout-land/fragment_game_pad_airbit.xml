@@ -147,7 +147,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="5dp"
         android:layout_marginBottom="30dp"
-        android:layout_toEndOf="@+id/linlay_left"
         android:text="@string/_0"
         android:textColor="@color/accent"
         android:textSize="30sp" />

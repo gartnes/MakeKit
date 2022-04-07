@@ -55,9 +55,12 @@
         android:id="@+id/tv_flip_gamepad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Flipped gamepad"
         android:layout_below="@+id/tv_gyro_settings"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Flipped gamepad (Not working)"
         android:textSize="30sp" />
 
     <androidx.appcompat.widget.SwitchCompat
