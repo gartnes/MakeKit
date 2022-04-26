@@ -8,65 +8,67 @@
     android:background="@color/BlueNorwegianFlag"
     tools:ignore="MissingDefaultResource">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_stop_hover"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="115dp"
+        android:background="@drawable/custom_btns_red"
+        android:text="@string/stop" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_start_hover"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="115dp"
+        android:background="@drawable/custom_btns_orange"
+        android:text="@string/start" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/qtypesquarebook"
         android:text="@string/hover_bit"
         android:textColor="@color/Orange"
-        android:textSize="60sp" />
+        android:textSize="30sp" />
 
     <LinearLayout
         android:id="@+id/throttle_btns_hover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_start_hover"
-            android:layout_width="250dp"
-            android:layout_height="100dp"
-            android:background="@drawable/custom_btns_orange"
-            android:text="@string/start" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_stop_hover"
-            android:layout_width="250dp"
-            android:layout_height="100dp"
-            android:background="@drawable/custom_btns_red"
-            android:text="@string/stop" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:text="@string/ThrottleUp"
             android:textColor="@color/Orange" />
 
         <ImageButton
             android:id="@+id/btn_throttle_up_hover"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
-            android:layout_marginTop="5dp"
             android:background="@drawable/custom_btns_accent"
             android:src="@drawable/ic_throttle_up" />
 
         <ImageButton
             android:id="@+id/btn_throttle_down_hover"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/custom_btns_accent"
             android:src="@drawable/ic_throttle_down" />
 
@@ -74,7 +76,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="5dp"
             android:text="@string/ThrottleDown"
             android:textColor="@color/Orange" />
 
@@ -92,38 +93,55 @@
         android:layout_toEndOf="@+id/throttle_btns_hover"
         android:layout_alignParentBottom="true"/>
 
-    <RelativeLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/TurnLeft"
+        android:layout_above="@+id/rellay_pitch_roll_hover"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="170dp"
+        android:textColor="@color/Orange"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/TurnLeft"
+        android:layout_above="@+id/rellay_pitch_roll_hover"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:textColor="@color/Orange"/>
+
+    <LinearLayout
         android:id="@+id/rellay_pitch_roll_hover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="130dp">
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="105dp"
+        android:orientation="horizontal">
 
 
         <ImageButton
             android:id="@+id/btn_roll_left_hover"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:background="@drawable/custom_btns_accent"
             android:src="@drawable/ic_arrow_left"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
             android:id="@+id/btn_roll_right_hover"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="110dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="80dp"
             android:layout_toRightOf="@+id/btn_roll_left_hover"
             android:background="@drawable/custom_btns_accent"
             android:src="@drawable/ic_arrow_right"
             tools:ignore="SpeakableTextPresentCheck" />
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/segmentedGroup_hover"
@@ -138,20 +156,20 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/segment_airbit_hover"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/air_bit"
             app:icon="@drawable/ic_airbit_transparent"
-            app:iconSize="50dp" />
+            app:iconSize="40dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/segment_hoverbit_hover"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/hover_bit"
             app:icon="@drawable/ic_hoverbit_transparent"
-            app:iconSize="50dp" />
+            app:iconSize="40dp" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 

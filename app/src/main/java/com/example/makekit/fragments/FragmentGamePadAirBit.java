@@ -3,7 +3,6 @@ package com.example.makekit.fragments;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,19 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.example.makekit.R;
-import com.example.makekit.ble.Handle;
 import com.example.makekit.sensors.Accelerometer;
 import com.google.android.material.button.MaterialButton;
-
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 

@@ -10,6 +10,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
@@ -25,6 +27,9 @@ import com.example.makekit.microbit.Constants;
 import com.example.makekit.microbit.Microbit;
 import com.example.makekit.microbit.Utility;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +101,8 @@ public class BleAdapterService extends Service implements Runnable {
     public static String UART_TX_CHARACTERISTIC_UUID = "6E400002B5A3F393E0A9E50E24DCCA9E";
     /* access modifiers changed from: private */
     public Handler activity_handler = null;
+    private static final String TAG = "MY_APP_DEBUG_TAG";
+    private Handler handler; // handler that gets info from Bluetooth service
     private BluetoothAdapter bluetooth_adapter;
     /* access modifiers changed from: private */
     public BluetoothGatt bluetooth_gatt;
@@ -678,4 +685,5 @@ public class BleAdapterService extends Service implements Runnable {
             return false;
         }
     }
+
 }
