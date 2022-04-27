@@ -8,31 +8,44 @@
     android:background="@color/BlueNorwegianFlag"
     tools:ignore="MissingDefaultResource">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_stop_hover"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
+    <LinearLayout
+        android:id="@+id/linlay_startstop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="115dp"
-        android:background="@drawable/custom_btns_red"
-        android:text="@string/stop" />
+        android:gravity="center">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_start_hover"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="115dp"
-        android:background="@drawable/custom_btns_orange"
-        android:text="@string/start" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_stop_hover"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/custom_btns_red"
+            android:text="@string/stop" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_start_hover"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/custom_btns_orange"
+            android:text="@string/start" />
+
+    </LinearLayout>
+
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_above="@+id/linlay_startstop"
+        android:layout_marginBottom="50dp"
+        android:layout_centerHorizontal="true"
         android:fontFamily="@font/qtypesquarebook"
         android:text="@string/hover_bit"
         android:textColor="@color/Orange"
@@ -43,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="85dp"
+        android:layout_marginStart="72dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
@@ -68,7 +81,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="70dp"
             android:background="@drawable/custom_btns_accent"
             android:src="@drawable/ic_throttle_down" />
 
@@ -96,11 +109,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/TurnLeft"
         android:layout_above="@+id/rellay_pitch_roll_hover"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="170dp"
-        android:textColor="@color/Orange"/>
+        android:layout_marginEnd="160dp"
+        android:text="@string/TurnLeft"
+        android:textColor="@color/Orange" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -118,7 +131,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="105dp"
+        android:layout_marginBottom="99dp"
         android:orientation="horizontal">
 
 
@@ -134,7 +147,7 @@
             android:id="@+id/btn_roll_right_hover"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="70dp"
             android:layout_toRightOf="@+id/btn_roll_left_hover"
             android:background="@drawable/custom_btns_accent"
             android:src="@drawable/ic_arrow_right"
@@ -156,7 +169,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/segment_airbit_hover"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-            android:layout_width="150dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:text="@string/air_bit"
             app:icon="@drawable/ic_airbit_transparent"
@@ -165,7 +178,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/segment_hoverbit_hover"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-            android:layout_width="150dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:text="@string/hover_bit"
             app:icon="@drawable/ic_hoverbit_transparent"

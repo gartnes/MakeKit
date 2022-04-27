@@ -195,13 +195,13 @@ public class FragmentGamePadAirBit extends Fragment {
 
                     if(throttle > 10){
                         try {
-                            TimeUnit.MILLISECONDS.sleep(250);
+                            TimeUnit.MILLISECONDS.sleep(100);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }else{
                         try {
-                            TimeUnit.MILLISECONDS.sleep(100);
+                            TimeUnit.MILLISECONDS.sleep(50);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

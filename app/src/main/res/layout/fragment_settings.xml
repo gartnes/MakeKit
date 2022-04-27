@@ -15,15 +15,16 @@
             android:id="@+id/btn_back_settings"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/ic_arrow_left"
             android:layout_gravity="center"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ic_arrow_back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/gamepad"
             android:textSize="20sp"
+            android:textColor="@color/primary"
             android:layout_gravity="center"
             android:elegantTextHeight="true"/>
 
@@ -40,7 +41,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:text="@string/gyroscope_steering"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textColor="@color/Orange"/>
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/settings_switch_gyro"
@@ -63,7 +65,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:text="Flipped gamepad (Not working)"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textColor="@color/Orange"/>
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/settings_switch_flip"

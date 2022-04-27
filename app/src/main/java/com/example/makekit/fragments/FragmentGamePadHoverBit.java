@@ -22,7 +22,6 @@ import com.example.makekit.sensors.Accelerometer;
 import com.google.android.material.button.MaterialButton;
 
 
-
 public class FragmentGamePadHoverBit extends Fragment {
     public short START_PRESSED = 1;
     public short STOP_PRESSED = 3;
@@ -162,8 +161,8 @@ public class FragmentGamePadHoverBit extends Fragment {
         btn_throttleUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                if(throttle < 4){
-                    throttle +=1;
+                if (throttle < 4) {
+                    throttle += 1;
                 }
                 switch (throttle) {
                     case 1:
