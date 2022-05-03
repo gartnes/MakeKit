@@ -13,12 +13,16 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import com.example.makekit.R;
+import com.example.makekit.ble.BleAdapterService;
 import com.example.makekit.sensors.Accelerometer;
 import com.google.android.material.button.MaterialButton;
+
 import java.util.concurrent.TimeUnit;
 
 
@@ -41,6 +45,7 @@ public class FragmentGamePadAirBit extends Fragment {
     public short ROLL_RIGHT_RELEASED = 16;
     public short CONTROLLER = 1104;
 
+
     //Buttons
     GamePadListener activityCommander;
     ImageButton btn_pitchBackwards;
@@ -57,6 +62,7 @@ public class FragmentGamePadAirBit extends Fragment {
     Button btn_start;
     Button btn_stop;
 
+
     //Layouts
     LinearLayout throttle_yaw;
     LinearLayout pitch_roll;
@@ -70,8 +76,8 @@ public class FragmentGamePadAirBit extends Fragment {
     boolean flippedGamepad = false;
     Accelerometer accelerometer;
     Handler handler;
-
     View view;
+
 
     public interface GamePadListener {
         void passDpadPress(short s, short s2);
@@ -166,7 +172,7 @@ public class FragmentGamePadAirBit extends Fragment {
                 btn_start.setBackgroundResource(R.drawable.custom_btns_grey);
                 disableGyroscope();
 
-                for(int i = throttle; i > 0; i--){
+                for (int i = throttle; i > 0; i--) {
                     short value1 = THROTTLE_DOWN_PRESSED;
                     short id1 = CONTROLLER;
                     activityCommander.passDpadPress(id1, value1);
@@ -179,7 +185,7 @@ public class FragmentGamePadAirBit extends Fragment {
                         }
                     });
 
-                    if(throttle < 1){
+                    if (throttle < 1) {
                         short value = YAW_LEFT_PRESSED;
                         short id = CONTROLLER;
                         activityCommander.passDpadPress(id, value);
@@ -193,20 +199,19 @@ public class FragmentGamePadAirBit extends Fragment {
                         tv_throttle.setText(String.valueOf(throttle));
                     }
 
-                    if(throttle > 10){
+                    if (throttle > 10) {
                         try {
                             TimeUnit.MILLISECONDS.sleep(100);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    }else{
+                    } else {
                         try {
                             TimeUnit.MILLISECONDS.sleep(50);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
-
                 }
             }
         });
@@ -271,7 +276,7 @@ public class FragmentGamePadAirBit extends Fragment {
                             short value1 = YAW_LEFT_PRESSED;
                             short id1 = CONTROLLER;
                             activityCommander.passDpadPress(id1, value1);
-                        }else{
+                        } else {
                             throttle -= 1;
                             tv_throttle.setText(String.valueOf(throttle));
                         }

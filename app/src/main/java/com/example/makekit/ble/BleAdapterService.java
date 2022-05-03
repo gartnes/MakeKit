@@ -10,7 +10,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
-import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,13 +26,9 @@ import com.example.makekit.microbit.Constants;
 import com.example.makekit.microbit.Microbit;
 import com.example.makekit.microbit.Utility;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 
@@ -684,6 +679,30 @@ public class BleAdapterService extends Service implements Runnable {
         } catch (Exception e) {
             return false;
         }
+    }
+
+
+    private static final UUID Battery_Service_UUID = UUID.fromString("0000180F-0000-1000-8000-00805f9b34fb");
+    private static final UUID Battery_Level_UUID = UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb");
+
+    public boolean getbattery() {
+
+        BluetoothGattService batteryService = bluetooth_gatt.getService(Battery_Service_UUID);
+        if (batteryService == null) {
+            Log.d(TAG, "Battery service not found!");
+            return false;
+        }
+
+        BluetoothGattCharacteristic batteryLevel = batteryService.getCharacteristic(Battery_Level_UUID);
+        if (batteryLevel == null) {
+            Log.d(TAG, "Battery level not found!");
+            return false;
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }
+        bluetooth_gatt.readCharacteristic(batteryLevel);
+        return bluetooth_gatt.readCharacteristic(batteryLevel);
     }
 
 }
