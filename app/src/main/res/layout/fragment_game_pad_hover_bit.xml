@@ -62,6 +62,7 @@
 
 
         <TextView
+            android:id="@+id/tv_throttle_up_hover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -86,6 +87,7 @@
             android:src="@drawable/ic_throttle_down" />
 
         <TextView
+            android:id="@+id/tv_throttle_down_hover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -107,6 +109,7 @@
         android:layout_alignParentBottom="true"/>
 
     <TextView
+        android:id="@+id/tv_turn_left_hover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/rellay_pitch_roll_hover"
@@ -116,13 +119,14 @@
         android:textColor="@color/Orange" />
 
     <TextView
+        android:id="@+id/tv_turn_right_hover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/TurnLeft"
         android:layout_above="@+id/rellay_pitch_roll_hover"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp"
-        android:textColor="@color/Orange"/>
+        android:text="@string/TurnRight"
+        android:textColor="@color/Orange" />
 
     <LinearLayout
         android:id="@+id/rellay_pitch_roll_hover"

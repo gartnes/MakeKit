@@ -119,13 +119,13 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Option3"
+                android:text="Expert mode"
                 android:textColor="@color/Orange"
                 android:textSize="20sp"
                 android:layout_weight="1"/>
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/settings_switch_option3"
+                android:id="@+id/settings_switch_expertmode"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="end"

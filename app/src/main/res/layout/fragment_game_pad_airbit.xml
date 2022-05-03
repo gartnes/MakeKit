@@ -62,6 +62,7 @@
 
 
         <TextView
+            android:id="@+id/tv_throttle_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
@@ -85,6 +86,7 @@
                 android:textColor="@color/Orange" />
 
             <TextView
+                android:id="@+id/tv_yaw_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/linlay_yaw"
@@ -140,6 +142,7 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_throttle_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
@@ -173,6 +176,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_pitch_forward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -196,14 +200,16 @@
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
+                android:id="@+id/tv_roll_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/pitch_roll_btns"
-                android:text="@string/RollLeft"
                 android:layout_marginStart="10dp"
+                android:text="@string/RollLeft"
                 android:textColor="@color/Orange" />
 
             <TextView
+                android:id="@+id/tv_roll_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/pitch_roll_btns"
@@ -250,6 +256,7 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_pitch_backwards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

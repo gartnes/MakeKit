@@ -62,6 +62,7 @@ public class FragmentGamePadAirBit extends Fragment {
     Button btn_start;
     Button btn_stop;
 
+    TextView tv_throttle_up, tv_throttle_down, tv_yaw_left, tv_yaw_right, tv_pitch_forward, tv_pitch_backwards, tv_roll_left, tv_roll_right;
 
     //Layouts
     LinearLayout throttle_yaw;
@@ -73,7 +74,7 @@ public class FragmentGamePadAirBit extends Fragment {
     int gyroPosY = 0;
     int gyroPosZ = 0;
     boolean accelerometerEnabled;
-    boolean flippedGamepad = false;
+    boolean flippedGamepad = false, expertMode = false;
     Accelerometer accelerometer;
     Handler handler;
     View view;
@@ -102,9 +103,11 @@ public class FragmentGamePadAirBit extends Fragment {
         Bundle bundle = this.getArguments();
         handler = new Handler();
 
+
         if (bundle != null) {
             accelerometerEnabled = bundle.getBoolean("accelerometerEnabled");
             flippedGamepad = bundle.getBoolean("flipped");
+            expertMode = bundle.getBoolean("expert");
         }
 
         //Initializing all buttons
@@ -121,7 +124,17 @@ public class FragmentGamePadAirBit extends Fragment {
         btn_segment_hoverbit = view.findViewById(R.id.segment_hoverbit);
         btn_segment_airbit = view.findViewById(R.id.segment_airbit);
         btn_settings = view.findViewById(R.id.btn_settings_air);
+
         tv_throttle = view.findViewById(R.id.tv_throttle_air);
+        tv_throttle_up = view.findViewById(R.id.tv_throttle_up);
+        tv_throttle_down = view.findViewById(R.id.tv_throttle_down);
+        tv_pitch_backwards = view.findViewById(R.id.tv_pitch_backwards);
+        tv_pitch_forward = view.findViewById(R.id.tv_pitch_forward);
+        tv_yaw_left = view.findViewById(R.id.tv_yaw_left);
+        tv_yaw_right = view.findViewById(R.id.tv_yaw_right);
+        tv_roll_left = view.findViewById(R.id.tv_roll_left);
+        tv_roll_right = view.findViewById(R.id.tv_roll_right);
+
 
         throttle_yaw = view.findViewById(R.id.throttle_yaw_btns);
         pitch_roll = view.findViewById(R.id.pitch_roll_btns);
@@ -133,6 +146,25 @@ public class FragmentGamePadAirBit extends Fragment {
         btn_yawRight.setEnabled(false);
         btn_stop.setVisibility(View.GONE);
 
+        if (expertMode) {
+            tv_roll_right.setVisibility(View.INVISIBLE);
+            tv_roll_left.setVisibility(View.INVISIBLE);
+            tv_yaw_right.setVisibility(View.INVISIBLE);
+            tv_yaw_left.setVisibility(View.INVISIBLE);
+            tv_pitch_forward.setVisibility(View.INVISIBLE);
+            tv_pitch_backwards.setVisibility(View.INVISIBLE);
+            tv_throttle_up.setVisibility(View.INVISIBLE);
+            tv_throttle_down.setVisibility(View.INVISIBLE);
+        } else {
+            tv_roll_right.setVisibility(View.VISIBLE);
+            tv_roll_left.setVisibility(View.VISIBLE);
+            tv_yaw_right.setVisibility(View.VISIBLE);
+            tv_yaw_left.setVisibility(View.VISIBLE);
+            tv_pitch_forward.setVisibility(View.VISIBLE);
+            tv_pitch_backwards.setVisibility(View.VISIBLE);
+            tv_throttle_up.setVisibility(View.VISIBLE);
+            tv_throttle_down.setVisibility(View.VISIBLE);
+        }
 
         btn_settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,6 +254,7 @@ public class FragmentGamePadAirBit extends Fragment {
                 FragmentGamePadHoverBit fragmentGamePadHoverBit = new FragmentGamePadHoverBit();
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("gyroEnabled", accelerometerEnabled);
+                bundle.putBoolean("expert", expertMode);
                 fragmentGamePadHoverBit.setArguments(bundle);
                 requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_area, fragmentGamePadHoverBit).commit();
@@ -524,6 +557,7 @@ public class FragmentGamePadAirBit extends Fragment {
         Bundle bundle1 = new Bundle();
         bundle1.putBoolean("airbit", true);
         bundle1.putBoolean("accelerometerEnabled", accelerometerEnabled);
+        bundle1.putBoolean("expert", expertMode);
         fragmentSettings.setArguments(bundle1);
 
         requireActivity().getSupportFragmentManager()

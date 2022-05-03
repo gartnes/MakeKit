@@ -26,8 +26,8 @@ public class FragmentSettings extends Fragment {
     }
 
     View view;
-    boolean accelerometerEnabled,flippedGamepad, goBackToAirbit = false;
-    SwitchCompat accelerometerSwitch, flipSwitch;
+    boolean accelerometerEnabled,flippedGamepad, goBackToAirbit = false, expertMode;
+    SwitchCompat accelerometerSwitch, flipSwitch, expertSwitch;
     ImageButton btn_back;
     Button btn_connect_microbit;
 
@@ -39,6 +39,7 @@ public class FragmentSettings extends Fragment {
         flipSwitch = view.findViewById(R.id.settings_switch_flip);
         btn_back = view.findViewById(R.id.btn_back_settings);
         btn_connect_microbit = view.findViewById(R.id.btn_connect_settings);
+        expertSwitch = view.findViewById(R.id.settings_switch_expertmode);
 
         Bundle bundle = this.getArguments();
 
@@ -46,6 +47,8 @@ public class FragmentSettings extends Fragment {
             accelerometerEnabled = bundle.getBoolean("accelerometerEnabled");
             accelerometerSwitch.setChecked(accelerometerEnabled);
             goBackToAirbit = bundle.getBoolean("airbit");
+            expertMode = bundle.getBoolean("expert");
+            expertSwitch.setChecked(expertMode);
         }
 
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +59,7 @@ public class FragmentSettings extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("accelerometerEnabled", accelerometerEnabled);
                     bundle.putBoolean("flipped", flippedGamepad);
+                    bundle.putBoolean("expert", expertMode);
 
                     FragmentGamePadHoverBit fragmentGamePadHoverBit = new FragmentGamePadHoverBit();
                     fragmentGamePadHoverBit.setArguments(bundle);
@@ -68,6 +72,7 @@ public class FragmentSettings extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("accelerometerEnabled", accelerometerEnabled);
                     bundle.putBoolean("flipped", flippedGamepad);
+                    bundle.putBoolean("expert", expertMode);
 
                     FragmentGamePadAirBit fragmentGamePadAirBit = new FragmentGamePadAirBit();
                     fragmentGamePadAirBit.setArguments(bundle);
@@ -98,6 +103,13 @@ public class FragmentSettings extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 flippedGamepad = compoundButton.isChecked();
+            }
+        });
+
+        expertSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                expertMode = compoundButton.isChecked();
             }
         });
 

@@ -3,8 +3,18 @@ package com.example.makekit;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanResult;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -21,6 +31,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Vibrator;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -51,6 +62,8 @@ import com.example.makekit.microbit.Settings;
 import com.example.makekit.microbit.Utility;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity implements ConnectionStatusListener, ScanResultsConsumer, FragmentGamePadAirBit.GamePadListener, FragmentGamePadHoverBit.GamePadListener {
@@ -74,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionStatusL
     Button btn_scan;
 
     LinearLayout connectLayout;
-
 
 
     final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -172,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionStatusL
         ((TextView) MainActivity.this.findViewById(R.id.message)).setVisibility(View.GONE);
         ((ImageView) MainActivity.this.findViewById(R.id.makekit_logo)).setVisibility(View.VISIBLE);
 
-        btn_Gamepad= findViewById(R.id.gamepadButton);
+        btn_Gamepad = findViewById(R.id.gamepadButton);
         btn_Gamepad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -536,7 +548,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionStatusL
     public void serviceDiscoveryStatusChanged(boolean new_state) {
     }
 
-    public void goToGamepad(){
+    public void goToGamepad() {
         FragmentGamePadAirBit fragmentGamePadAirBit = new FragmentGamePadAirBit();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -548,5 +560,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionStatusL
         connectLayout.setVisibility(View.GONE);
 
     }
+
 
 }
