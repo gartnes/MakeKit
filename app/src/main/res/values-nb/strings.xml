@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MakeKit</string>
+    <string name="paired_devices">Parede enheter</string>
+    <string name="find_bluetooth_device">Finn enhet</string>
+    <string name="get_paired_devices">Vis parede enheter</string>
+    <string name="start">Start</string>
+    <string name="settings">Innstillinger</string>
+    <string name="connect_to_microbit">Koble til Micro:bit</string>
+    <string name="scan">Søk</string>
+    <string name="title_new_devices">Nye Micro:bit enheter</string>
+    <string name="title_paired_devices">Parede Micro:bit enheter</string>
+    <string name="scanning">Søker...</string>
+    <string name="connected">Koblet til</string>
+    <string name="disconnected">Koblet fra</string>
+    <string name="scanning_for_paired_microbits">Søker etter parede Micro:bit enheter</string>
+    <string name="scanning_for_all_microbits">Søker etter alle Micro:bit enheter</string>
+    <string name="click_on_microbit_to_connect">Trykk på Micro:bit for å koble til</string>
+    <string name="find_paired_microbits">Finn parede Micro:bit enheter</string>
+    <string name="scan_for_microbit">Søk etter Micro:bit</string>
+    <string name="scan_for_paired_microbits">Søk etter parede Micro:bit enheter</string>
+    <string name="stop_scanning">Stopp søk</string>
+    <string name="disconnect">Koble fra</string>
+    <string name="bonded">\"(SAMMENKOBLET)\"</string>
+    <string name="unknown_device">Ukjent enhet</string>
+    <string name="gyroscope_steering">Gyrostyring</string>
+    <string name="stop">Stopp</string>
+    <string name="connect_to_micro_bit">Koble til Micro:bit</string>
+    <string name="PitchBackwards">Tilt fremover</string>
+    <string name="ThrottleDown">Fart ned</string>
+    <string name="ThrottleUp">Fart opp</string>
+    <string name="YawLeft">Rotér venstre</string>
+    <string name="YawRight">Rotér høyre</string>
+    <string name="PitchForward">Tilt bakover</string>
+    <string name="RollLeft">Rull venstre</string>
+    <string name="RollRight">Rull høyre</string>
+    <string name="TurnLeft">Sving venstre</string>
+    <string name="TurnRight">Sving høyre</string>
+    <string name="gamepad">Gamepad</string>
+    <string name="expert_mode">Ekspert modus</string>
+    <string name="device_language">Enhetsspråk</string>
+</resources>

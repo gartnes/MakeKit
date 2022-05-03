@@ -24,6 +24,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +48,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.os.ConfigurationCompat;
 
 import com.example.makekit.ble.BleAdapterService;
 import com.example.makekit.ble.BleHardwareScanner;
@@ -55,6 +57,7 @@ import com.example.makekit.ble.ConnectionStatusListener;
 import com.example.makekit.ble.ScanResultsConsumer;
 import com.example.makekit.fragments.FragmentGamePadAirBit;
 import com.example.makekit.fragments.FragmentGamePadHoverBit;
+import com.example.makekit.fragments.LocaleHelper;
 import com.example.makekit.microbit.Constants;
 import com.example.makekit.microbit.Microbit;
 import com.example.makekit.microbit.MicrobitEvent;
@@ -85,6 +88,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionStatusL
     public Toast toast;
     Button btn_Gamepad;
     Button btn_scan;
+    Context context;
+    Resources resources;
+    String trim;
+    String language;
+    Boolean deviceLanguage = false, expertMode;
 
     LinearLayout connectLayout;
 
@@ -184,6 +192,14 @@ public class MainActivity extends AppCompatActivity implements ConnectionStatusL
         ((TextView) MainActivity.this.findViewById(R.id.message)).setVisibility(View.GONE);
         ((ImageView) MainActivity.this.findViewById(R.id.makekit_logo)).setVisibility(View.VISIBLE);
 
+
+        Intent intent = getIntent();
+        if (null != intent) { //Null Checking
+            trim = intent.getStringExtra("trim" );
+            deviceLanguage = intent.getBooleanExtra("language", false);
+            expertMode = intent.getBooleanExtra("expert", false);
+        }
+
         btn_Gamepad = findViewById(R.id.gamepadButton);
         btn_Gamepad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,6 +218,22 @@ public class MainActivity extends AppCompatActivity implements ConnectionStatusL
                 onScan(view);
             }
         });
+
+        if (!deviceLanguage) {
+            context = LocaleHelper.setLocale(MainActivity.this, "en");
+            resources = context.getResources();
+            language = String.valueOf(ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).toLanguageTags());
+            trim = language.substring(0,2);
+            btn_Gamepad.setText(resources.getString(R.string.gamepad));
+            btn_scan.setText(resources.getString(R.string.scan_for_paired_microbits));
+
+        } else {
+            context = LocaleHelper.setLocale(MainActivity.this, trim);
+            System.out.println("true");
+            resources = context.getResources();
+            btn_Gamepad.setText(resources.getString(R.string.gamepad));
+            btn_scan.setText(resources.getString(R.string.scan_for_paired_microbits));
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -550,6 +582,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionStatusL
 
     public void goToGamepad() {
         FragmentGamePadAirBit fragmentGamePadAirBit = new FragmentGamePadAirBit();
+        Bundle bundle1 = new Bundle();
+        bundle1.putBoolean("language", deviceLanguage);
+        bundle1.putString("trim", trim);
+        bundle1.putBoolean("expert", expertMode);
+        fragmentGamePadAirBit.setArguments(bundle1);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_area, fragmentGamePadAirBit)

@@ -2,7 +2,9 @@ package com.example.makekit.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.os.ConfigurationCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.makekit.R;
@@ -47,14 +50,16 @@ public class FragmentGamePadHoverBit extends Fragment {
     MaterialButton btn_segment_airbit;
     Button btn_start;
     Button btn_stop;
-    TextView tv_throttle;
-
-    TextView tv_throttle_up, tv_throttle_down, tv_turn_left, tv_turn_right;
+    TextView tv_throttle, tv_throttle_up, tv_throttle_down, tv_turn_left, tv_turn_right;
+    Context context;
+    Resources resources;
+    String language;
+    String trim;
 
     int throttle;
     private Accelerometer accelerometer;
     int gyroPos = 0;
-    boolean accelerometerEnabled, expertMode = false;
+    boolean accelerometerEnabled, expertMode = false, deviceLanguage;
 
     View view;
 
@@ -104,6 +109,8 @@ public class FragmentGamePadHoverBit extends Fragment {
         if (bundle != null) {
             accelerometerEnabled = bundle.getBoolean("accelerometerEnabled");
             expertMode = bundle.getBoolean("expert");
+            deviceLanguage = bundle.getBoolean("language");
+            trim = bundle.getString("trim");
         }
 
         accelerometer = new Accelerometer(requireActivity());
@@ -120,6 +127,25 @@ public class FragmentGamePadHoverBit extends Fragment {
             tv_throttle_down.setVisibility(View.VISIBLE);
         }
 
+        if (!deviceLanguage) {
+            context = LocaleHelper.setLocale(getActivity(), "en");
+            resources = context.getResources();
+            tv_turn_left.setText(resources.getString(R.string.TurnLeft));
+            tv_turn_right.setText(resources.getString(R.string.TurnRight));
+            tv_throttle_down.setText(resources.getString(R.string.ThrottleDown));
+            language = String.valueOf(ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).toLanguageTags());
+            trim = language.substring(0,2);
+
+        } else {
+            context = LocaleHelper.setLocale(getActivity(), trim);
+            System.out.println("true");
+            resources = context.getResources();
+            tv_turn_left.setText(resources.getString(R.string.TurnLeft));
+            tv_turn_right.setText(resources.getString(R.string.TurnRight));
+            tv_throttle_up.setText(resources.getString(R.string.ThrottleUp));
+            tv_throttle_down.setText(resources.getString(R.string.ThrottleDown));
+        }
+
         btn_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,6 +160,8 @@ public class FragmentGamePadHoverBit extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("gyroEnabled", accelerometerEnabled);
                 bundle.putBoolean("expert", expertMode);
+                bundle.putBoolean("language", deviceLanguage);
+                bundle.putString("trim", trim);
                 fragmentGamePadAirBit.setArguments(bundle);
                 requireActivity().getSupportFragmentManager()
                         .beginTransaction()
@@ -327,7 +355,8 @@ public class FragmentGamePadHoverBit extends Fragment {
 
         bundle.putBoolean("accelerometerEnabled", accelerometerEnabled);
         bundle.putBoolean("expert", expertMode);
-
+        bundle.putBoolean("language", deviceLanguage);
+        bundle.putString("trim", trim);
         FragmentSettings fragmentSettings = new FragmentSettings();
         fragmentSettings.setArguments(bundle);
         requireActivity().getSupportFragmentManager()

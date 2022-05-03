@@ -81,14 +81,14 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/tv_flip_gamepad"
+                android:id="@+id/tv_language_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Flipped gamepad (Not working)"
+                android:text="@string/device_language"
                 android:textColor="@color/Orange"
                 android:textSize="20sp"
                 android:layout_weight="1"/>
@@ -113,13 +113,14 @@
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/tv_expertmode_settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Expert mode"
+                android:text="@string/expert_mode"
                 android:textColor="@color/Orange"
                 android:textSize="20sp"
                 android:layout_weight="1"/>

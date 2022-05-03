@@ -2,9 +2,12 @@ package com.example.makekit.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,13 +19,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.os.ConfigurationCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.makekit.R;
-import com.example.makekit.ble.BleAdapterService;
 import com.example.makekit.sensors.Accelerometer;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 
@@ -48,33 +52,24 @@ public class FragmentGamePadAirBit extends Fragment {
 
     //Buttons
     GamePadListener activityCommander;
-    ImageButton btn_pitchBackwards;
-    ImageButton btn_pitchForward;
-    ImageButton btn_rollLeft;
-    ImageButton btn_rollRight;
-    ImageButton btn_throttleUp;
-    ImageButton btn_throttleDown;
-    ImageButton btn_yawLeft;
-    ImageButton btn_yawRight;
-    ImageButton btn_settings;
-    MaterialButton btn_segment_hoverbit;
-    MaterialButton btn_segment_airbit;
-    Button btn_start;
-    Button btn_stop;
-
-    TextView tv_throttle_up, tv_throttle_down, tv_yaw_left, tv_yaw_right, tv_pitch_forward, tv_pitch_backwards, tv_roll_left, tv_roll_right;
+    ImageButton btn_pitchBackwards, btn_pitchForward, btn_rollLeft, btn_rollRight, btn_throttleUp, btn_throttleDown, btn_yawLeft, btn_yawRight, btn_settings;
+    MaterialButton btn_segment_hoverbit, btn_segment_airbit;
+    Button btn_start, btn_stop;
+    TextView tv_throttle_up, tv_throttle_down, tv_yaw_left, tv_yaw_right, tv_pitch_forward, tv_pitch_backwards, tv_roll_left, tv_roll_right, tv_throttle;
 
     //Layouts
     LinearLayout throttle_yaw;
     LinearLayout pitch_roll;
 
-    TextView tv_throttle;
-    int throttle;
-    int gyroPosX = 0;
-    int gyroPosY = 0;
-    int gyroPosZ = 0;
+    Context context;
+    Resources resources;
+    String language, trim;
+    Vibrator gamepadVib;
+
+    int throttle,gyroPosX = 0, gyroPosY = 0, gyroPosZ = 0;
+
     boolean accelerometerEnabled;
-    boolean flippedGamepad = false, expertMode = false;
+    boolean deviceLanguage = false, expertMode = false;
     Accelerometer accelerometer;
     Handler handler;
     View view;
@@ -99,6 +94,7 @@ public class FragmentGamePadAirBit extends Fragment {
         view = inflater.inflate(R.layout.fragment_game_pad_airbit, container, false);
         requireActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        gamepadVib = (Vibrator) requireActivity().getSystemService(Context.VIBRATOR_SERVICE);
         accelerometer = new Accelerometer(requireActivity());
         Bundle bundle = this.getArguments();
         handler = new Handler();
@@ -106,8 +102,9 @@ public class FragmentGamePadAirBit extends Fragment {
 
         if (bundle != null) {
             accelerometerEnabled = bundle.getBoolean("accelerometerEnabled");
-            flippedGamepad = bundle.getBoolean("flipped");
+            deviceLanguage = bundle.getBoolean("language");
             expertMode = bundle.getBoolean("expert");
+            trim = bundle.getString("trim");
         }
 
         //Initializing all buttons
@@ -166,6 +163,37 @@ public class FragmentGamePadAirBit extends Fragment {
             tv_throttle_down.setVisibility(View.VISIBLE);
         }
 
+
+
+        if (!deviceLanguage) {
+            context = LocaleHelper.setLocale(getActivity(), "en");
+            resources = context.getResources();
+            tv_roll_right.setText(resources.getString(R.string.RollRight));
+            tv_roll_left.setText(resources.getString(R.string.RollLeft));
+            tv_yaw_left.setText(resources.getString(R.string.YawLeft));
+            tv_yaw_right.setText(resources.getString(R.string.YawRight));
+            tv_pitch_forward.setText(resources.getString(R.string.PitchForward));
+            tv_pitch_backwards.setText(resources.getString(R.string.PitchBackwards));
+            tv_throttle_up.setText(resources.getString(R.string.ThrottleUp));
+            tv_throttle_down.setText(resources.getString(R.string.ThrottleDown));
+            language = String.valueOf(ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).toLanguageTags());
+            trim = language.substring(0,2);
+
+        } else {
+            context = LocaleHelper.setLocale(getActivity(), trim);
+            System.out.println("true");
+            resources = context.getResources();
+            tv_roll_right.setText(resources.getString(R.string.RollRight));
+            tv_roll_left.setText(resources.getString(R.string.RollLeft));
+            tv_yaw_left.setText(resources.getString(R.string.YawLeft));
+            tv_yaw_right.setText(resources.getString(R.string.YawRight));
+            tv_pitch_forward.setText(resources.getString(R.string.PitchForward));
+            tv_pitch_backwards.setText(resources.getString(R.string.PitchBackwards));
+            tv_throttle_up.setText(resources.getString(R.string.ThrottleUp));
+            tv_throttle_down.setText(resources.getString(R.string.ThrottleDown));
+        }
+
+
         btn_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,7 +225,6 @@ public class FragmentGamePadAirBit extends Fragment {
             @Override
             public void onClick(View view) {
 
-
                 btn_stop.setVisibility(View.GONE);
                 btn_start.setVisibility(View.VISIBLE);
                 btn_start.setEnabled(false);
@@ -209,6 +236,7 @@ public class FragmentGamePadAirBit extends Fragment {
                     short id1 = CONTROLLER;
                     activityCommander.passDpadPress(id1, value1);
                     throttle -= 1;
+                    gamepadVib.vibrate(50);
                     System.out.println(throttle);
 
                     handler.post(new Runnable() {
@@ -255,6 +283,8 @@ public class FragmentGamePadAirBit extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("gyroEnabled", accelerometerEnabled);
                 bundle.putBoolean("expert", expertMode);
+                bundle.putBoolean("language", deviceLanguage);
+                bundle.putString("trim", trim);
                 fragmentGamePadHoverBit.setArguments(bundle);
                 requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_area, fragmentGamePadHoverBit).commit();
@@ -558,6 +588,8 @@ public class FragmentGamePadAirBit extends Fragment {
         bundle1.putBoolean("airbit", true);
         bundle1.putBoolean("accelerometerEnabled", accelerometerEnabled);
         bundle1.putBoolean("expert", expertMode);
+        bundle1.putBoolean("language", deviceLanguage);
+        bundle1.putString("trim", trim);
         fragmentSettings.setArguments(bundle1);
 
         requireActivity().getSupportFragmentManager()

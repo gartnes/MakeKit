@@ -46,7 +46,7 @@
         android:layout_above="@+id/linlay_startstop"
         android:layout_marginBottom="50dp"
         android:fontFamily="@font/qtypesquarebook"
-        android:text="@string/air_bit"
+        android:text="@string/airbit"
         android:textColor="@color/Orange"
         android:textSize="30sp" />
 
@@ -281,7 +281,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:text="@string/air_bit"
+            android:text="@string/airbit"
             app:icon="@drawable/ic_airbit_transparent"
             app:iconSize="40dp" />
 
@@ -290,7 +290,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:text="@string/hover_bit"
+            android:text="@string/hoverbit"
             app:icon="@drawable/ic_hoverbit_transparent"
             app:iconSize="40dp" />
 
