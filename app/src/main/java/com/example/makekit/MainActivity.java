@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionStatusL
     String trim;
     String language;
     Boolean deviceLanguage = false, expertMode;
+    TextView message;
 
     LinearLayout connectLayout;
 

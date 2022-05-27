@@ -133,6 +133,7 @@ public class FragmentGamePadHoverBit extends Fragment {
             tv_turn_left.setText(resources.getString(R.string.TurnLeft));
             tv_turn_right.setText(resources.getString(R.string.TurnRight));
             tv_throttle_down.setText(resources.getString(R.string.ThrottleDown));
+            tv_throttle_up.setText(resources.getString(R.string.ThrottleUp));
             language = String.valueOf(ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).toLanguageTags());
             trim = language.substring(0,2);
 
